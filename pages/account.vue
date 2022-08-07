@@ -1,17 +1,18 @@
 <template>
 <div class="pb-20">
-    <div class="p-6 flex flex-col items-center">
+    <div class="p-6 flex flex-col">
 
-        <div class="text-2xl xd">Profile</div>
-
-        <img class="rounded-full h-40 w-40 mt-9" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t1.6435-9/64619473_2295272697221657_5133800990461394944_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=dbeb18&_nc_ohc=AMmSD-t7a1AAX9zDxrR&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT9a2WEt3eVymeIKxQik7TEX1gu2cxTdTcgz1QyTbjft5Q&oe=63131D6F" alt="">
-        <v-btn text color="primary">
+        <div class="text-2xl xd">Profile</div> 
+        <center>
+            <img class="rounded-full h-40 w-40 mt-6" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t1.6435-9/64619473_2295272697221657_5133800990461394944_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=dbeb18&_nc_ohc=AMmSD-t7a1AAX9zDxrR&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT9a2WEt3eVymeIKxQik7TEX1gu2cxTdTcgz1QyTbjft5Q&oe=63131D6F" alt=""></img>
+        </center> 
+        <v-btn class="mt-2" text color="primary">
             <v-icon size="20">mdi-pencil</v-icon>&nbsp;เปลี่ยนรูปโประไฟล์
         </v-btn>
 
         <v-toolbar class="w-full mt-4">
-            <v-btn @click="tab=1" text :color="(tab==1)?'success':''">ข้อมูลส่วนตัว</v-btn>
-            <v-btn @click="tab=2" text :color="(tab==2)?'success':''">ข้อมูลสมาชิก</v-btn>
+            <v-btn @click="tab=1" text :color="(tab==1)?'#eaab4d':''">ข้อมูลส่วนตัว</v-btn>
+            <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4ds':''">ข้อมูลสมาชิก</v-btn>
         </v-toolbar>
 
         <div class="w-full p-3" v-if="tab==1">

@@ -24,11 +24,17 @@ export default {
                     name:'account',
                     label:'ข้อมูลส่วนตัว',
                 },
+                {
+                    path:'/calendar',
+                    icon:'mdi-calendar-blank',
+                    name:'calendar',
+                    label:'ปฏิทิน',
+                },
                  {
-                    path:'/documents',
-                    icon:'mdi-file-document-multiple',
-                    name:'documents',
-                    label:'เอกสาร',
+                    path:'/history',
+                    icon:'mdi-clipboard-list',
+                    name:'history',
+                    label:'ประวัติ',
                 },
                  {
                     path:'/alert',
@@ -36,12 +42,7 @@ export default {
                     name:'alert',
                     label:'ประกาศ',
                 },
-                 {
-                    path:'/menu',
-                    icon:'mdi-menu',
-                    name:'menu',
-                    label:'เมนู',
-                },
+                 
             ]
         })
     }, 
@@ -57,7 +58,7 @@ export default {
 
 <style>
     .navBtn-actions > span, .v-icon{
-        color:#00838F;
+        color:#eaab4d;
     }
     .navBtn > span{
         letter-spacing: -0.3px;
