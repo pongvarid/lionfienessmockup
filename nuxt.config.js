@@ -3,7 +3,15 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  generate: {
+    fallback: true
+},
+  target: "static",
 
+  router: {
+
+      base: "/lionfienessmockup/"
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - lionfitness',
@@ -33,6 +41,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/vue',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

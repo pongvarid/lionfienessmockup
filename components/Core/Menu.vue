@@ -7,7 +7,7 @@
 </v-bottom-navigation>
 </template>
 
-<script lang="ts">
+<script>
 export default {
     data: () => {
         return ({
@@ -47,8 +47,8 @@ export default {
         })
     }, 
     methods:{
-        action(name:string): any{
-            let route:any = this.$route.name 
+        action(name){
+            let route = this.$route.name 
             return (route == name) 
         }
     },

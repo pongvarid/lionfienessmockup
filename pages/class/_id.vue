@@ -1,36 +1,54 @@
 <template>
-<div>
+<div v-if="response">
     <v-toolbar class="w-full mt-4" absolute color="transparent" flat fixed>
-        <h2 class=" text-2xl ml-4 xd">BODYPUMB</h2>
+        <h2 class=" text-2xl ml-4 xd">{{data.name}}</h2>
         <v-spacer></v-spacer>
         <v-btn @click="$router.push('/home/')" small text>
             <v-icon size="28">mdi-close</v-icon>
         </v-btn>
     </v-toolbar>
-
-    <v-carousel :continuous="false" :cycle="true" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-minus"  style="height: 60vh;">
-        <v-carousel-item  >
+  
+    <v-carousel :continuous="false" :cycle="true" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-minus" style="height: 60vh;">
+        <v-carousel-item>
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <video autoplay muted playsinline loop class="class-video">
-                    <source src="@/assets/videos/01.mp4" type="video/mp4">
+                    <source :src="`${$url}/${data.video}`" type="video/mp4">
                     Your browser does not support HTML5 video.
                 </video>
             </div>
         </v-carousel-item>
-          <v-carousel-item >
+        <v-carousel-item v-if="data.image_1">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
-                <img  class="class-video" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t39.30808-6/295458729_546732387244783_5645233148420814976_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=730e14&_nc_ohc=8Y8lBVSklvwAX-BpLbz&tn=2VnzdktOo7v9BF8O&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT8ljDi5pPoHhMzBs4MIyWYVxCWui0F1MMv0Yaq0k1532w&oe=62F36052" alt="">
+                <img class="class-video" :src="`${$url}/${data.image_1}`" alt="">
             </div>
-        </v-carousel-item>
-          <v-carousel-item >
+        </v-carousel-item> 
+        <v-carousel-item v-if="data.image_2">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
-                 <img  class="class-video" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t39.30808-6/294136196_538385268079495_8914706552612966188_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=GYqLExF0BLYAX_c9iQN&tn=2VnzdktOo7v9BF8O&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT83l7mn0ykpfXjAgpg4XfBjKGGuzsF1gz7ttZrq_laLQg&oe=62F2CACD" alt="">
-             
-             </div>
-        </v-carousel-item>
+                <img class="class-video" :src="`${$url}/${data.image_2}`" alt="">
+            </div>
+        </v-carousel-item> 
+        <v-carousel-item v-if="data.image_3">
+            <div class="relative overflow-hidden  w-full  ">
+                <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
+                <img class="class-video" :src="`${$url}/${data.image_3}`" alt="">
+            </div>
+        </v-carousel-item> 
+        <v-carousel-item v-if="data.image_4">
+            <div class="relative overflow-hidden  w-full  ">
+                <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
+                <img class="class-video" :src="`${$url}/${data.image_4}`" alt="">
+            </div>
+        </v-carousel-item> 
+
+        <v-carousel-item v-if="data.image_5">
+            <div class="relative overflow-hidden  w-full  ">
+                <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
+                <img class="class-video" :src="`${$url}/${data.image_5}`" alt="">
+            </div>
+        </v-carousel-item> 
     </v-carousel>
 
     <div>
@@ -45,20 +63,22 @@
             <v-divider class="mt-6"></v-divider>
             <h2 class="text-xl xd uppercase mt-8">DETAILS</h2>
             <div class="p-2">
-                <span>
-                    ☝🏻 เรื่องความไว้วางใจเทรนเนอร์ส่วนตัวสอนออกกำลังกาย 🥇 ที่ Lion Fitness ไม่ต้องใหวตก็ตัดสินใจได้ทันที ⚡️⚡️ 🔰 แค่เริ่มมาทดลองเทรนฟรีกับเรา เทรนเนอร์ที่มีประสบการณ์มากกว่า 100 ชม. พร้อมทั้งประเมินสมรรถภาพการออกกำลังกาย วิเคราะห์มวลร่างกาย 📛💯 🏆 และให้คำปรึกษาการวางเป้าหมายในการออกกำลังกาย 🏆
+                <span v-html="data.detail">
+                   
                 </span>
             </div>
             <v-divider class="mt-6 mb-4"></v-divider>
-            <div class="flex items-center">
-                <img class="rounded-full w-20 h-20 object-cover" src="@/assets/images/teacher2.png" alt="">
+            <div class="flex items-center" v-for="coach,i in coaches" key="i">
+              
+                <img v-if="coach.image" class="rounded-full w-20 h-20 object-cover" :src="`${$url}/${coach.image}`" alt="">
+                <img v-else class="rounded-full w-20 h-20 object-cover" src="@/assets/images/logox.jpg" alt=""> 
                 <div>
-                    <h2 class="text-xl xd">Kru.NamFon</h2>
+                    <h2 class="text-xl xd ml-2">Kru.{{coach.nick_name}} </h2>
                 </div>
             </div>
-                 <v-divider class="mt-4 mb-6"></v-divider>
+            <v-divider class="mt-4 mb-6"></v-divider>
             <v-btn block color="success">
-                <span class="font-outbold">ลงทะเบียนเข้าคลาส</span>
+                <span @click="getClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span>
             </v-btn>
         </div>
     </div>
@@ -67,27 +87,58 @@
 </template>
 
 <script>
+import {
+    Core
+} from '@/vuexes/core'
+import _ from 'lodash'
 export default {
     name: 'classId',
-    async asyncData({
-        params
-    }) {
-        const id = params.id
-        return {
-            id
-        }
-    },
-    created() {
-
+   
+    async created() { 
+         await this.run();
+         this.response = true;
     },
     data() {
-        return {}
-    },
-    props: {
-
-    },
+        return {
+            response:false,
+            id: this.$route.params.id,
+            def: {
+                "id": 1,
+                "name": "BODYPUMB",
+                "detail": "เรื่องความไว้วางใจเทรนเนอร์ส่วนตัวสอนออกกำลังกาย  ที่ Lion Fitness ไม่ต้องใหวตก็ตัดสินใจได้ทันที  แค่เริ่มมาทดลองเทรนฟรีกับเรา เทรนเนอร์ที่มีประสบการณ์มากกว่า 100 ชม. พร้อมทั้งประเมินสมรรถภาพการออกกำลังกาย วิเคราะห์มวลร่างกายและให้คำปรึกษาการวางเป้าหมายในการออกกำลังกาย",
+                "video": "video/class/01_bpfhtbk.mp4",
+                "image_1": "images/class/cbg_KwrYJbJ.png",
+                "image_2": null,
+                "image_3": null,
+                "image_4": null,
+                "image_5": null,
+                "recommend": true,
+                "is_active": true,
+                "created_at": "2022-08-07T08:13:01.030758Z",
+                "updated_at": "2022-08-28T17:07:48.114550Z",
+                "category": 1
+            },
+            data:this.def,
+            coaches:[],
+            
+        }
+    }, 
     methods: {
-
+        async run(){
+            let data = await Core.getHttp(`/api/course/class/${this.id}/`)
+            this.data = (data.id)?data:this.def
+            await this.getCoaches();
+        },
+        async getCoaches(){
+            if(this.data.coaches){
+                this.coaches = _.map(this.data.coaches,(r)=>{
+                    return r.coach_training.user
+                })
+            }
+        },
+        async getClass(){
+            alert(`จะเปิดให้บริการเร็วๆนี้`)
+        }
     },
 }
 </script>
