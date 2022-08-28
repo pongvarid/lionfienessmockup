@@ -6,30 +6,32 @@
 </template>
 
 <script>
+  import {
+    Auth
+} from '@/vuexes/auth'
+import {
+    Web
+} from "~/vuexes/web";
+import {
+    Core
+} from "~/vuexes/core"
+
 export default {
   name: 'DefaultLayout',
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      
     }
-  }
+  },
+  async created() { 
+        let user = await Auth.checkUser(); 
+        if(!user && this.$route.name != 'auth-login') {
+            let check=  await Web.confirm(`ยังไม่ได้เข้าสู่ระบบ`,`คุณต้องการเข้าสู่ระบบหรือไม่ เพื่อเข้าถึงฟังก์ชันการใช้งานอย่างเต็มรูปแบบ`,'https://cdn-icons-png.flaticon.com/512/2920/2920369.png')
+            if(check){
+              await this.$router.push('/auth/login')
+            }
+          }
+    }
+
 }
 </script>

@@ -1,11 +1,13 @@
 <template>
 <div class="pb-20">
-    <div class="p-6 flex flex-col">
+    <div class="p-6 flex flex-col" v-if="response">
 
-        <div class="text-2xl xd">Profile</div> 
-        <center>
-            <img class="rounded-full h-40 w-40 mt-6" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t1.6435-9/64619473_2295272697221657_5133800990461394944_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=dbeb18&_nc_ohc=AMmSD-t7a1AAX9zDxrR&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT9a2WEt3eVymeIKxQik7TEX1gu2cxTdTcgz1QyTbjft5Q&oe=63131D6F" alt=""></img>
-        </center> 
+        <div class="text-2xl xd">Profile</div>
+        <center> 
+            <img v-if="user.image" class="rounded-full h-40 w-40 mt-6" :src="`${$url}/${user.image}`" alt=""> 
+            <img v-else class="rounded-full h-40 w-40 mt-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHnAAxZw7h-1IEUa5LF2MmLteCLb46LkypKTf1xI&s" alt=""> 
+
+        </center>
         <v-btn class="mt-2" text color="primary">
             <v-icon size="20">mdi-pencil</v-icon>&nbsp;เปลี่ยนรูปโประไฟล์
         </v-btn>
@@ -17,20 +19,24 @@
 
         <div class="w-full p-3" v-if="tab==1">
             <v-form class="w-full mt-6" v-if="tab==1">
-                <v-text-field value="LF20221452" label="รหัสสมาชิก" id="id"></v-text-field>
-                <v-text-field value="พงษ์วริษฐ์" label="ชื่อ" id="id"></v-text-field>
-                <v-text-field value="มณีวรรณ์" label="นาสกุล" id="id"></v-text-field>
-                <v-text-field value="16-05-1996" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
-                <v-text-field value="0988203979" label="เบอร์โทร" id="id"></v-text-field>
+                <v-text-field :value="user.username" label="รหัสสมาชิก" id="id"></v-text-field>
+                <v-text-field :value="user.first_name" label="ชื่อ" id="id"></v-text-field>
+                <v-text-field :value="user.last_name" label="นาสกุล" id="id"></v-text-field>
+                <v-text-field :value="user.username" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
+                <v-text-field :value="user.tel" label="เบอร์โทร" id="id"></v-text-field>
             </v-form>
-            <v-btn block color="error">ออกจากระบบ</v-btn>
+            <v-btn @click="logout()" block color="error">ออกจากระบบ</v-btn>
         </div>
 
-        <div class="w-full p-3" v-if="tab==2">
-
-            <v-text-field class="mt-6" dense value="เป็นสมาชิก" label="สถานะสมาชิก" id="id"></v-text-field>
-            <v-progress-linear value="60" height="10" striped color="deep-orange"></v-progress-linear>
-            <v-text-field class="mt-6" dense value="12-10-2022" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
+        <div class="w-full " v-if="tab==2">
+            <v-card>
+                <v-card-text>
+                    <Core-Dev></Core-Dev>
+                    <v-text-field class="mt-6" dense value="เป็นสมาชิก" label="สถานะสมาชิก" id="id"></v-text-field>
+                    <v-progress-linear value="60" height="10" striped color="deep-orange"></v-progress-linear>
+                    <v-text-field class="mt-6" dense value="12-10-2022" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
+                </v-card-text>
+            </v-card>
 
         </div>
 
@@ -39,11 +45,30 @@
 </template>
 
 <script>
+import {
+    Auth
+} from '@/vuexes/auth'
 export default {
     data: () => {
         return ({
-            tab: 1
+            tab: 1,
+            user: Auth.user,
+            response: false,
         })
+    },
+    async created() {
+        if (!this.user) {
+            await this.$router.push(`/auth/login/`)
+        } else {
+            this.response = true;
+        }
+    },
+    methods: {
+        async logout() {
+            await Auth.logout()
+            await this.$router.push(`/auth/login/`)
+            await location.reload()
+        }
     }
 }
 </script>
