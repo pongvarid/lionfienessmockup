@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{498:function(n,e,t){"use strict";t.r(e);var c={name:"Menu.vue",created:function(){},data:function(){return{}},props:{},methods:{}},o=t(52),component=Object(o.a)(c,(function(){return(0,this._self._c)("div")}),[],!1,null,"6cf2059e",null);e.default=component.exports}}]);
