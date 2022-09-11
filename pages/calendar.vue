@@ -1,18 +1,65 @@
 <template>
 <div class="p-6 flex flex-col">
     <div class="text-2xl xd">Calendar</div>
-    <v-card class="mt-10"> 
-        <v-card-text>
-            <Core-Dev></Core-Dev>
-            <img class="mt-6" src="https://scontent.fcnx3-1.fna.fbcdn.net/v/t39.30808-6/296309131_546740377243984_1948846842788408769_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=-Whxq43wxA8AX9NudjL&_nc_ht=scontent.fcnx3-1.fna&oh=00_AT8QVkrtkEIYpSVIN161D5g-Ih6_EiWyxrdfgu3w6jyTAA&oe=62F38F38" alt="">
-        </v-card-text>
-    </v-card>
+    <div v-for="day,index in raws" :key="index" class="mt-4"> 
+        <span class="font-semibold">{{day.day_en}}</span> <span class="font-semibold">{{day.date_now}}</span>
+        <div >
+            <table class="border-collapse border border-slate-400 w-full rounded-lg">
+                <tr v-for="course,courseIndex in day.data" :key="courseIndex">
+                    <td :class="td" class="w-1/4">{{course.time_data}}</td>
+                    <td :style="`background:${course.color_table}; color:${course.color_text}`" :class="td" class="font-semibold w-2/4">{{course.course_name}} </td>
+                    <td :class="td" class="w-1/4">Kru. {{course.teacher_name}}</td>
+                </tr>
+            </table> 
+            <br>
+        </div>
+    </div>
 </div>
 </template>
 
 <script>
+import {
+    Core
+} from '@/vuexes/core'
+import {
+    Auth
+} from '@/vuexes/auth'
+import {
+    Web
+} from '@/vuexes/web'
+import moment from 'moment'
+import _ from 'lodash'
 export default {
+    data: () => ({
+        td: 'border border-slate-300 p-1  text-center',
+        day: 1,
+        raws: []
+    }),
+    async created() {
+        await this.run()
+    },
+    methods: {
+        async run() {
+            try {
+                let res = await Core.getHttp(`/api/course/series/?is_active=true`)
+                if (res.length > 0) {
+                    let data = res[res.length - 1].data
+                    this.raws = _.map(_.groupBy(data, 'days'), (value, key) => {
+                        return {
 
+                            days: key,
+                            date_now: moment(value[value.length - 1].date_now).format('DD/MM/YYYY'),
+                            day_en: value[value.length - 1].day_en,
+                            day_th: value[value.length - 1].day_en,
+                            data: _.orderBy(value, ['times'], ['asc'])
+                        }
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
 }
 </script>
 

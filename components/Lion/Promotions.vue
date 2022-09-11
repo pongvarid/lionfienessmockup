@@ -13,17 +13,7 @@ import {Core} from '@/vuexes/core'
 export default {
     data:()=>{
         return ({
-            slides:[
-                {
-                    "id": 1,
-                    "name": "ทดสอบโปรโมชัน",
-                    "image": "images/promotion/sli1.jpeg",
-                    "detail": "- ทดสอบโปรโมชัน\r\n- ทดสอบโปรโมชัน\r\n- ทดสอบโปรโมชัน",
-                    "is_active": true,
-                    "is_show": true,
-                    "created_at": "2022-08-28T16:29:56.370143Z",
-                    "updated_at": "2022-08-28T16:29:56.370205Z"
-                }
+            slides:[ 
             ] 
         })
     },

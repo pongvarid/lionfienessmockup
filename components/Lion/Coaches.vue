@@ -2,7 +2,7 @@
 <div class="pt-6 pl-6 pr-6">
     <h2 class="text-xl xd">Teacher</h2>
     <div class="flex flex-row flex-wrap"> 
-        <Lion-ClassAvatar v-for="coach,i in coaches" :key="i" class="p-4 w-1/3" :img="`${$url}/${coach.coach_img}`" :text="`Kru.${coach.coach_name}`"></Lion-ClassAvatar>
+        <Lion-ClassAvatar v-for="coach,i in coaches" :key="i" class="p-4 w-1/3" :img="(coach.coach_img)?`${$url}/${coach.coach_img}`:`https://cdn-icons-png.flaticon.com/512/147/147144.png`" :text="`Kru.${coach.coach_name}`"></Lion-ClassAvatar>
        </div>
 </div>
 </template>
