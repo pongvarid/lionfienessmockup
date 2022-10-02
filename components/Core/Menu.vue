@@ -1,6 +1,7 @@
 <template>
 <v-bottom-navigation fixed>
-    <v-btn v-for="menu,menuIndex in menus" :key="menuIndex" :class="`navBtn ${(action(menu.name))?'navBtn-actions':''}`" @click="$router.push(menu.path)">
+
+    <v-btn v-for="menu,menuIndex in menus" :key="menuIndex" :class="`navBtn ${(action(menu.name))?'navBtn-actions':''}`" @click="$router.push(menu.path)"  >
         <span >{{menu.label}}</span>
         <v-icon>{{menu.icon}}</v-icon>
     </v-btn> 
@@ -8,7 +9,7 @@
 </template>
 
 <script>
-export default {
+export default { 
     data: () => {
         return ({
             menus:[
@@ -46,6 +47,9 @@ export default {
             ]
         })
     }, 
+    async mointed(){
+
+    },
     methods:{
         action(name){
             let route = this.$route.name 

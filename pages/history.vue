@@ -35,14 +35,30 @@
                 </span>
             </v-card-actions>
         </v-card> -->
-        <br>  <br>  <br> 
+        <br> <br> <br>
     </div>
 </div>
 </template>
 
 <script>
-export default {
+import {
+    Auth
+} from '@/vuexes/auth'
 
+export default {
+    data: () => {
+        return ({ 
+            user: Auth.user,
+            response: false,
+        })
+    },
+    async created() {
+        if (!this.user) {
+            await this.$router.push(`/auth/login/`)
+        } else {
+            this.response = true;
+        }
+    },
 }
 </script>
 

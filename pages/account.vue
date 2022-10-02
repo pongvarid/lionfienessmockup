@@ -12,9 +12,9 @@
             <v-icon size="20">mdi-pencil</v-icon>&nbsp;เปลี่ยนรูปโประไฟล์
         </v-btn>
 
-        <v-toolbar class="w-full mt-4">
+        <v-toolbar class="w-full mt-4" flat>
             <v-btn @click="tab=1" text :color="(tab==1)?'#eaab4d':''">ข้อมูลส่วนตัว</v-btn>
-            <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4ds':''">ข้อมูลสมาชิก</v-btn>
+            <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4d':''">ข้อมูลสมาชิก</v-btn>
         </v-toolbar>
 
         <div class="w-full p-3" v-if="tab==1">
@@ -31,11 +31,16 @@
         <div class="w-full " v-if="tab==2">
             <v-card>
                 <v-card-text>
-                    <Core-Dev></Core-Dev>
-                    <v-text-field class="mt-6" dense value="เป็นสมาชิก" label="สถานะสมาชิก" id="id"></v-text-field>
+                    <Payout-Package ></Payout-Package>
+                    <!-- <Core-Dev></Core-Dev> -->
+                    <!-- <v-text-field class="mt-6" dense value="เป็นสมาชิก" label="สถานะสมาชิก" id="id"></v-text-field>
                     <v-progress-linear value="60" height="10" striped color="deep-orange"></v-progress-linear>
-                    <v-text-field class="mt-6" dense value="12-10-2022" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
+                    <v-text-field class="mt-6" dense value="12-10-2022" label="วันหมดอายุสมาชิก" id="id"></v-text-field> -->
                 </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn @click="$router.push(`/payout/`)" color="success">ต่ออายุสมาชิก</v-btn>
+                </v-card-actions>
             </v-card>
 
         </div>
@@ -60,6 +65,9 @@ export default {
         if (!this.user) {
             await this.$router.push(`/auth/login/`)
         } else {
+            if(this.$route.query.tab){
+                this.tab = this.$route.query.tab
+            }
             this.response = true;
         }
     },

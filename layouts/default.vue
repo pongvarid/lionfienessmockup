@@ -1,7 +1,7 @@
 <template>
  <v-app>
   <nuxt/>
-  <Core-Menu></Core-Menu>
+  <Core-Menu ></Core-Menu>
  </v-app>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   name: 'DefaultLayout',
   data () {
     return {
-      
+   
     }
   },
   async created() { 
@@ -30,7 +30,7 @@ export default {
             if(check){
               await this.$router.push('/auth/login')
             }
-          }
+          } 
     }
 
 }
