@@ -9,10 +9,16 @@
         <v-text-field class="mt-6" dense :value="`เป็นสมาชิก ${mytier.tier_name}`" label="สถานะสมาชิก" id="id"></v-text-field> 
         <v-progress-linear :value="datePer" height="10" striped color="deep-orange"></v-progress-linear>
         <v-text-field class="mt-6" dense v-model="mytier.end_date" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
+        
     </div>
     <div v-else>
         <h2>ไม่ได้เป็นสมาชิก เนื่องจาก</h2>
         <p>{{mytier.ect}}</p> 
+    </div>
+
+    <div v-if="mytier.status == 1">
+        <v-divider> </v-divider> <br> 
+        <v-btn block @click="$router.push(`/payout/`)" color="success">ต่ออายุสมาชิก</v-btn>
     </div>
 </div>
 </template>

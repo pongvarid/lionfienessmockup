@@ -11,11 +11,7 @@
         </div>
         <div class="pt-4 pl-6 pr-6 ">
             <h2 class="text-xl  xd">Class Now</h2>
-            <v-slide-group show-arrows="false" multiple>
-                <v-slide-item v-for="n in 25" :key="n" v-slot="{ active, toggle }">
-                    <Lion-ClassCard :active="n==1"></Lion-ClassCard>
-                </v-slide-item>
-            </v-slide-group>
+            <Class-Now></Class-Now>
         </div>
         <div class="pt-6 pl-6 pr-6">
             <div class="flex">

@@ -56,6 +56,7 @@ export default {
             }
         },
         async getData(id){
+            this.lists = []
             let lists = await Core.getHttp(`/api/course/class/?is_active=true&category=${id}`)
             if (lists.length > 0) {
                 this.lists = lists

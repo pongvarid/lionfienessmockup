@@ -7,7 +7,7 @@
             <v-icon size="28">mdi-close</v-icon>
         </v-btn>
     </v-toolbar>
-  
+
     <v-carousel :continuous="false" :cycle="true" :show-arrows="false" hide-delimiter-background delimiter-icon="mdi-minus" style="height: 60vh;">
         <v-carousel-item>
             <div class="relative overflow-hidden  w-full  ">
@@ -23,36 +23,35 @@
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <img class="class-video" :src="`${$url}/${data.image_1}`" alt="">
             </div>
-        </v-carousel-item> 
+        </v-carousel-item>
         <v-carousel-item v-if="data.image_2">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <img class="class-video" :src="`${$url}/${data.image_2}`" alt="">
             </div>
-        </v-carousel-item> 
+        </v-carousel-item>
         <v-carousel-item v-if="data.image_3">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <img class="class-video" :src="`${$url}/${data.image_3}`" alt="">
             </div>
-        </v-carousel-item> 
+        </v-carousel-item>
         <v-carousel-item v-if="data.image_4">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <img class="class-video" :src="`${$url}/${data.image_4}`" alt="">
             </div>
-        </v-carousel-item> 
+        </v-carousel-item>
 
         <v-carousel-item v-if="data.image_5">
             <div class="relative overflow-hidden  w-full  ">
                 <div class="absolute bg-gradient-to-b from-black/80 via-black-500/0 to-black/0  inset-0 z-0"></div>
                 <img class="class-video" :src="`${$url}/${data.image_5}`" alt="">
             </div>
-        </v-carousel-item> 
+        </v-carousel-item>
     </v-carousel>
 
-    <div>
-
+    <div> 
         <div class="p-6 pb-20">
             <div class="flex justify-between pl-6 pr-6">
                 <Lion-Icon text="MON" icon="mdi-calendar"></Lion-Icon>
@@ -64,22 +63,26 @@
             <h2 class="text-xl xd uppercase mt-8">DETAILS</h2>
             <div class="p-2">
                 <span v-html="data.detail">
-                   
+
                 </span>
             </div>
             <v-divider class="mt-6 mb-4"></v-divider>
             <div class="flex items-center" v-for="coach,i in coaches" key="i">
-              
+
                 <img v-if="coach.image" class="rounded-full w-20 h-20 object-cover" :src="`${$url}/${coach.image}`" alt="">
-                <img v-else class="rounded-full w-20 h-20 object-cover" src="@/assets/images/logox.jpg" alt=""> 
+                <img v-else class="rounded-full w-20 h-20 object-cover" src="@/assets/images/logox.jpg" alt="">
                 <div>
                     <h2 class="text-xl xd ml-2">Kru.{{coach.nick_name}} </h2>
                 </div>
             </div>
             <v-divider class="mt-4 mb-6"></v-divider>
-            <v-btn block color="success">
-                <span @click="getClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span>
+          <div v-if="user"> 
+            <v-btn block color="success" v-if="isClass">
+                <span @click="registerClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span> 
             </v-btn>
+            <v-btn block color="success" v-else disabled >คุณลงทะเบียนคลาสนี้แล้ว</v-btn>
+          </div>
+            <v-btn block v-else color="success"> <span @click="getClass()" class="font-outbold">สมัครสมาชิกเพื่อลงทะเบียนเข้าคลาส</span></v-btn>
         </div>
     </div>
 
@@ -87,21 +90,30 @@
 </template>
 
 <script>
+    import {
+    Web
+} from '@/vuexes/web'
 import {
     Core
 } from '@/vuexes/core'
+import {
+    Auth
+} from '@/vuexes/auth'
+import {
+    Course
+} from '@/vuexes/course'
 import _ from 'lodash'
 export default {
     name: 'classId',
-   
-    async created() { 
-         await this.run();
-         this.response = true;
+
+    async mounted() {
+        await this.run();
+        this.response = true;
     },
     data() {
         return {
-            response:false,
-            id: this.$route.params.id,
+            response: false,
+            id: 0,
             def: {
                 "id": 1,
                 "name": "BODYPUMB",
@@ -118,26 +130,43 @@ export default {
                 "updated_at": "2022-08-28T17:07:48.114550Z",
                 "category": 1
             },
-            data:this.def,
-            coaches:[],
-            
+            data: this.def,
+            coaches: [],
+            user: Auth.user,
+            isClass: true,
+
         }
-    }, 
+    },
     methods: {
-        async run(){
+        async run() {
+            console.log(this.$route.params.id)
+            this.id = this.$route.params.id;    
             let data = await Core.getHttp(`/api/course/class/${this.id}/`)
-            this.data = (data.id)?data:this.def
+             this.data = (data.id) ? data : this.def
             await this.getCoaches();
+            if(Auth.user){
+                this.isClass = await Course.fundingClass(this.user.id,this.id)
+            }
+  
         },
-        async getCoaches(){
-            if(this.data.coaches){
-                this.coaches = _.map(this.data.coaches,(r)=>{
+        async getCoaches() {
+            if (this.data.coaches) {
+                this.coaches = _.map(this.data.coaches, (r) => {
                     return r.coach_training.user
                 })
             }
         },
-        async getClass(){
-            alert(`จะเปิดให้บริการเร็วๆนี้`)
+        async registerClass() {
+            if(await Web.confirm('ยืนยันการลงทะเบียนเข้าคลาส')){
+                let register = await Course.registerClass(this.user.id,this.id)
+                if(register.id){
+                    await Web.alert(`ลงทะเบียนเข้าคลาส ${this.data.name} สำเร็จ`)
+                }
+                await this.run();
+            }
+        },
+        async getClass() {
+            this.$router.push(`/auth/login/`)
         }
     },
 }

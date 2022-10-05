@@ -4,7 +4,7 @@ import _ from "lodash"
 import { Core } from '@/vuexes/core'
 import { Web } from '@/vuexes/web'
 import axios from '@/plugins/axios'  
-
+import {Course} from '@/vuexes/course'
 @Module({ generateMutationSetters: true })
 class AuthModule extends VuexModule {
     private token: any = localStorage.getItem('token')
@@ -21,6 +21,7 @@ class AuthModule extends VuexModule {
         let baseUser = await Core.getHttp(`/api/auth/v1/user/`)
         if(baseUser.pk){
             let user = await Core.getHttp(`/api/account/userprofile/${baseUser.pk}/`)
+            await Course.getMyClass(baseUser.pk)
             return user;
         } 
     }

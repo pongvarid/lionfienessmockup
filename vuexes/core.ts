@@ -8,19 +8,19 @@ import { Web } from './web'
 @Module({ generateMutationSetters: true })
 class CoreModule extends VuexModule {
 
-  async checkConnection(){
+  async checkConnection() {
     return await axios.interceptors.response.use(
       response => {
         console.log(response);
-          return true
+        return true
       },
       error => {
-          if (!error.response) {
-              return false
-          } 
+        if (!error.response) {
           return false
+        }
+        return false
       }
-    ) 
+    )
   }
   async putImageHttpAlert(url: string, form: any): Promise<any> {
     let check = await Web.confirm("Are you sure you want to edit the information?")
@@ -39,13 +39,28 @@ class CoreModule extends VuexModule {
     }
   }
 
+  async putImageHttp(url: string, form: any): Promise<any> {
+    return await axios.put(url, form, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then((r) => {
+      Web.alert('Successfully executed')
+      return r.data
+    }).catch((e) => {
+      Web.alert('Failed to edit data', 'error')
+      return e.response.data
+    })
+  }
+
+
   async getHttp(url: string): Promise<any> {
-    try{
+    try {
       return await axios.get(url).then((r: any) => {
         let data = r.data
-        
+
         return data
-  
+
       }).catch((e: any) => {
         let data = e.response.data
         data.sactiveCode = e.response.status
@@ -54,8 +69,8 @@ class CoreModule extends VuexModule {
         return data
       })
     }
-    catch(error:any){
-      await Web.alert('Connot Connect Server','error',error)
+    catch (error: any) {
+      await Web.alert('Connot Connect Server', 'error', error)
       return error
     }
   }
@@ -63,9 +78,9 @@ class CoreModule extends VuexModule {
     try {
       return await axios.post(url, form).then((r: any) => {
         let data = r.data
-        
+
         return data
-  
+
       }).catch((e: any) => {
         let data = e.response.data
         data.sactiveCode = e.response.status
@@ -73,8 +88,8 @@ class CoreModule extends VuexModule {
         data.sactiveText = e.response.statusText
         return data
       })
-    } catch (error) { 
-      await Web.alert('Connot Connect Server','error',error)
+    } catch (error) {
+      await Web.alert('Connot Connect Server', 'error', error)
 
       return error
     }
@@ -83,9 +98,9 @@ class CoreModule extends VuexModule {
     try {
       return await axios.put(url, form).then((r: any) => {
         let data = r.data
-        
+
         return data
-  
+
       }).catch((e: any) => {
         let data = e.response.data
         data.sactiveCode = e.response.status
@@ -94,7 +109,7 @@ class CoreModule extends VuexModule {
         return data
       })
     } catch (error) {
-      await Web.alert('Connot Connect Server','error',error)
+      await Web.alert('Connot Connect Server', 'error', error)
 
       return error
     }
@@ -103,10 +118,10 @@ class CoreModule extends VuexModule {
   async deleteHttp(url: string): Promise<any> {
     try {
       return await axios.delete(url).then((r: any) => {
-        let data:any = {}
-        
+        let data: any = {}
+
         return data
-  
+
       }).catch((e: any) => {
         let data = e.response.data
         data.sactiveCode = e.response.status
@@ -115,7 +130,7 @@ class CoreModule extends VuexModule {
         return data
       })
     } catch (error) {
-      await Web.alert('Connot Connect Server','error',error) 
+      await Web.alert('Connot Connect Server', 'error', error)
       return error
     }
   }
@@ -124,14 +139,20 @@ class CoreModule extends VuexModule {
     return moment(date).format('DD/MM/YYYY');
   }
 
-  dateTH(date:string){   
+  dateTH(date: string) {
     let dd = moment.locale('th')
-      let day = moment(date).format('dddd') 
-      return day+' ' + moment(date).format('DD/MM/YYYY') 
+    let day = moment(date).format('dddd')
+    return day + ' ' + moment(date).format('DD/MM/YYYY')
+  }
+  dateX(date: any) {
+    return moment(date).format('DD/MM/YYYY');
+  }
+  timeX(date: any) {
+    return moment(date).format('HH:mm');
   }
 
-  async generateCodeId(code:string= 'USR'){
-    return code+moment().format('DDMMYYYYHHmmss');
+  async generateCodeId(code: string = 'USR') {
+    return code + moment().format('DDMMYYYYHHmmss');
   }
 
   async getBase64(file: any) {
@@ -165,11 +186,11 @@ class CoreModule extends VuexModule {
   }
 
   async setWaterMark(file: any) {
-    
-  } 
- 
+
+  }
+
   async sentLine(message: any) {
-      return await Core.postHttp(`/api/qline/`,{message:message})
+    return await Core.postHttp(`/api/qline/`, { message: message })
   }
 
 }

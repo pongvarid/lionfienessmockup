@@ -47,7 +47,7 @@ export default {
             ]
         })
     }, 
-    async mointed(){
+    async mounted(){
 
     },
     methods:{
