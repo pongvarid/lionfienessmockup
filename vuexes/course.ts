@@ -69,11 +69,12 @@ class CourseModule extends VuexModule {
     }
 
 
-    public async checkInClass(userId: number, classId: number,date:String ,missing: boolean = false) { 
+    public async checkInClass(userId: number, classId: number,date:String ,missing: boolean = false, bypass: boolean = false)  { 
         let data = {
             user: Number(userId),
             course: Number(classId),
             missing: missing,
+            bypass: bypass,
             date:date
         }
         let res = await Core.postHttp(`/api/register/usercheckin/`, data) 
@@ -94,6 +95,11 @@ class CourseModule extends VuexModule {
     public async getCheckInUser(classId: number,date_checkin: string) {
         let classes = await Core.getHttp(`/api/register/usercheckin/?user=&course=${classId}&date=${date_checkin}`)
         return classes
+    }
+
+    public async checkBand(userId: number,) {
+        let bands = await Core.getHttp(`/api/register/usercheckin/?user=${userId}&missing=true&bypass=false`)
+        return (bands.length > 3) ? true : false
     }
 
 

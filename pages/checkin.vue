@@ -17,6 +17,8 @@
                         <h2 class="font-semibold">{{vuser.user_data}} </h2>
                         <span :class="(vuser.checkin)?`text-green-600`:`text-orange-600`">{{(vuser.checkin)?`เช็คชื่อเเล้ว`:`ยังไม่ได้เช็คชื่อ`}} </span>
                         <span class="text-red-500" v-if="vuser.missing">(ขาด)</span>
+                        <span class="text-blue-500" v-if="vuser.bypass">(ลา / ข้ามการเช็คชื่อ)</span>
+                    
                     </div>
                 </v-toolbar>
             </div>
@@ -38,12 +40,18 @@
                     <v-icon color="success">mdi-check-circle</v-icon>
                 </v-list-item-avatar>
                 <v-list-item-title>เข้าคลาส</v-list-item-title>
-            </v-list-item>
+            </v-list-item> 
             <v-list-item @click="checkIn(true)" v-if="!userChoose.checkin">
                 <v-list-item-avatar>
                     <v-icon color="error">mdi-close-circle</v-icon>
                 </v-list-item-avatar>
-                <v-list-item-title>ไม่มาเข้าคลาส</v-list-item-title>
+                <v-list-item-title>ขาด</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="checkIn(false,true)" v-if="!userChoose.checkin">
+                <v-list-item-avatar>
+                    <v-icon color="primary">mdi-information</v-icon>
+                </v-list-item-avatar>
+                <v-list-item-title>ลา</v-list-item-title>
             </v-list-item>
             <v-list-item @click="cancle()" v-if="userChoose.checkin">
                 <v-list-item-avatar>
@@ -105,16 +113,18 @@ export default {
                 if (user) {
                     v.missing = user.missing
                     v.checkin = true
+                    v.bypass = user.bypass
                 } else {
                     v.missing = false
                     v.checkin = false
+                    v.bypass = false
                 }
                 return v
             })
             this.response = true
         },
-        async checkIn(missing) {
-            let checkin = await Course.checkInClass(this.userChoose.user, this.id, this.today, missing)
+        async checkIn(missing,bypass=false) {
+            let checkin = await Course.checkInClass(this.userChoose.user, this.id, this.today, missing,bypass)
             if (checkin) {
                 await Web.alert('Check In', 'success', 'Check In Success')
                 this.userChoose = {}
