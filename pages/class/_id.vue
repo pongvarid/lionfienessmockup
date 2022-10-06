@@ -51,14 +51,14 @@
         </v-carousel-item>
     </v-carousel>
 
-    <div> 
+    <div>
         <div class="p-6 pb-20">
-            <div class="flex justify-between pl-6 pr-6">
+            <!-- <div class="flex justify-between pl-6 pr-6">
                 <Lion-Icon text="MON" icon="mdi-calendar"></Lion-Icon>
                 <Lion-Icon text="8:00 AM"></Lion-Icon>
                 <Lion-Icon text="6/10" icon="mdi-account-group"></Lion-Icon>
                 <Lion-Icon text="9.8" icon="mdi-star" color="orange"></Lion-Icon>
-            </div>
+            </div> -->
             <v-divider class="mt-6"></v-divider>
             <h2 class="text-xl xd uppercase mt-8">DETAILS</h2>
             <div class="p-2">
@@ -76,12 +76,12 @@
                 </div>
             </div>
             <v-divider class="mt-4 mb-6"></v-divider>
-          <div v-if="user"> 
-            <v-btn block color="success" v-if="isClass">
-                <span @click="registerClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span> 
-            </v-btn>
-            <v-btn block color="success" v-else disabled >คุณลงทะเบียนคลาสนี้แล้ว</v-btn>
-          </div>
+            <div v-if="user">
+                <v-btn block color="success" v-if="isClass">
+                    <span @click="registerClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span>
+                </v-btn>
+                <v-btn block color="success" v-else disabled>คุณลงทะเบียนคลาสนี้แล้ว</v-btn>
+            </div>
             <v-btn block v-else color="success"> <span @click="getClass()" class="font-outbold">สมัครสมาชิกเพื่อลงทะเบียนเข้าคลาส</span></v-btn>
         </div>
     </div>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-    import {
+import {
     Web
 } from '@/vuexes/web'
 import {
@@ -113,6 +113,7 @@ export default {
     data() {
         return {
             response: false,
+            tier: Auth.mytier,
             id: 0,
             def: {
                 "id": 1,
@@ -140,14 +141,14 @@ export default {
     methods: {
         async run() {
             console.log(this.$route.params.id)
-            this.id = this.$route.params.id;    
+            this.id = this.$route.params.id;
             let data = await Core.getHttp(`/api/course/class/${this.id}/`)
-             this.data = (data.id) ? data : this.def
+            this.data = (data.id) ? data : this.def
             await this.getCoaches();
-            if(Auth.user){
-                this.isClass = await Course.fundingClass(this.user.id,this.id)
+            if (Auth.user) {
+                this.isClass = await Course.fundingClass(this.user.id, this.id)
             }
-  
+
         },
         async getCoaches() {
             if (this.data.coaches) {
@@ -157,13 +158,20 @@ export default {
             }
         },
         async registerClass() {
-            if(await Web.confirm('ยืนยันการลงทะเบียนเข้าคลาส')){
-                let register = await Course.registerClass(this.user.id,this.id)
-                if(register.id){
-                    await Web.alert(`ลงทะเบียนเข้าคลาส ${this.data.name} สำเร็จ`)
+            let auth = Auth;
+            let user = Auth.user;
+            if (auth.mytier && user.in_class) {
+                if (await Web.confirm('ยืนยันการลงทะเบียนเข้าคลาส')) {
+                    let register = await Course.registerClass(this.user.id, this.id)
+                    if (register.id) {
+                        await Web.alert(`ลงทะเบียนเข้าคลาส ${this.data.name} สำเร็จ`)
+                    }
+                    await this.run();
                 }
-                await this.run();
+            }else{
+                await Web.alert('กรุณาเลือกแพ็คเกจสมาชิกก่อนลงทะเบียนคลาส หรือ ต่ออายุสมาชิก','info')
             }
+
         },
         async getClass() {
             this.$router.push(`/auth/login/`)

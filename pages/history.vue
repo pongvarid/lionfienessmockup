@@ -19,12 +19,17 @@ export default {
         })
     },
     async mounted(){
+        
         await this.run()
     },
     methods:{
         async run(){
+            if (!this.user) {
+                await this.$router.push(`/auth/login/`)
+            } else {
             this.user = await Auth.getUser();
             this.response = true
+            }
         }
     }
 }

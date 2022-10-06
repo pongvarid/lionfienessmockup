@@ -1,6 +1,6 @@
 <template>
 <div v-if='response'>
-    <div class="h-screen    w-full py-16 px-4">
+    <div class="h-screen    w-full py-16 px-4 bg-black">
         <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
 
         <div class="flex flex-col items-center justify-center">
@@ -10,7 +10,8 @@
             <v-card dark class="w-full">
                 <v-card-text>
                     <p tabindex="0" class="t focus:outline-none text-2xl font-extrabold leading-6  ">ลงชื่อเข้าใช้งาน</p>
-                    <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">หากสนใจสมัครสมาชิก? <a href="javascript:void(0)" class="hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none  text-gray-800 cursor-pointer"> กรอกแบบฟอร์ม</a></p>
+                    <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">หากสนใจเป็นสมัครสมาชิก?
+                         <a @click="$router.push(`/auth/register/`)" href="javascript:void(0)" class="font-semibold "> สมัครสมาชิก</a></p>
                     <v-form ref="login" class="mt-10">
                         <v-text-field v-model="form.username" :rules="rules" color="#4ade80" label="ชื่อผู้ใช้/รหัสสมาชิก" outlined dense></v-text-field>
                         <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" label="รหัสผ่าน" outlined dense></v-text-field>

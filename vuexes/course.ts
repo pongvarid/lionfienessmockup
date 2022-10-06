@@ -14,7 +14,7 @@ class CourseModule extends VuexModule {
     public myCheckIn: any = []
 
     public async getUserinClass(classId: number) { 
-        let res = await Core.getHttp(`/api/register/registerclass/?course=${classId}`)
+        let res = await Core.getHttp(`/api/register/registerclass/?course=${classId}&user__in_class=true`)
         return res
     }
 
