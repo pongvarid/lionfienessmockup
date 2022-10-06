@@ -1,7 +1,7 @@
 
 const env = {
-    host:'http://localhost:8000',
-    web:'http://localhost:3000',
+    host:'https://lionfitness.tk',
+    web:'https://pongvarid.github.io/lionfienessmockup',
 
 }
 export default env
