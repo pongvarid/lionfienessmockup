@@ -40,6 +40,19 @@
 <script>
 export default {
     name: "IndexPage",
+    data() {
+        return {
+           
+        }
+    },
+    async created(){
+        await this.run();
+    },
+    methods:{
+        async run(){
+             
+        },
+    }
 };
 </script>
 

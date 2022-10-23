@@ -1,71 +1,109 @@
 <template>
-<v-bottom-navigation fixed>
-
+<div class="bg2 pb-6 fixed w-full bottom-0 shadow-2xl" style="z-index:9999;">
+    <!-- 
     <v-btn v-for="menu,menuIndex in menus" :key="menuIndex" :class="`navBtn ${(action(menu.name))?'navBtn-actions':''}`" @click="$router.push(menu.path)"  >
         <span >{{menu.label}}</span>
         <v-icon>{{menu.icon}}</v-icon>
-    </v-btn> 
-</v-bottom-navigation>
+    </v-btn>  -->
+    <div class="  sticky bottom-2  p-5  p-2  flex items-center justify-between   shadow-3xl text-gray-400 rounded-2xl cursor-pointer">
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400   " @click="$router.push('/account')">
+            <span class="mdi mdi-account-circle text-xl"></span>
+            <span class="text-xs">{{$l('โปรไฟล์','Profile')}}</span>
+        </div>
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400  mr-4" @click="$router.push('/history')">
+            <span class="mdi mdi-clipboard-list text-xl"></span>
+            <span class="text-xs">{{$l('ประวัติ','history')}}</span>
+        </div>
+        <div class="flex flex-col items-center   " @click="$router.push('/home')">
+            <div class="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50  btnx w-20 h-20 p-2 text-white transition ease-in duration-200 ">
+                <v-icon>mdi-home</v-icon>
+            </div>
+        </div>
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 ml-4" @click="$router.push('/calendar')">
+            <span class="mdi mdi-calendar  text-xl"></span>
+            <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
+
+        </div>
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/menu')" >
+            <span class="mdi mdi-apps  text-xl"></span>
+            <span class="text-xs">{{$l('เมนู','Menu')}}</span>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
-export default { 
+export default {
     data: () => {
         return ({
-            menus:[
-                {
-                    path:'/home',
-                    icon:'mdi-home',
-                    name:'home',
-                    label:'หน้าแรก',
-                },
-                 {
-                    path:'/account',
-                    icon:'mdi-account',
-                    name:'account',
-                    label:'ข้อมูลส่วนตัว',
+            menus: [{
+                    path: '/home',
+                    icon: 'mdi-home',
+                    name: 'home',
+                    label: 'หน้าแรก',
                 },
                 {
-                    path:'/calendar',
-                    icon:'mdi-calendar-blank',
-                    name:'calendar',
-                    label:'ปฏิทิน',
+                    path: '/account',
+                    icon: 'mdi-account',
+                    name: 'account',
+                    label: 'ข้อมูลส่วนตัว',
                 },
-                 {
-                    path:'/history',
-                    icon:'mdi-clipboard-list',
-                    name:'history',
-                    label:'ประวัติ',
+                {
+                    path: '/calendar',
+                    icon: 'mdi-calendar-blank',
+                    name: 'calendar',
+                    label: 'ปฏิทิน',
                 },
-                 {
-                    path:'/alert',
-                    icon:'mdi-alert-circle',
-                    name:'alert',
-                    label:'ประกาศ',
+                {
+                    path: '/history',
+                    icon: 'mdi-clipboard-list',
+                    name: 'history',
+                    label: 'ประวัติ',
                 },
-                 
+                {
+                    path: '/alert',
+                    icon: 'mdi-alert-circle',
+                    name: 'alert',
+                    label: 'ประกาศ',
+                },
+
             ]
         })
-    }, 
-    async mounted(){
+    },
+    async mounted() {
 
     },
-    methods:{
-        action(name){
-            let route = this.$route.name 
-            return (route == name) 
-        }
+    methods: {
+        action(name) {
+            let route = this.$route.name
+            return (route == name)
+        },
+       
+
     },
+    watch: {
+      async $route() {
     
+      },
+    },
+
+
 }
 </script>
 
 <style>
-    .navBtn-actions > span, .v-icon{
-        color:#eaab4d;
-    }
-    .navBtn > span{
-        letter-spacing: -0.3px;
-        font-size:10px;
-    }
+.navBtn-actions>span,
+.v-icon {
+    color: #eaab4d;
+}
+
+.navBtn>span {
+    letter-spacing: -0.3px;
+    font-size: 10px;
+}
+
+.btnx {
+    background: rgb(238, 218, 89);
+    background: linear-gradient(0deg, rgba(238, 218, 89, 1) 0%, rgba(198, 119, 0, 1) 100%);
+}
 </style>

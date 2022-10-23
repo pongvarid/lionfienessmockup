@@ -13,12 +13,15 @@ class AuthModule extends VuexModule {
     public mytier:any = null
     public datePer:any = 0
     public dateCount:any = 0
+    public myhistories:any = []
+    public myhistoriesCount = 0
     public async setUser() {
         let user = await this.getUser(); 
         this.user = user 
         await this.loadMyTier()
         return user
     }
+    
  
 
     public async getUser() {
@@ -110,6 +113,7 @@ class AuthModule extends VuexModule {
             let count = end.diff(start, 'days')
             this.datePer = Number(((count / 100) * this.mytier.days).toFixed(0))
             this.dateCount = count 
+            await this.loadMyHistory()
             if(count < 3 && count > 0){
                 await Web.alert(`สมาชิกใกล้หมดอายุแล้ว`,'info',`คุณมีเวลาเหลืออีก ${count} วัน กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
             }else if(count ==0 && this.user.in_class==true){
@@ -127,6 +131,17 @@ class AuthModule extends VuexModule {
         })
         await this.setUser()
         return user
+    }
+
+    public async loadMyHistory(){
+        try {
+            let histories= await Core.getHttp(`/api/register/history/?user=${this.user.id}&bill=${this.mytier.id}`)
+            this.myhistories = histories
+            this.myhistoriesCount = histories.length
+        } catch (error) {
+            this.myhistories = null
+            this.myhistoriesCount = 0
+        } 
     }
 
 

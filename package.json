@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "serve": "nuxt --hostname 192.168.1.5 --port 3333",
+    "serve": "nuxt --hostname 192.168.1.9 --port 3333",
     "upload": "npm run build && npm run generate &&  gh-pages -d dist -t true"
   },
   "dependencies": {

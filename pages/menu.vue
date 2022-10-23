@@ -1,7 +1,9 @@
 
 <template>
   <div>
-   
+    <br>   <br>   <br>   <br> 
+    <v-btn @click="switchLang('th')" color="success">Th</v-btn>
+    <v-btn @click="switchLang('en')"  color="success">En</v-btn>
   </div>
 </template>
 
@@ -19,7 +21,10 @@ export default {
    
   },
   methods: {
-   
+    async switchLang(lang) {
+      await localStorage.setItem('lang',lang)
+      await location.reload()
+    }
   },
 }
 </script>

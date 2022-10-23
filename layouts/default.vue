@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app >
     <v-overlay :value="bands" opacity="0.9">
         <div class="p-4 flex flex-col items-center justify-center">
           <v-icon color="error" size="60">mdi-information</v-icon>
@@ -10,7 +10,10 @@
           <v-btn @click="logout()" color="orange">ออกจากระบบ</v-btn>
         </div>
     </v-overlay>
-    <nuxt />
+    <!-- <v-app-bar flat color="bgbar"> 
+ 
+    </v-app-bar> -->
+    <nuxt class="bg" />
     <Core-Menu></Core-Menu>
 
 </v-app>
@@ -59,3 +62,9 @@ export default {
 
 }
 </script>
+<style>
+.bgbar{
+    background-color: '#FDBB2D';
+    background: linear-gradient(90deg, #fcff9e 0%, #c67700 100%);
+}
+</style>

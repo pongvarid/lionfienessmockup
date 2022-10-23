@@ -1,5 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
-
+ 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -26,6 +26,7 @@ export default {
       { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css' },
       {rel:'stylesheet', href:'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css'},
       {rel:'stylesheet', href:'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'},
+      {rel:'stylesheet', href:'https://emoji-css.afeld.me/emoji.css'},
       {rel:'stylesheet', href:'https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap'},
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
@@ -42,6 +43,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/vue',
+    '@/plugins/vuetify',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -81,7 +83,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
