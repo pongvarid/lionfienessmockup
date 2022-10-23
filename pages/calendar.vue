@@ -1,7 +1,7 @@
 <template>
 <div class="p-6 flex flex-col" v-if="response">
     <div class="text-2xl font-semibold">{{$l(`ปฏิทิน`,`Calendar`)}}</div>
- 
+
     <v-tabs icons-and-text class="pt-4">
         <v-tab v-for="day,index in raws" :key="index">
             <div class="pt-8 pb-8 flex flex-col">
@@ -12,21 +12,23 @@
         <v-tab-item v-for="day,index in raws" :key="index" class="bg">
             <div>
                 <v-card elevation="0" class="mt-4" v-for="course,j in day.data" :key="j">
-                
+
                     <v-card-title primary-title>
                         <img :style="`border-color:${course.color_table}; border-width:6px; border-style: solid;`" v-if="course.course_image" class="w-20 h-20 rounded-full contain animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``" :src="$url+course.course_image" alt="">
                         <v-avatar v-else size="80" color="blue" class="animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``">
                             {{course.course_name}}
                         </v-avatar>
                         <div>
-                            <h2 class="font-semibold ml-2">{{course.course_name}}</h2> 
+                            <h2 class="font-semibold ml-2">{{course.course_name}}</h2>
                             <div class="text-xs ml-2">
                                 <v-icon size="10" class="mr-1">em em-alarm_clock</v-icon>{{course.time_data}}
-                            </div> <v-chip class="ml-2"  small v-if="checkClass(course)" >ลงทะเบียนแล้ว</v-chip>
+                            </div>
+                            <v-chip class="ml-2" small v-if="checkClass(course)">ลงทะเบียนแล้ว</v-chip>
                             <v-chip v-if="course.is_open_class" class="ml-2" small color="success">{{$l(`คลาสกำลังดำเนินอยู่`,`Class in starting`)}}.. </v-chip>
                         </div>
                     </v-card-title>
-                    <v-card-text> 
+                    <v-card-text>
+                       
                         <v-expansion-panels flat>
                             <v-expansion-panel>
                                 <v-expansion-panel-header>
@@ -37,13 +39,18 @@
                                         <Core-Bar icon="em em-male-teacher" :head="$l(`ผู้สอน`,`Teacher`)" :txt="`Kru.${course.teacher_name}`"></Core-Bar>
                                         <!-- <Core-Bar icon="em em-alarm_clock" :head="$l(`เวลา`,`Start`)" :txt="course.time_data"></Core-Bar> -->
                                         <Core-Bar icon="em em-weight_lifter" :head="$l(`ที่นั่งที่เหลือ`,`Remain`)" :txt="course.remain"></Core-Bar>
-                                        <Core-Bar icon="em em-memo" :head="$l(`ลงทะเบียน`,`Register`)" :txt="course.remain"></Core-Bar>
-                                        <v-btn v-if="!checkClass(course)" @click="openClass(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
-                                        <v-btn v-else @click="removeClass(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
+                                        <!-- <Core-Bar icon="em em-memo" :head="$l(`ลงทะเบียน`,`Register`)" :txt="course.remain"></Core-Bar> -->
+                                        <div v-if="course.remain > 0">
+                                            <v-btn v-if="!checkClass(course)" @click="openClass(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
+                                            <v-btn v-else @click="removeClass(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
+                                        </div> 
                                     </div>
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
                         </v-expansion-panels>
+                        <v-alert dense class="mt-3" type="error" v-if="!(course.remain > 0)">
+                            {{$l(`คลาสนี้เต็มแล้ว`,`Class is full`)}}
+                        </v-alert>
                     </v-card-text>
                 </v-card>
             </div>
@@ -147,63 +154,72 @@ export default {
 
         },
         checkClass(data) {
-            let check = _.find(this.$auth.myhistories, (r)=>{
-                return (r.user==this.user.id && r.course==data.course_class && r.diary==data.id)
-            }) 
+            let check = _.find(this.$auth.myhistories, (r) => {
+                return (r.user == this.user.id && r.course == data.course_class && r.diary == data.id)
+            })
             if (check) {
                 return true
             } else {
                 return false
             }
         },
-        async storeClass() { 
+        async storeClass() {
             if (confirm(this.$l(`คุณแน่ใจใช่ไหม`, `Are you sure?`))) {
-                let dateCount = this.$2date(moment(),this.chooseClass.date_now) 
+                let dateCount = this.$2date(moment(), this.chooseClass.date_now)
                 console.log(dateCount)
-                if(dateCount >= 3){
-                        let form = {
+                if (dateCount >= 3) {
+                    let form = {
                         "detail": "",
                         "user": this.user.id,
                         "course": this.chooseClass.course_class,
-                        "diary":this.chooseClass.id,
+                        "diary": this.chooseClass.id,
                         "bill": this.mytier.id
                     }
                     let store = await Core.postHttp(`/api/register/history/`, form)
                     if (store.id) {
                         alert(this.$l(`จองคลาสเรียบร้อยแล้ว`, `Booked successfully`))
+                        let update = await Core.putHttp(`/api/course/series-daily/${this.chooseClass.id}/`, {
+                            remain: this.chooseClass.remain - 1
+                        })
 
                     } else {
                         alert(this.$l(`ไม่สามารถจองคลาสได้`, `Can't book class`))
                     }
                     await Auth.setUser();
                     await this.run()
-                    this.sheet = false 
-                }else{
+                    this.sheet = false
+                    this.chooseClass = null
+                } else {
                     alert(this.$l(`ไม่สามารถจองได้ กรุณาจองล่วงหน้า 3 วัน`, `Can not book. Please book in advance 3 days`))
                 }
-                
-            } 
+
+            }
         },
-        
-        async removeClass(data){ 
-            let dateNow = moment() 
-            let dateCount = this.$2date(dateNow ,moment(`${data.date_now} ${data.time_data}:00`),'hours')
-            if(dateCount >= 3){
-                if(confirm(this.$l(`คุณแน่ใจใช่ไหม`, `Are you sure?`))){
-                    let course  = _.find(this.$auth.myhistories, (r)=>{
-                        return (r.user==this.user.id && r.course==data.course_class && r.diary==data.id)
-                    }) 
+
+        async removeClass(data) {
+            let dateNow = moment()
+            let dateCount = this.$2date(dateNow, moment(`${data.date_now} ${data.time_data}:00`), 'hours')
+            if (dateCount >= 3) {
+                if (confirm(this.$l(`คุณแน่ใจใช่ไหม`, `Are you sure?`))) {
+                    let course = _.find(this.$auth.myhistories, (r) => {
+                        return (r.user == this.user.id && r.course == data.course_class && r.diary == data.id)
+                    })
                     let res = await Core.deleteHttp(`/api/register/history/${course.id}/`)
+                    if(res){
+                        let update = await Core.putHttp(`/api/course/series-daily/${data.id}/`, {
+                            remain: data.remain + 1
+                        })
+
+                    }
                     alert(this.$l(`ยกเลิกคลาสเรียบร้อยแล้ว`, `Cancel class successfully`))
                     await Auth.setUser();
-                    await this.run() 
+                    await this.run()
                 }
-            }else{
+            } else {
                 alert(this.$l(`ไม่สามารถยกเลิกได้ กรุณายกเลิกล่วงหน้า 3 ชั่วโมง`, `Can not cancel. Please cancel in advance 3 hours`))
-            } 
+            }
         },
-      
-       
+
     }
 }
 </script>

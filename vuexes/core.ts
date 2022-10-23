@@ -151,8 +151,8 @@ class CoreModule extends VuexModule {
     return moment(date).format('HH:mm');
   }
 
-  async generateCodeId(code: string = 'USR') {
-    return code + moment().format('DDMMYYYYHHmmss');
+  async generateCodeId(code: string = 'LF') {
+    return code + moment().format('DDMMYYHHmmss');
   }
 
   async getBase64(file: any) {
