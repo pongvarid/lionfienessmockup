@@ -6,7 +6,7 @@
     <div class="mt-6">
         <Lion-ClassCategory :pageMode="false" @callback="getData" class="mb-6"></Lion-ClassCategory>
 
-        <v-card class="rounded-lg" v-for="(data,i) in lists" :key="i" @click="$router.push(`/class/${data.id}/`)">
+        <v-card class="rounded-lg mt-4" v-for="(data,i) in lists" :key="i" @click="$router.push(`/class/${data.id}/`)">
             <img class="h-32 w-full" style="object-fit: cover;" :src="`${$url}/${data.image_1}`" alt="">
             <v-card-actions>
               <span class="font-semibold">{{data.name}}</span>

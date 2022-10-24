@@ -118,7 +118,11 @@ export default {
 
     }),
     async created() {
-        await Auth.setUser();
+        try {
+            await Auth.setUser();
+        } catch (error) {
+            
+        }
         await this.run()
     },
     methods: {
@@ -139,17 +143,27 @@ export default {
                         }
                     })
                 }
-                this.user = await this.$auth.user
-                this.mytier = await this.$auth.mytier
+                await this.getUser()
                 this.response = true
             } catch (error) {
                 console.log(error)
             }
         },
+        async getUser(){
+            try {
+                this.user = await this.$auth.user
+                this.mytier = await this.$auth.mytier
+            } catch (error) {
+                
+            }
+        },
         async openClass(data) {
-
             this.chooseClass = data
-            this.chooseClass.status = (this.user.number_class > this.$auth.myhistoriesCount)
+            if(this.user){
+          
+                this.chooseClass.status = (this.user.number_class > this.$auth.myhistoriesCount)
+            }
+      
             this.sheet = true
 
         },

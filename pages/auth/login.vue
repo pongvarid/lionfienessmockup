@@ -1,13 +1,13 @@
 <template>
 <div v-if='response'>
-    <div class="h-screen    w-full py-16 px-4 bg-black">
+    <div class="h-screen    w-full py-16 px-4 bg">
         <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
 
         <div class="flex flex-col items-center justify-center">
             <div class="mt-16 flex flex-col items-center text-center">
-                <img class="h-36" src="@/assets/images/logox.jpg" alt="">
+                <img class="h-36 rounded-full " src="@/assets/images/logox.jpg" alt="">
             </div>
-            <v-card dark class="w-full">
+            <v-card   class="w-full mt-2">
                 <v-card-text>
                     <p tabindex="0" class="t focus:outline-none text-2xl font-extrabold leading-6  ">ลงชื่อเข้าใช้งาน</p>
                     <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">หากสนใจเป็นสมัครสมาชิก?

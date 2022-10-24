@@ -1,6 +1,6 @@
 <template>
 <div class="p-6 flex flex-col">
-    <div class="text-2xl xd">Notification</div>
+    <div class="text-2xl xd">Notification & Promitions</div>
     <Lion-Promotions class="mt-4"></Lion-Promotions>
     <div class="mt-6">
         <v-card v-for="list,i in lists" :key="i" class="p-4 m-2 mt-4">

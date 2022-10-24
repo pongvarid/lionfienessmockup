@@ -140,14 +140,10 @@ class CoreModule extends VuexModule {
   }
 
   dateTH(date: string) {
-    let dd = moment.locale('th')
-    let day = moment(date).format('dddd')
-    return day + ' ' + moment(date).format('DD/MM/YYYY')
+    return moment(date).format('DD/MM/YYYY');
   }
   dateTTH(date: string) {
-    let dd = moment.locale('th')
-    let day = moment(date).format('dddd')
-    return day + ' ' + moment(date).format('DD/MM/YYYY hh:mm:ss')
+    return moment(date).format('DD/MM/YYYY');
   }
 
   

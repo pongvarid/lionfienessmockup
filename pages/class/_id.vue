@@ -1,9 +1,9 @@
 <template>
 <div v-if="response">
     <v-toolbar class="w-full mt-4" absolute color="transparent" flat fixed>
-        <h2 class=" text-2xl ml-4 xd">{{data.name}}</h2>
+        <h2 class=" text-2xl ml-4 text-white ">{{data.name}}</h2>
         <v-spacer></v-spacer>
-        <v-btn @click="$router.push('/home/')" small text>
+        <v-btn dark @click="$router.push('/home/')" small text>
             <v-icon size="28">mdi-close</v-icon>
         </v-btn>
     </v-toolbar>
@@ -52,6 +52,7 @@
     </v-carousel>
 
     <div>
+        
         <div class="p-6 pb-20">
             <!-- <div class="flex justify-between pl-6 pr-6">
                 <Lion-Icon text="MON" icon="mdi-calendar"></Lion-Icon>
@@ -76,13 +77,7 @@
                 </div>
             </div>
             <v-divider class="mt-4 mb-6"></v-divider>
-            <div v-if="user">
-                <v-btn block color="success" v-if="isClass">
-                    <span @click="registerClass()" class="font-outbold">ลงทะเบียนเข้าคลาส</span>
-                </v-btn>
-                <v-btn block color="success" v-else disabled>คุณลงทะเบียนคลาสนี้แล้ว</v-btn>
-            </div>
-            <v-btn block v-else color="success"> <span @click="getClass()" class="font-outbold">สมัครสมาชิกเพื่อลงทะเบียนเข้าคลาส</span></v-btn>
+         
         </div>
     </div>
 

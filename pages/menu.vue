@@ -1,32 +1,12 @@
 <template>
 <div class="bg2 p-4">
-  <h2 class="text-xl font-semibold">{{$l(`เมนู`,`Menu`)}}</h2>
-    <v-list nav   class="mt-6" outlined color="transparent">
-      <h2 class="font-semibold">ทั่วไป</h2>
-        <v-list-item-group >
-            <v-list-item>
-                <v-list-item-icon>
-                    <v-icon></v-icon>
-                </v-list-item-icon> 
-                <v-list-item-content>
-                    <v-list-item-title>{{$l(`เทรนเนอร์`,`My trainer`)}}</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-                <v-list-item-icon>
-                    <v-icon></v-icon>
-                </v-list-item-icon> 
-                <v-list-item-content>
-                    <v-list-item-title>{{$l(`เมนู`,`Menu`)}}</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-        </v-list-item-group>
-
-        <h2 class="font-semibold">สมาชิก</h2>
-        <v-list-item-group >
+  <h2 class="text-xl font-semibold">{{$l(`เมนู`,`Menu`)}}</h2> 
+    <v-list nav   class="mt-6" outlined color="transparent"> 
+        <h2 class="font-semibold" v-if="$auth.user">สมาชิก</h2>
+        <v-list-item-group v-if="$auth.user">
             <v-list-item @click="$router.push(`/account`)">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-account-circle</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`โปรไฟล์`,`Profile`)}}</v-list-item-title>
@@ -34,7 +14,7 @@
             </v-list-item>
             <v-list-item  @click="$router.push(`/account/?tab=2`)">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-wallet-membership</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`สมาชิกของฉัน`,`My Member`)}}</v-list-item-title>
@@ -42,27 +22,27 @@
             </v-list-item>
             <v-list-item  @click="$router.push(`/trainer`)">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
-                </v-list-item-icon> 
+                    <v-icon size="28">mdi-account-child-circle</v-icon>
+                </v-list-item-icon>  
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`เทรนเนอร์ของฉัน`,`My Trainer`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
         </v-list-item-group>
 
-        <h2 class="font-semibold">ครู & Trainer</h2>
-        <v-list-item-group >
-            <v-list-item @click="$router.push(`/checkout/`)">
+        <h2 v-if="$auth.user.is_trainer || $auth.user.is_coach" class="font-semibold">ครู & Trainer</h2>
+        <v-list-item-group > 
+            <v-list-item @click="$router.push(`/checkout/`)" v-if="$auth.user.is_coach">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-shield-check</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`เช็คชื่อ (ครู)`,`Checkin Teacher`)}} </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click="$router.push(`/trainer/checkin/`)" v-if="$auth.user.is_trainer">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-shield-check</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`เช็คชื่อ (Trainer)`,`Checkin Trainer`)}}</v-list-item-title>
@@ -71,33 +51,33 @@
         </v-list-item-group>
         <h2 class="font-semibold">Lion Fitness</h2>
         <v-list-item-group >
-            <v-list-item  >
+            <v-list-item   @click="$router.push(`/rule`)" >
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-book-heart</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`กฎของฟิสเนส`,`Fitness Rules`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item >
+            <v-list-item   @click="$router.push(`/pdpa`)" >
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-book-account</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`ข้อตกลงการใช้งาน`,`Terms of Use`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item >
+            <v-list-item   @click="$router.push(`/qfitness`)"  >
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-scoreboard</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`การให้คะแนนฟิตเนส`,`Fitness Rating`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item >
+            <v-list-item   @click="$router.push(`/qtrainer`)" >
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-account-details</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>{{$l(`การให้คะแนน Trainer`,`Trainer Rating`)}}</v-list-item-title>
@@ -108,7 +88,7 @@
         <v-list-item-group >
             <v-list-item  @click="switchLang('th')">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-earth</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>ภาษาไทย</v-list-item-title>
@@ -116,7 +96,7 @@
             </v-list-item>
             <v-list-item  @click="switchLang('en')">
                 <v-list-item-icon>
-                    <v-icon></v-icon>
+                    <v-icon size="28">mdi-earth</v-icon>
                 </v-list-item-icon> 
                 <v-list-item-content>
                     <v-list-item-title>English</v-list-item-title>

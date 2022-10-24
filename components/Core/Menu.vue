@@ -6,24 +6,27 @@
         <v-icon>{{menu.icon}}</v-icon>
     </v-btn>  -->
     <div class="  sticky bottom-2  p-5  p-2  flex items-center justify-between   shadow-3xl text-gray-400 rounded-2xl cursor-pointer">
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
+            <span class="mdi mdi-calendar  text-xl"></span>
+            <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
+
+        </div>
+
         <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400   " @click="$router.push('/account')">
             <span class="mdi mdi-account-circle text-xl"></span>
             <span class="text-xs">{{$l('โปรไฟล์','Profile')}}</span>
+        </div>
+        
+        <div class="flex flex-col items-center   " @click="$router.push('/home')">
+            <div  class="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50  bg-black w-20 h-20 p-2 text-white transition ease-in duration-200 ">
+                <img class="rounded-full" src="@/assets/images/Screenshot 2565-10-24 at 08.27.03.png" alt="">
+            </div>
         </div>
         <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400  mr-4" @click="$router.push('/history')">
             <span class="mdi mdi-clipboard-list text-xl"></span>
             <span class="text-xs">{{$l('ประวัติ','history')}}</span>
         </div>
-        <div class="flex flex-col items-center   " @click="$router.push('/home')">
-            <div class="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50  btnx w-20 h-20 p-2 text-white transition ease-in duration-200 ">
-                <v-icon>mdi-home</v-icon>
-            </div>
-        </div>
-        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 ml-4" @click="$router.push('/calendar')">
-            <span class="mdi mdi-calendar  text-xl"></span>
-            <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
-
-        </div>
+       
         <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/menu')" >
             <span class="mdi mdi-apps  text-xl"></span>
             <span class="text-xs">{{$l('เมนู','Menu')}}</span>

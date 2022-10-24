@@ -54,7 +54,7 @@ export default {
         },
 
         async getMyClass() {
-            let myClass = await Core.getHttp(`/api/trainer/trainer-class/?is_active=true`);
+            let myClass = await Core.getHttp(`/api/trainer/trainer-class/?is_active=true&user=${this.$auth.user.id}`);
             this.myClass = (myClass.length > 0) ? myClass[0] : null;
         }
 
