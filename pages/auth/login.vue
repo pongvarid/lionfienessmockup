@@ -9,15 +9,15 @@
             </div>
             <v-card   class="w-full mt-2">
                 <v-card-text>
-                    <p tabindex="0" class="t focus:outline-none text-2xl font-extrabold leading-6  ">ลงชื่อเข้าใช้งาน</p>
-                    <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">หากสนใจเป็นสมัครสมาชิก?
-                         <a @click="$router.push(`/auth/register/`)" href="javascript:void(0)" class="font-semibold "> สมัครสมาชิก</a></p>
+                    <p tabindex="0" class="t focus:outline-none text-2xl font-extrabold leading-6  ">{{$l(`ลงชื่อเข้าใช้งาน`,`Login`)}}</p>
+                    <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากสนใจเป็นสมัครสมาชิก?`,`If you want becoming a member?`)}}
+                         <a @click="$router.push(`/auth/register/`)" href="javascript:void(0)" class="font-semibold ">{{$l(`สมัครสมาชิก`,`Register`)}}</a></p>
                     <v-form ref="login" class="mt-10">
-                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" label="ชื่อผู้ใช้/รหัสสมาชิก" outlined dense></v-text-field>
-                        <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" label="รหัสผ่าน" outlined dense></v-text-field>
+                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`ชื่อผู้ใชห้ หรือ รหัสมาชิก`,`Code or Username`)" outlined dense></v-text-field>
+                        <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                         <div class="flex mt-2">
                             <v-spacer></v-spacer>
-                            <v-btn @click="handleForm()" color="success">เข้าสู่ระบบ</v-btn>
+                            <v-btn @click="handleForm()" color="success">{{$l(`เข้าสู่ระบบ`,`Login`)}}</v-btn>
                         </div>
                     </v-form>
                 </v-card-text>
