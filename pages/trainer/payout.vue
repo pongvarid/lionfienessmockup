@@ -66,7 +66,7 @@ export default {
                 });
                 if(save.id){
                     await this.$web.alert(this.$l(`สั่งซื้อ Package สำเร็จ`,`Buy package success`))
-                    await this.$router.replace(`/trainer/me/`)
+                    await this.$router.replace(`/trainer/me/?id=${save.id}`)
                 }
             }
         }

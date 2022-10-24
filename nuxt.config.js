@@ -9,7 +9,7 @@ export default {
   target: "static",
 
   router: {
-
+      mode:'hash',
       base: "/lionfienessmockup/"
   },
   // Global page headers: https://go.nuxtjs.dev/config-head

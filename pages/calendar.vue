@@ -179,9 +179,10 @@ export default {
         },
         async storeClass() {
             if (confirm(this.$l(`คุณแน่ใจใช่ไหม`, `Are you sure?`))) {
-                let dateCount = this.$2date(moment(), this.chooseClass.date_now)
+                console.log(this.chooseClass.date_now)
+                let dateCount = this.$2date(moment().format('YYYY-MM-DD'), this.chooseClass.date_now)
                 console.log(dateCount)
-                if (dateCount >= 3) {
+                if (dateCount > 2) {
                     let form = {
                         "detail": "",
                         "user": this.user.id,

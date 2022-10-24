@@ -2,8 +2,8 @@
 <div class="bg2 p-4">
     <h2 class="text-xl font-semibold">{{$l(`เมนู`,`Menu`)}}</h2>
     <v-list nav class="mt-6" outlined color="transparent">
-        <h2 class="font-semibold" v-if="user.id">สมาชิก</h2>
-        <v-list-item-group v-if="user.id">
+        <h2 class="font-semibold" >สมาชิก</h2>
+        <v-list-item-group  >
             <v-list-item @click="$router.push(`/account`)">
                 <v-list-item-icon>
                     <v-icon size="28">mdi-account-circle</v-icon>
@@ -30,9 +30,9 @@
             </v-list-item>
         </v-list-item-group>
 
-        <h2 v-if="userTea" class="font-semibold">ครู & Trainer</h2>
+        <h2   class="font-semibold">ครู & Trainer</h2>
         <v-list-item-group>
-            <v-list-item @click="$router.push(`/checkout/`)" v-if="user.is_coach">
+            <v-list-item @click="$router.push(`/checkout/`)"  > 
                 <v-list-item-icon>
                     <v-icon size="28">mdi-shield-check</v-icon>
                 </v-list-item-icon>
@@ -40,7 +40,7 @@
                     <v-list-item-title>{{$l(`เช็คชื่อ (ครู)`,`Checkin Teacher`)}} </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item @click="$router.push(`/trainer/checkin/`)" v-if="user.is_trainer">
+            <v-list-item @click="$router.push(`/trainer/checkin/`)"  >
                 <v-list-item-icon>
                     <v-icon size="28">mdi-shield-check</v-icon>
                 </v-list-item-icon>
@@ -135,11 +135,12 @@ export default {
     },
     computed: { 
         userTea(){
-            try {
+            return true;
+          /*  try {
                return this.$auth.user.is_trainer || this.$auth.useruser.is_coach
             } catch (error) {
                 return false    
-            }
+            } */
         },
     }
 }
