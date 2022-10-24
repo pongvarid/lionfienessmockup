@@ -34,7 +34,7 @@ class CourseModule extends VuexModule {
     } 
 
     public async getMyClass(userId: number) {
-        let classes = await Core.getHttp(`/api/register/registerclass/?user=${userId}&is_active=true`)
+        let classes = await Core.getHttp(`/api/register/history/?user=${userId}&is_active=true`)
         this.myClass = classes
     }
 

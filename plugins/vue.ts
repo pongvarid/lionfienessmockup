@@ -3,6 +3,7 @@ import env from './env'
 import {Core} from '@/vuexes/core'
 import {Auth} from '@/vuexes/auth'
 import {Web} from '@/vuexes/web'
+import {Trainer} from '@/vuexes/trainer'
 import moment from 'moment'
 Vue.prototype.$ccc = "text-4xl bg-green-600 p-6" 
 Vue.prototype.$home = {
@@ -14,6 +15,7 @@ Vue.prototype.$furl =  env.web
 Vue.prototype.$core = Core
 Vue.prototype.$auth = Auth
 Vue.prototype.$web  = Web
+Vue.prototype.$trainer  = Trainer
 
 Vue.prototype.$l = (th:string, en:string)=> {
     let lang = localStorage.getItem('lang')

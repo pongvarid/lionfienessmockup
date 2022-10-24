@@ -1,26 +1,28 @@
 <template>
-<div>
+<div class="h-screen">
     <div class="p-6 flex flex-col">
         <div class="text-2xl xd">Check In</div>
-        <div v-if="response" class="mt-6">
-            <v-toolbar flat>
-                <h2 class="text-xl ">{{course.name}}</h2>
+        <div v-if="response" class="mt-6"> 
+            <v-toolbar flat color="transparent">
+                <h2 class="text-xl ">{{course.course_name}}</h2>
                 <v-spacer></v-spacer>
-                <v-switch @change="switchClass()" color="success" v-model="course.is_open"></v-switch> 
+                <v-switch @change="switchClass()" color="success" v-model="open"></v-switch> 
             </v-toolbar>
-            <div class="mt-2">
+            <div class="mt-2"> 
                 <v-toolbar class="mt-2" color="transparent" flat v-for="vuser,i in users" :key="i" @click="openShheet(vuser)">
                     <v-avatar size="40">
-                        <img :src="$url+vuser.user_image" alt="alt">
+                        <img :src="$url+vuser.image" alt="alt">
                     </v-avatar>
                     <div class="ml-2">
-                        <h2 class="font-semibold">{{vuser.user_data}} </h2>
+                        <h2 class="font-semibold">{{vuser.nick_name}} ({{vuser.username}}) </h2> 
                         <span :class="(vuser.checkin)?`text-green-600`:`text-orange-600`">{{(vuser.checkin)?`เช็คชื่อเเล้ว`:`ยังไม่ได้เช็คชื่อ`}} </span>
-                        <span class="text-red-500" v-if="vuser.missing">(ขาด)</span>
-                        <span class="text-blue-500" v-if="vuser.bypass">(ลา / ข้ามการเช็คชื่อ)</span>
+                        <div v-if="vuser.checkin">
+                            <span class="text-red-500" v-if="vuser.checkin.missing">(ขาด)</span>
+                            <span class="text-blue-500" v-if="vuser.checkin.bypass">(ลา / ข้ามการเช็คชื่อ)</span>
+                        </div>
                     
                     </div>
-                </v-toolbar>
+                </v-toolbar> 
             </div>
         </div>
     </div>
@@ -29,9 +31,9 @@
         <v-list>
             <v-toolbar class="m-2" color="transparent" flat>
                 <v-avatar size="40">
-                    <img :src="$url+userChoose.user_image" alt="alt">
+                    <img :src="$url+userChoose.image" alt="alt">
                 </v-avatar>
-                <h2 class="ml-2">{{userChoose.user_data}}</h2>
+                <h2 class="ml-2">{{userChoose.nick_name}} ({{userChoose.username}})</h2>
             </v-toolbar>
             <v-divider></v-divider>
             <!-- <v-subheader>Open in</v-subheader> -->
@@ -59,7 +61,7 @@
                 </v-list-item-avatar>
                 <v-list-item-title>ยกเลิก</v-list-item-title>
             </v-list-item>
-        </v-list>
+        </v-list> <br>  <br><br>  
     </v-bottom-sheet>
 </div>
 </template>
@@ -82,6 +84,7 @@ import _ from 'lodash'
 export default {
     data: () => {
         return ({
+            open:false,
             sheet: false,
             tab: 0,
             core: Core,
@@ -97,70 +100,58 @@ export default {
     },
     async mounted() {
         await this.run()
+        this.response = true
     },
     methods: {
         async run() {
             this.id = this.$route.query.id
-            this.user = await Auth.getUser();
-            this.course = await Course.getCourseById(this.id)
-            this.getCheckInUser = await Course.getCheckInUser(this.id, this.today)
-            let users = await Course.getUserinClass(this.id)
-            this.users = _.map(users, (v) => {
-                let user = _.find(this.getCheckInUser, (o) => {
-                    console.log(o.user, v.user)
-                    return o.user == v.user
-                })
-                if (user) {
-                    v.missing = user.missing
-                    v.checkin = true
-                    v.bypass = user.bypass
-                } else {
-                    v.missing = false
-                    v.checkin = false
-                    v.bypass = false
-                }
-                return v
+            this.course = await this.$core.getHttp (`/api/course/series-daily/${this.id}/`)
+            await this.getUserCheck();
+            this.open = this.course.is_open_class
+            let data = await this.$core.getHttp(`/api/register/history/?diary=${this.$route.query.id}`)
+            this.users = _.map(data, (v, i) => { 
+                let obj = v.user_data
+                obj.checkin = _.find(this.userChecked,(r)=>{
+                    return r.user == v.user
+                }) 
+                return obj
             })
-            this.response = true
         },
         async checkIn(missing,bypass=false) {
-            let checkin = await Course.checkInClass(this.userChoose.user, this.id, this.today, missing,bypass)
-            if (checkin) {
-                await Web.alert('Check In', 'success', 'Check In Success')
-                this.userChoose = {}
-                await this.run()
-                this.sheet = false
+            let check = confirm(`ยืนยันการเช็คชื่อ`)
+            if(check){
+                let checkin = await this.$core.postHttp(`/api/register/usercheckin/`, {
+                    user: this.userChoose.id,
+                    series: this.id,
+                    course: this.course.course_class,
+                    date: this.today,
+                    missing: missing,
+                    bypass: bypass
+                })
+                if (checkin) {
+                    this.sheet = false
+                    await this.$web.alert(`เช็คชื่อเรียบร้อย`)
+                    this.run()
+                }
             }
+               
+        },
+        async getUserCheck(){
+            this.userChecked = await this.$core.getHttp(`/api/register/usercheckin/?course=${this.course.course_class}&series=${this.id}`)
         },
         async openShheet(user) {
             this.userChoose = user
             this.sheet = true
         },
         async cancle() {
-            let checkin = _.find(this.getCheckInUser, (o) => {
-                return o.user == this.userChoose.user
-            })
-            if (checkin) {
-                let cancle = await Course.unCheckInClass(checkin.id)
-                if (cancle) {
-                    await Web.alert('Cancle Check In', 'success', 'Cancle Check In Success')
-                    this.userChoose = {}
-                    await this.run()
-                    this.sheet = false
-                }
-            }
+            await this.$core.deleteHttp(`/api/register/usercheckin/${this.userChoose.checkin.id}/`)
+            await this.$web.alert(`ยกเลิกเรียบร้อย`)
+            this.sheet = false
+            this.run()
         },
         async switchClass(){
-            let check = await Web.confirm(`แน่ใจใช่ไหมที่จะ ${(this.course.is_open)?`เปิด`:`ปิด`} คลาสนี้`, ` ผู้ใช้งานจะเห็นคลาสนี้ในหน้าแรกว่ากำลัง ${(this.course.is_open)?`เปิด`:`ปิด`} อยู่`)
-            if(check){
-                let switchClass = await Core.putHttp(`/api/course/class/${this.course.id}/`,{ is_open:this.course.is_open })
-                if(switchClass){
-                    await Web.alert(`${(this.course.is_open)?`เปิด`:`ปิด`} คลาสสำเร็จแล้ว`, 'success')
-                    await this.run();
-                }
-            }else{
-                await this.run();
-            }
+            await this.$core.putHttp(`/api/course/series-daily/${this.id}/`,{is_open_class:this.open})
+           // await this.run();
         }
     }
 }

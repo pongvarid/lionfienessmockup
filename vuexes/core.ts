@@ -144,6 +144,13 @@ class CoreModule extends VuexModule {
     let day = moment(date).format('dddd')
     return day + ' ' + moment(date).format('DD/MM/YYYY')
   }
+  dateTTH(date: string) {
+    let dd = moment.locale('th')
+    let day = moment(date).format('dddd')
+    return day + ' ' + moment(date).format('DD/MM/YYYY hh:mm:ss')
+  }
+
+  
   dateX(date: any) {
     return moment(date).format('DD/MM/YYYY');
   }

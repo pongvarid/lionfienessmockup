@@ -25,7 +25,7 @@
                     forms: '',
                     tables: '',
                     script: '',
-                    host: '/api/notification/alert/',
+                    host: '/api/trainer/trainers/',
                     maps:{}
                 })
             },

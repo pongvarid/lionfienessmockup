@@ -1,35 +1,154 @@
-
 <template>
-  <div>
-    <br>   <br>   <br>   <br> 
-    <v-btn @click="switchLang('th')" color="success">Th</v-btn>
-    <v-btn @click="switchLang('en')"  color="success">En</v-btn>
-  </div>
+<div class="bg2 p-4">
+  <h2 class="text-xl font-semibold">{{$l(`เมนู`,`Menu`)}}</h2>
+    <v-list nav   class="mt-6" outlined color="transparent">
+      <h2 class="font-semibold">ทั่วไป</h2>
+        <v-list-item-group >
+            <v-list-item>
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`เทรนเนอร์`,`My trainer`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`เมนู`,`Menu`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+
+        <h2 class="font-semibold">สมาชิก</h2>
+        <v-list-item-group >
+            <v-list-item @click="$router.push(`/account`)">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`โปรไฟล์`,`Profile`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item  @click="$router.push(`/account/?tab=2`)">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`สมาชิกของฉัน`,`My Member`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item  @click="$router.push(`/trainer`)">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`เทรนเนอร์ของฉัน`,`My Trainer`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+
+        <h2 class="font-semibold">ครู & Trainer</h2>
+        <v-list-item-group >
+            <v-list-item @click="$router.push(`/checkout/`)">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`เช็คชื่อ (ครู)`,`Checkin Teacher`)}} </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`เช็คชื่อ (Trainer)`,`Checkin Trainer`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+        <h2 class="font-semibold">Lion Fitness</h2>
+        <v-list-item-group >
+            <v-list-item  >
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`กฎของฟิสเนส`,`Fitness Rules`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item >
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`ข้อตกลงการใช้งาน`,`Terms of Use`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item >
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`การให้คะแนนฟิตเนส`,`Fitness Rating`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item >
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>{{$l(`การให้คะแนน Trainer`,`Trainer Rating`)}}</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item> 
+        </v-list-item-group>
+        <h2 class="font-semibold">{{$l(`ภาษา`,`Language`)}}</h2>
+        <v-list-item-group >
+            <v-list-item  @click="switchLang('th')">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>ภาษาไทย</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item  @click="switchLang('en')">
+                <v-list-item-icon>
+                    <v-icon></v-icon>
+                </v-list-item-icon> 
+                <v-list-item-content>
+                    <v-list-item-title>English</v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+    </v-list>
+    <br> <br> <br> <br> 
+</div>
 </template>
 
 <script>
 export default {
-  name: 'Menu.vue',
-  created() {
+    name: 'Menu.vue',
+    created() {
 
-  },
-  data() {
-    return {
-    }
-  },
-  props: {
-   
-  },
-  methods: {
-    async switchLang(lang) {
-      await localStorage.setItem('lang',lang)
-      await location.reload()
-    }
-  },
+    },
+    data() {
+        return {}
+    },
+    props: {
+
+    },
+    methods: {
+        async switchLang(lang) {
+            await localStorage.setItem('lang', lang)
+            await location.reload()
+        }
+    },
 }
 </script>
 
 <style lang="scss" scoped>
 
 </style>
-

@@ -1,10 +1,10 @@
 <template>
-<div class="bg-black">
-    <section data-section-id="1" data-share="" data-category="pricing" class="pt-6 pb-32 bg-black overflow-hidden">
+<div class="bg">
+    <section data-section-id="1" data-share="" data-category="pricing" class="pt-6 pb-32 bg overflow-hidden">
         <div class="container mx-auto ">
             <div class="max-w-xl">
-                <h2 class=" font-heading font-bold text-4xl sm:text-7xl text-white" data-config-id="auto-txt-2-1">Packages</h2>
-                <span class="inline-block text-white text-base" data-config-id="auto-txt-1-1">เลือกรายการที่คุณต้องการ</span>
+                <h2 class=" font-heading font-bold text-4xl sm:text-7xl " data-config-id="auto-txt-2-1">Packages</h2>
+                <span class="inline-block  text-base" data-config-id="auto-txt-1-1">เลือกรายการที่คุณต้องการ</span>
             </div>
             <div class="flex flex-wrap">
 

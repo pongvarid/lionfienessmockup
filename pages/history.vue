@@ -1,5 +1,5 @@
 <template>
-  <div v-if="response"> 
+  <div class="bg h-screen" v-if="response"> 
     <Class-Checkin v-if="user.is_coach"></Class-Checkin>
     <Class-History v-else></Class-History>
   </div> 
