@@ -67,7 +67,7 @@
                     <v-list-item-title>{{$l(`ข้อตกลงการใช้งาน`,`Terms of Use`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="user.user" @click="$router.push(`/qfitness`)">
+            <v-list-item   @click="$router.push(`/qfitness`)">
                 <v-list-item-icon>
                     <v-icon size="28">mdi-scoreboard</v-icon>
                 </v-list-item-icon>
@@ -75,7 +75,7 @@
                     <v-list-item-title>{{$l(`การให้คะแนนฟิตเนส`,`Fitness Rating`)}}</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="user.user" @click="$router.push(`/qtrainer`)">
+            <v-list-item   @click="$router.push(`/qtrainer`)">
                 <v-list-item-icon>
                     <v-icon size="28">mdi-account-details</v-icon>
                 </v-list-item-icon>
