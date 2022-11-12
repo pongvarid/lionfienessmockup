@@ -1,5 +1,5 @@
 <template>
-<div class="pb-20">
+<div class="mb-24">
     <div class="p-6 flex flex-col" v-if="response">
 
         <div class="text-2xl xd">Profile</div>
@@ -15,16 +15,17 @@
             <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4d':''">ข้อมูลสมาชิก</v-btn>
             <v-btn @click="tab=3" text :color="(tab==3)?'#eaab4d':''">คลาส</v-btn>
         </v-toolbar>
+        
         <div class="w-full p-3" v-if="tab==1">
             <v-form class="w-full mt-6" v-if="tab==1">
                 <v-text-field readonly v-model="user.username" label="รหัสสมาชิก" id="id"></v-text-field>
                 <v-text-field :value="form.first_name" label="ชื่อ" id="id"></v-text-field>
                 <v-text-field :value="form.last_name" label="นาสกุล" id="id"></v-text-field>
-                <v-text-field readonly :value="user.username" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
-                <v-text-field v-model="form.tel" label="เบอร์โทร" id="id"></v-text-field>
+                <v-text-field readonly v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
+                <v-text-field v-model="form.tel" type="number" maxlength="8"  label="เบอร์โทร" id="id"></v-text-field>
                 <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn>
             </v-form>
-            <br><br>
+            <br>
             <v-divider>
             </v-divider>
             <v-btn @click="logout()" block color="error">ออกจากระบบ</v-btn>
@@ -92,6 +93,8 @@ export default {
                 this.form.first_name = this.user.first_name
                 this.form.last_name = this.user.last_name
                 this.form.tel = this.user.tel
+                this.form.birth_date = this.user.birth_date
+
                 this.response = true;
             }
         },

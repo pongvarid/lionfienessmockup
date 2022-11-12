@@ -129,7 +129,7 @@
                 //     },`
                 // } 
                 // html = html + `\n{
-                //       text: 'จัดการ', 
+                //       text: 'จัดการ',  
                 //         sortable: false,
                 //         value: 'action',
                 // }]\n`
