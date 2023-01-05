@@ -121,7 +121,7 @@ class AuthModule extends VuexModule {
                 await this.switchUser(false)
             }
         }else{
-            await Web.alert(`ยังไม่ได้เป็นสมาชิก`,'info',`สมัครเป็นสมาชิกกับ Fitness เพื่อให้สามารถใช้งานได้ต่อไป`)
+           // await Web.alert(`ยังไม่ได้ยืนยันตัวตน`,'info',`กรุณาติดต่อฟิตเนส เพื่อดำเนินการลำดับถัดไป` )
         }
     }
 

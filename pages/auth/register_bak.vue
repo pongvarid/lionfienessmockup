@@ -8,7 +8,7 @@
                 <img class="rounded-full h-36" src="@/assets/images/logox.jpg" alt="">
             </div>
 
-            <!-- <v-stepper vertical v-model="e1" class="w-full mt-2">
+            <v-stepper vertical v-model="e1" class="w-full mt-2">
                 <div class="p-5 text-center">
                     <p tabindex="0" class="t focus:outline-none text-2xl font-semibold leading-6  ">{{$l(`สมัครสมาชิก`,`Register`)}} </p>
                     <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากเป็นสมาชิกอยู่แล้ว? `,`Already a member?`)}}
@@ -73,8 +73,8 @@
                     <v-btn depressed @click="handleForm()" color="success"> {{$l(`สมัครสมาชิก`,`Let's Register`)}} </v-btn>
 
                 </v-stepper-content>
-            </v-stepper> -->
-            <v-card class="w-full mt-4">
+            </v-stepper>
+            <!-- <v-card class="w-full mt-4">
                 <v-card-text>
                     <p tabindex="0" class="t focus:outline-none text-2xl font-semibold leading-6  ">{{$l(`สมัครสมาชิก`,`Register`)}} </p>
                     <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากเป็นสมาชิกอยู่แล้ว? `,`Already a member?`)}}
@@ -91,7 +91,7 @@
                         <v-text-field v-model="form.first_name" :rules="rules" color="#4ade80" :label="$l(`ชื่อ`,`Name`)" outlined dense></v-text-field>
                         <v-text-field v-model="form.last_name" :rules="rules" color="#4ade80" :label="$l(`นามสกุล`,`Surname`)" outlined dense></v-text-field>
                         <v-text-field v-model="form.nick_name" :rules="rules" color="#4ade80" :label="$l(`ชื่อเล่น`,`Nickname`)" outlined dense></v-text-field>
-                        <!-- <v-text-field v-model="form.card_number" :rules="rules" color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field> -->
+                        <v-text-field v-model="form.card_number" :rules="rules" color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
                         <v-text-field @input="sumAge()" type="date" v-model="form.birth_date" :rules="rules" color="#4ade80" :label="$l(`วันเกิด`,`Birthday`)" outlined dense></v-text-field>
                         <v-text-field disabled v-model="form.age" :rules="rules" color="#4ade80" :label="$l(`อายุ`,`Age`)" outlined dense></v-text-field>
                         <v-textarea outlined dense :label="$l(`ข้อมูลผู้ปกครอง`,`Parent information`)" :placeholder="$l(`ระบุข้อมูลการติดต่อผู้ปกครองของคุณ`,`Provide your parent's contact information.`)" :rules="[rules]" v-model="form.under18_detail" v-if="form.under18"></v-textarea>
@@ -104,7 +104,7 @@
                         </div>
                     </v-form>
                 </v-card-text>
-            </v-card>
+            </v-card> -->
 
         </div><br><br><br><br><br>
     </div>

@@ -11,7 +11,7 @@ export default {
   router: {
       mode:'hash',
       base: "/lionfienessmockup/"
-  },
+  }, 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - lionfitness',

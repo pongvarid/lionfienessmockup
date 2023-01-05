@@ -1,6 +1,6 @@
 
 const env = {
-    host:'https://lionfitness.tk',//'http://192.168.1.9:8000/',//
+    host:'https://lionfitness.tk',
     web:'https://pongvarid.github.io/lionfienessmockup',
 
 }
