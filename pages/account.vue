@@ -49,13 +49,15 @@
                     <Class-Register></Class-Register>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer></v-spacer>
-
+                    <v-spacer></v-spacer> 
                 </v-card-actions>
             </v-card>
         </div>
 
     </div>
+    <v-overlay v-else opacity="0.9">
+        <v-progress-circular indeterminate size="64" color="primary">Loading..</v-progress-circular>
+    </v-overlay>
 </div>
 </template>
 
@@ -76,6 +78,7 @@ export default {
             user: Auth.user,
             response: false,
             form: {},
+    
         })
     },
     async created() {
@@ -83,6 +86,7 @@ export default {
     },
     methods: {
         async run() {
+            this.response = false
             if (!this.user) {
                 await this.$router.push(`/auth/login/`)
             } else {
@@ -106,17 +110,20 @@ export default {
         async updateProfile() {
             let check = await Web.confirm(`ยืนยันการแก้ไขข้อมูล`)
             if (check) {
+                this.response = false
                 let user = await Core.putHttp(`/api/account/userprofile/${this.user.id}/`, this.form)
                 if (user.id) {
                     await Auth.setUser()
                     await Web.alert(`แก้ไขข้อมูลสำเร็จ`)
                 }
                 await this.run()
+                
             }
         },
         async uploadProfile() {
             let check = await Web.confirm(`ยืนยันการแก้ไขข้อมูล`)
             if (check) {
+                     this.response = false
                 let form = new FormData()
                 form.append('image', this.form.file)
                 let user = await Core.putImageHttp(`/api/account/userprofile/${this.user.id}/`, form)
