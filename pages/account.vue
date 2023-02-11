@@ -31,8 +31,8 @@
             <v-btn @click="logout()" block color="error">ออกจากระบบ</v-btn>
         </div>
 
-        <div class="w-full " v-if="tab==2">
-            <v-card>
+        <div class="w-full pt-4" v-if="tab==2">
+            <v-card outlined>
                 <v-card-text>
                     <Payout-Package></Payout-Package>
                 </v-card-text>
@@ -43,8 +43,8 @@
             </v-card>
 
         </div>
-        <div v-if="tab==3">
-            <v-card>
+        <div class="w-full pt-4"  v-if="tab==3">
+            <v-card outlined>
                 <v-card-text>
                     <Class-Register></Class-Register>
                 </v-card-text>
@@ -82,12 +82,19 @@ export default {
         })
     },
     async created() {
+       try {
+        await Auth.setUser();
+        this.user = Auth.user
         await this.run()
+       } catch (error) {
+            await this.$router.push(`/auth/login/`) 
+       }    
     },
     methods: {
         async run() {
             this.response = false
-            if (!this.user) {
+            let user = await Auth.checkUser();
+            if (!user) {
                 await this.$router.push(`/auth/login/`)
             } else {
                 if (this.$route.query.tab) {

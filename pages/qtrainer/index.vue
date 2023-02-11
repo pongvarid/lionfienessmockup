@@ -1,6 +1,6 @@
 <template>
     <div class="p-6 flex flex-col">
-        <div class="text-2xl font-semibold">{{$l(`การให้คะแนนฟิตเนส`,`You cannot enter because your course has expired.`)}}</div>
+        <div class="text-2xl font-semibold">{{$l(`การให้คะแนนฟิตเนส Trainer`,`Trainer Ratings`)}}</div>
         <v-form ref="form" v-if="response">
             <div v-for="q,i in questions" :key="i" class="mt-6">
                 <h2 class="font-semibold">{{q.name}}</h2>

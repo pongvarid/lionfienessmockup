@@ -1,7 +1,7 @@
 <template>
 <div v-if="response">
     <h2 class="font-semibold text-xl">ประวัติการลงทะเบียน</h2>
- 
+    <span>สามารถลงทะเบียนเพิ่มเติมได้จากหน้าปฏิทิน</span>
     <div class="p-1 mt-4" v-for="course,i in courses" :key="i">
         <v-card class="rounded-lg" v-if="course.course_data" @click="$router.push(`/class/${course.course_data.id}/`)"> 
 
