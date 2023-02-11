@@ -59,21 +59,41 @@
     <v-bottom-sheet class="rounded" v-model="sheet" inset>
         <v-sheet class="text-center" style="z-index:9999;">
             <div class="my-3 pb-8" v-if="chooseClass">
+               
                 <div v-if="user && mytier">
-                    <div class="p-2 flex flex-col items-center" v-if="chooseClass.status">
-                        <h2 class="text-2xl font-semibold mt-4">{{chooseClass.course_name}}</h2>
-                        <img v-if="chooseClass.course_image" class="mt-4 w-40 h-40 rounded-full contain animate__animated animate__infinite infinite animate__pulse" :src="$url+chooseClass.course_image" alt="">
-                        <v-avatar v-else size="120" color="blue" class="mt-4 animate__animated animate__infinite infinite animate__pulse">
-                            {{chooseClass.course_name}}
-                        </v-avatar> <br>
-                        <!-- <img class="w-60" src="@/assets/images/v2/002-workout.png" alt=""> -->
-                        <v-btn @click="storeClass()" depressed class="m-4 " large block color="primary"><span class="capitalize text-base">{{$l(`ลงทะเบียนเข้าคลาสนี้`,`Register this class`)}}</span></v-btn>
-                    </div>
-                    <div class="p-2 flex flex-col items-center" v-else>
-                        <img class="w-60 mt-2" src="@/assets/images/v3/016-rejected.png" alt="">
-                        <h2 class="text-2xl font-semibold mt-4">{{$l(`จำนวนครั้งในการจองของคุณเต็มแล้ว`,`Your repetitions are full`)}}</h2>
-                        <span>{{$l(`เพื่อให้ใช้งานระบบการจองต่อได้ กรุณาต่ออายุสมาชิก หรือ ติดต่อผู้ดูแลระบบ`,`In order to continue using the booking system Please renew your membership or contact the administrator.`)}}</span>
-                        <v-btn @click="$router.push(`/account/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`ไปที่หน้าโปรไฟล์`,`Go to profile page`)}}</span></v-btn>
+                     <div v-if="mytier.status == 1">
+                        <div class="p-2 flex flex-col items-center" v-if="chooseClass.status">
+                            <h2 class="text-2xl font-semibold mt-4">{{chooseClass.course_name}}</h2>
+                            <img v-if="chooseClass.course_image" class="mt-4 w-40 h-40 rounded-full contain animate__animated animate__infinite infinite animate__pulse" :src="$url+chooseClass.course_image" alt="">
+                            <v-avatar v-else size="120" color="blue" class="mt-4 animate__animated animate__infinite infinite animate__pulse">
+                                {{chooseClass.course_name}}
+                            </v-avatar> <br>
+                            <!-- <img class="w-60" src="@/assets/images/v2/002-workout.png" alt=""> -->
+                            <v-btn @click="storeClass()" depressed class="m-4 " large block color="primary"><span class="capitalize text-base">{{$l(`ลงทะเบียนเข้าคลาสนี้`,`Register this class`)}}</span></v-btn>
+                        </div>
+                        <div class="p-2 flex flex-col items-center" v-else>
+                            <img class="w-60 mt-2" src="@/assets/images/v3/016-rejected.png" alt="">
+                            <h2 class="text-2xl font-semibold mt-4">{{$l(`จำนวนครั้งในการจองของคุณเต็มแล้ว`,`Your repetitions are full`)}}</h2>
+                            <span>{{$l(`เพื่อให้ใช้งานระบบการจองต่อได้ กรุณาต่ออายุสมาชิก หรือ ติดต่อผู้ดูแลระบบ`,`In order to continue using the booking system Please renew your membership or contact the administrator.`)}}</span>
+                            <v-btn @click="$router.push(`/account/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`ไปที่หน้าโปรไฟล์`,`Go to profile page`)}}</span></v-btn> 
+                        </div>
+                     </div>
+                     <div v-else>
+                        <div class="p-2 flex flex-col items-center">
+                            <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
+                            <h2 class="text-2xl font-semibold mt-4">{{$l(`ไม่สามารถเข้าถึงได้`,`Inaccessible`)}}</h2>
+                            <span>{{$l(`ยังไม่ได้สมัครสมาชิก Fitness หรือ ความเป็นสมาชิกอาจหมดอายุแล้ว กรุณา สมัครเป็นสมาชิกกับ Fitness หรือ ต่ออายุ`,`Don't have a Fitness subscription yet or membership may have expired. Please subscribe to Fitness or renew.`)}}</span>
+                            <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
+    
+                        </div>
+                     </div> 
+                </div>
+                <div v-else-if="user && !mytier">
+                    <div class="p-2 flex flex-col items-center">
+                        <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
+                        <h2 class="text-2xl font-semibold mt-4">{{$l(`ยังไม่ได้สมัครสมาชิก Fitness`,`Register Fitness First`)}}</h2>
+                        <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม สมัครเป็นสมาชิกกับ Fitness`,`In order to use the application comprehensively Become a Fitness Member.`)}}</span>
+                        <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
 
                     </div>
                 </div>
