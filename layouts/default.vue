@@ -10,10 +10,9 @@
           <v-btn @click="logout()" color="orange">ออกจากระบบ</v-btn>
         </div>
     </v-overlay>
-    <!-- <v-app-bar flat color="bgbar"> 
- 
-    </v-app-bar> -->
+
     <nuxt class="bg" v-if="response" />
+    
     <Core-Menu></Core-Menu>
 
 </v-app>
@@ -38,6 +37,7 @@ export default {
         return {
             bands: false,
             response:true,
+            mytier:{},
         }
     },
     async created() {
@@ -64,6 +64,7 @@ export default {
             await this.$router.push(`/auth/login/`)
             await location.reload()
         },
+    
     }
 
 }

@@ -84,7 +84,7 @@ export default {
                 })
                 if(checkout.id){
                     await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
-                    await this.$router.go(-1)
+                    await this.$router.replace(`/account?tab=2`)
                 } 
             }
         },

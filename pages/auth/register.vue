@@ -15,12 +15,12 @@
                         <a @click="$router.push(`/auth/login/`)" href="javascript:void(0)" class="font-semibold"> {{$l(`เข้าสู่ระบบ`,`Login`)}} </a></p>
                 </div>
                 <v-stepper-step step="1">
-                    กรุณาตั้งรหัสผ่าน
+                    ข้อมูลการเข้าสู่ระบบ
                 </v-stepper-step>
                 <v-stepper-content step="1">
                     <v-form ref="login">
                         <div class="pt-2">
-                            <v-text-field disabled v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`รหัสสมาชิก`,`User Code`)" outlined dense></v-text-field>
+                            <v-text-field   v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`รหัสสมาชิก`,`User Code`)" outlined dense></v-text-field>
                             <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                             <v-text-field type="password" v-model="form.password_confirm" :rules="rules" color="#4ade80" :label="$l(`ยืนยันรหัสผ่าน`,`Confirm Password`)" outlined dense></v-text-field>
                         </div>

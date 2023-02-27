@@ -28,3 +28,7 @@ Vue.prototype.$2date =  (date1:any, date2:any,output:any='days')=> {
     let diff = d2.diff(d1, output)
     return diff
 }
+
+Vue.prototype.$v = {
+    "req": (v:any)=> !!v || 'Field is required',
+}

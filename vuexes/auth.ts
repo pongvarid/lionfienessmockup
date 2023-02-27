@@ -114,12 +114,12 @@ class AuthModule extends VuexModule {
             this.datePer = Number(((count / 100) * this.mytier.days).toFixed(0))
             this.dateCount = count 
             await this.loadMyHistory()
-            if(count < 3 && count > 0){
-                await Web.alert(`สมาชิกใกล้หมดอายุแล้ว`,'info',`คุณมีเวลาเหลืออีก ${count} วัน กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
-            }else if(count ==0 && this.user.in_class==true){
-                await Web.alert(`หมดอายุแล้ว`,'info',`กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
-                await this.switchUser(false)
-            }
+            // if(count < 3 && count > 0){
+            //     await Web.alert(`สมาชิกใกล้หมดอายุแล้ว`,'info',`คุณมีเวลาเหลืออีก ${count} วัน กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
+            // }else if(count ==0 && this.user.in_class==true){
+            //     await Web.alert(`หมดอายุแล้ว`,'info',`กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
+            //     await this.switchUser(false)
+            // }
         }else{
            // await Web.alert(`ยังไม่ได้ยืนยันตัวตน`,'info',`กรุณาติดต่อฟิตเนส เพื่อดำเนินการลำดับถัดไป` )
         }

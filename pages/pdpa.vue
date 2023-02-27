@@ -1,31 +1,43 @@
 <template>
-    <div class="h-screen">
-        <div class="p-6">
-            <center>
-                <img class="h-40" src="@/assets/images/v3/005-certificate.png" alt="">
-            </center>
-            <center><h2 class="font-semibold text-xl">{{data.name}}</h2></center>
-            <div class="mt-4" v-html="data.detail"> 
-            </div>
-        </div>
+<div class="h-screen">
+    <div class="p-6">
+        <center>
+            <img class="h-40" src="@/assets/images/v3/005-certificate.png" alt="">
+        </center>
+        <div class="text-2xl mt-6">{{$l("ข้อตกลงและเงื่อนไขการใช้งาน","Terms of Use")}}</div>
+        <div class="text-sm mt-2">{{$l("เมื่อท่านเข้าใช้งานเว็บไซต์นี้ หรือใช้บริการของเรา หมายถึงท่านยอมรับข้อตกลงและเงื่อนไขการใช้งานนี้ทั้งหมด","When you access this website or use our services means you accept all terms and conditions of use")}}</div>
+        <br>
+        <v-expansion-panels v-model="tab"     >
+            <v-expansion-panel v-for="(item,i) in data" :key="i">
+                <v-expansion-panel-header>
+                    <h2 class="font-semibold">{{ item.name }}</h2>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <div style="font-size:14px;" v-html="item.detail"> 
+                    </div>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
-    </template>
+</div>
+</template>
+
     
-    <script>
-    export default {
-        data: () => ({
-            data: {},
-        }),
-        async created() {
-            let data = await this.$core.getHttp(`/api/fitness/pdpa/`)
-            if (data.length > 0) {
-                this.data = data[0]
-            }
-        }
+    
+<script>
+export default {
+    data: () => ({
+        data: {},
+        tab:[1,]
+    }),
+    async created() {
+        let data = await this.$core.getHttp(`/api/fitness/pdpa/`)
+        this.data = data
     }
-    </script>
+}
+</script>
     
-    <style>
+    
+<style>
     
     </style>
-    

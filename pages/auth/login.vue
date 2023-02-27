@@ -13,7 +13,7 @@
                     <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากสนใจเป็นสมัครสมาชิก?`,`If you want becoming a member?`)}}
                          <a @click="$router.push(`/auth/register/`)" href="javascript:void(0)" class="font-semibold ">{{$l(`สมัครสมาชิก`,`Register`)}}</a></p>
                     <v-form ref="login" class="mt-10">
-                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`ชื่อผู้ใชห้ หรือ รหัสมาชิก`,`Code or Username`)" outlined dense></v-text-field>
+                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`ชื่อผู้ใช้ หรือ รหัสมาชิก`,`Code or Username`)" outlined dense></v-text-field>
                         <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                         <div class="flex mt-2">
                             <v-spacer></v-spacer>

@@ -11,9 +11,28 @@
         <v-file-input accept="image/*;capture=camera" class="mt-2" label="อัพโหลดรูปโปรไฟล์" @change="uploadProfile()" v-model="form.file"></v-file-input>
 
         <v-toolbar class="w-full mt-4" flat>
+            <v-slide-group
+            multiple
+            show-arrows
+          >
+          <v-slide-item>
             <v-btn @click="tab=1" text :color="(tab==1)?'#eaab4d':''">ข้อมูลส่วนตัว</v-btn>
+          </v-slide-item>
+            <v-slide-item>
+            <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4d':''">ข้อมูลสมาชิก</v-btn>
+            </v-slide-item>
+            <v-slide-item>
+            <v-btn @click="tab=3" text :color="(tab==3)?'#eaab4d':''">คลาส</v-btn>
+            </v-slide-item>
+            <v-slide-item>
+            <v-btn @click="tab=4" text :color="(tab==4)?'#eaab4d':''">รหัสผ่าน</v-btn>
+            </v-slide-item>
+
+            <!-- <v-btn @click="tab=1" text :color="(tab==1)?'#eaab4d':''">ข้อมูลส่วนตัว</v-btn>
             <v-btn @click="tab=2" text :color="(tab==2)?'#eaab4d':''">ข้อมูลสมาชิก</v-btn>
             <v-btn @click="tab=3" text :color="(tab==3)?'#eaab4d':''">คลาส</v-btn>
+            <v-btn @click="tab=4" text :color="(tab==4)?'#eaab4d':''">รหัสผ่าน</v-btn> -->
+            </v-slide-group>
         </v-toolbar>
         
         <div class="w-full p-3" v-if="tab==1">
@@ -21,7 +40,7 @@
                 <v-text-field readonly v-model="user.username" label="รหัสสมาชิก" id="id"></v-text-field>
                 <v-text-field :value="form.first_name" label="ชื่อ" id="id"></v-text-field>
                 <v-text-field :value="form.last_name" label="นาสกุล" id="id"></v-text-field>
-                <v-text-field readonly v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
+                <v-text-field   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
                 <v-text-field v-model="form.tel" type="number" maxlength="8"  label="เบอร์โทร" id="id"></v-text-field>
                 <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn>
             </v-form>
@@ -53,6 +72,21 @@
                 </v-card-actions>
             </v-card>
         </div>
+        <div class="w-full pt-4"  v-if="tab==4">
+            <v-card outlined>
+                <v-card-text>
+                    <v-form ref="formPassword">
+                        <v-text-field v-model="formPassword.old_password" :rules="[$v.req]" type="password" label="รหัสผ่านเดิม" id="id"></v-text-field>
+                        <v-text-field v-model="formPassword.password" :rules="[$v.req]" type="password" label="รหัสผ่านใหม่" id="id"></v-text-field>
+                        <v-text-field v-model="formPassword.password_confirm" :rules="[$v.req]" type="password" label="ยืนยันรหัสผ่านใหม่" id="id"></v-text-field>
+                        <v-btn @click="changePassword()" depressed block color="info">{{$l("เปลี่ยนรหัสผ่าน","Change Password")}}</v-btn>
+                    </v-form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer> 
+                </v-card-actions>
+            </v-card>
+        </div>
 
     </div>
     <v-overlay v-else opacity="0.9">
@@ -78,6 +112,7 @@ export default {
             user: Auth.user,
             response: false,
             form: {},
+            formPassword: {},
     
         })
     },
@@ -122,6 +157,7 @@ export default {
                 if (user.id) {
                     await Auth.setUser()
                     await Web.alert(`แก้ไขข้อมูลสำเร็จ`)
+                    await location.reload();
                 }
                 await this.run()
                 
@@ -141,6 +177,30 @@ export default {
                 }
                 await this.run()
             }
+        },
+        async changePassword() {
+            let validate = await this.$refs.formPassword.validate()
+            if(validate){
+                let check = await Web.confirm(this.$l('ยืนยันการแก้ไขรหัสผ่าน',"Are you sure to change password?"))
+            if (check) {
+                this.response = false
+                let change = await Core.postHttp(`/api/auth/v2/change-password/`, this.formPassword)
+                if(change.old_password){
+                    await Web.alert(this.$l("รหัสผ่านเดิมไม่ถูกต้อง","Old Password is incorrect."),`error`)
+                }
+                else if(this.formPassword.password != this.formPassword.password_confirm){
+                    await Web.alert( this.$l('รหัสผ่านใหม่ไม่ตรงกัน',"Password is not match."),'error')
+                }
+
+                else if(change.detail){
+                    await Web.alert( this.$l('แก้ไขข้อมูลสำเร็จ',"Change Password Success"),'success')
+                }  
+                this.formPassword = {}
+                await this.run()
+                this.tab = 4
+            }
+            }
+          
         }
     }
 }
