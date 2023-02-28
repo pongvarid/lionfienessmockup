@@ -70,6 +70,15 @@
                 <img :src="`${$url}/${data.image}`" alt="">
                 <div v-html="data.detail" class="mt-4">
                 </div>
+                <div v-if="data.type == 2 ">  
+                    <div v-if="mytier">
+                        <v-btn color="success" block @click="$router.push(`/payout?old_id=${mytier.id}&pro_id=${data.tier}`)" >ไปที่ Package</v-btn>
+                    </div>
+                    <div v-else>
+                        <v-btn color="success" block @click="$router.push(`/payout?pro_id=${data.tier}`)" >ไปที่ Package</v-btn>
+                    </div> 
+                </div>
+               
             </v-card-text>
         </v-card>
     </v-dialog>
@@ -85,7 +94,7 @@ export default {
             lists: [],
             dialog: false,
             data: {},
-            mytier: {},
+            mytier: null,
             showAlert: false,
             showAlertTxt: '',
         }
@@ -107,18 +116,10 @@ export default {
         },
         async loadMyTier() {
            try {
-            let user = await this.$auth.getUser();
-            let myTiers = await this.$core.getHttp(`/api/payout/userpayout/?user=${user.id}`)
-            if (myTiers.length > 0) {
-                this.mytier = myTiers[myTiers.length - 1]
-                var start = moment().format('YYYY-MM-DD');
-                var end = moment(this.mytier.end_date);
-                let count = end.diff(start, 'days')
-                this.datePer = Number(((count / 100) * this.mytier.days).toFixed(0))
-                this.dateCount = count
-                await this.$auth.loadMyHistory()
-                console.log(count)
-                if (count < 3 && count > 0) {
+            let inTier = await this.$auth.loadMyTierDiff();
+            if(inTier.status){
+                this.mytier = inTier.data
+                if (inTier.count < 3 && inTier.count > 0) {
                     this.showAlert = true
                     this.showAlertTxt = `${this.$l("สมาชิกใกล้หมดอายุแล้ว คุณมีเวลาเหลืออีก","Membership is about to expire")} ${count} ${this.$l("วัน","days")} ${this.$l("กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป ","Please renew after it expires. so that it can continue to be used")}` 
                 } else if (count == 0 && this.user.in_class == true) {
@@ -127,10 +128,9 @@ export default {
                     await this.switchUser(false)
                 }else{
                     this.showAlert = false
-                }
+                } 
             } else {
-                this.showAlert = false
-                // await Web.alert(`ยังไม่ได้ยืนยันตัวตน`,'info',`กรุณาติดต่อฟิตเนส เพื่อดำเนินการลำดับถัดไป` )
+                this.showAlert = false 
             }
            } catch (error) {
             this.showAlert = false

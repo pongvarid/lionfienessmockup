@@ -144,6 +144,46 @@ class AuthModule extends VuexModule {
         } 
     }
 
+    async loadMyTierDiff() {
+        try {
+         let user = await this.getUser();
+         let myTiers = await Core.getHttp(`/api/payout/userpayout/?user=${user.id}`)
+         if (myTiers.length > 0) {
+            let in_tier = myTiers[myTiers.length - 1] 
+             var start = moment().format('YYYY-MM-DD');
+             var end = moment(in_tier.end_date);
+             let count = end.diff(start, 'days')  
+             await this.loadMyHistory()
+            return {
+                count: count,
+                per: Number(((count / 100) * in_tier.days).toFixed(0)),
+                stert: start,
+                end: end,
+                data: in_tier,
+                status: true
+            } 
+         } else {
+            return {
+                count: 0,
+                per: 0,
+                stert: 0,
+                end: 0,
+                data: null,
+                status: false
+            }
+         }
+        } catch (error) {
+            return  {
+                count: 0,
+                per: 0,
+                stert: 0,
+                end: 0,
+                data: null,
+                status: false
+            }
+        }
+     }
+
 
 }
 

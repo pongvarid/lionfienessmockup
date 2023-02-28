@@ -15,12 +15,12 @@
                         <a @click="$router.push(`/auth/login/`)" href="javascript:void(0)" class="font-semibold"> {{$l(`เข้าสู่ระบบ`,`Login`)}} </a></p>
                 </div>
                 <v-stepper-step step="1">
-                    ข้อมูลการเข้าสู่ระบบ
+                    {{$l(`ข้อมูลการเข้าสู่ระบบ`,`Login Information`)}}
                 </v-stepper-step>
                 <v-stepper-content step="1">
                     <v-form ref="login">
                         <div class="pt-2">
-                            <v-text-field   v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`รหัสสมาชิก`,`User Code`)" outlined dense></v-text-field>
+                            <v-text-field @change="form.tel = form.username"   v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`เบอร์โทร`,`Phone Number`)" outlined dense></v-text-field>
                             <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                             <v-text-field type="password" v-model="form.password_confirm" :rules="rules" color="#4ade80" :label="$l(`ยืนยันรหัสผ่าน`,`Confirm Password`)" outlined dense></v-text-field>
                         </div>
@@ -32,7 +32,7 @@
                 </v-stepper-content>
 
                 <v-stepper-step step="2">
-                    กรุณากรอกข้อมูลส่วนตัว
+                    {{$l(`ข้อมูลส่วนตัว`,`Personal Information`)}}
                 </v-stepper-step>
                 <v-stepper-content step="2">
                     <v-form ref="login">
@@ -44,7 +44,7 @@
                             <v-text-field disabled v-model="form.age" :rules="rules" color="#4ade80" :label="$l(`อายุ`,`Age`)" outlined dense></v-text-field>
                             <v-textarea outlined dense :label="$l(`ข้อมูลผู้ปกครอง`,`Parent information`)" :placeholder="$l(`ระบุข้อมูลการติดต่อผู้ปกครองของคุณ`,`Provide your parent's contact information.`)" :rules="[rules]" v-model="form.under18_detail" v-if="form.under18"></v-textarea>
                             <v-text-field v-model="form.email" :rules="rules" color="#4ade80" :label="$l(`อีเมล`,`Email`)" outlined dense></v-text-field>
-                            <v-text-field v-model="form.tel" type="number"  maxlength="8"  :rules="rules" color="#4ade80" :label="$l(`เบอร์`,`Phone Number`)" outlined dense></v-text-field>
+                            <v-text-field v-model="form.tel" type="number"  maxlength="8"  :rules="rules" color="#4ade80" :label="$l(`เบอร์โทรสำหรับติดต่อ`,`Phone Number (For Contact)`)" outlined dense></v-text-field>
                             <v-select item-text="name" item-value="id" :items="knows" v-model="form.how_to_know" outlined dense :label="$l(`คุณรู้จักเราจากที่ไหน`,`How did you know us?`)"></v-select>
 
                         </div>
@@ -57,13 +57,20 @@
                     </v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="3">
-                    กรุณากรอกเลขบัตรประจำตัวประชาชน
+                    {{$l(`ข้อมูลบัตรประชาชน`,`Indentity Information`)}}
                 </v-stepper-step>
                 <v-stepper-content step="3">
                     <div class="pt-2">
                         <v-form ref="login">
-                        <v-text-field v-model="form.card_number" :rules="rules" :counter="13" maxlength="13"  color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
-                        <v-file-input class="mt-2" label="อัพโหลดรูปภาพบัตรประชาชน" outlined dense  v-model="form.card_images"></v-file-input>
+                        <v-textarea outlined dense
+                            :label="$l(`ที่อยู่`,`Adderss`)"  
+                            v-model="form.adderss"
+                            :rules="rules"
+                            rows="2"
+                        ></v-textarea>
+                            <v-text-field v-model="form.card_number" :rules="rules" :counter="13" maxlength="13"  color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
+                        <v-file-input class="mt-2" :label="$l('อัพโหลดรูปภาพบัตรประชาชน','Upload a photo of your ID card')" outlined dense  v-model="form.card_images"></v-file-input>
+
                     </v-form>
                     </div>
                  
@@ -142,8 +149,7 @@ export default {
         this.response = true;
     },
     methods: {
-        async startup() {
-            this.form.username = await this.$core.generateCodeId();
+        async startup() { 
             let knows = await this.$core.getHttp(`/api/fitness/howknow/`)
             this.knows = _.filter(knows, function (o) {
                 return o.is_active == true
@@ -172,7 +178,27 @@ export default {
                 await this.$router.replace(`/auth/login/`)
             } else {
                 this.error = signin
-                await Web.alert(`สมัครสมาชิกไม่สำเร็จ`, 'error', `กรุณาตรวจสอบข้อมูลให้ถูกต้อง`)
+                let error = ''
+                if(signin.username){
+                    error = error + (signin.username).toString() + '\n'
+                }
+                if (signin.email) {
+                    error = error + (signin.email).toString() + '\n'
+                }
+                if (signin.card_number) {
+                    error = error + (signin.card_number).toString() + '\n'
+                }
+                if (signin.tel) {
+                    error = error + (signin.tel).toString() + '\n'
+                }
+                if (signin.password) {
+                    error = error + (signin.password).toString() + '\n'
+                }
+                if(signin.password_confirm){
+                    error = error + (signin.password_confirm).toString() + '\n'
+                }
+
+                await Web.alert(`สมัครสมาชิกไม่สำเร็จ`, 'error', `กรุณาตรวจสอบข้อมูลให้ถูกต้อง ${error}`)
             }
         },
         async sumAge() {

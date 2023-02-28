@@ -1,6 +1,6 @@
 <template>
 <div class="bg">
-    <section data-section-id="1" data-share="" data-category="pricing" class="pt-6 pb-32 bg overflow-hidden">
+    <section data-section-id="1" data-share="" data-category="pricing" class="pt-6 pb-32 bg overflow-hidden" v-if="response">
         <div class="container mx-auto ">
             <div class="max-w-xl">
                 <h2 class=" font-heading font-bold text-4xl sm:text-7xl " data-config-id="auto-txt-2-1">Packages</h2>
@@ -11,6 +11,7 @@
                 <div class="w-full md:w-1/3 mt-4" v-for="tier,index in tires" :key="index" @click="chooseTier(tier)">
                     <div class="relative pt-8 px-11 pb-10 bg-white rounded shadow-8xl shadow-lg">
                         <p v-if="tier.recommended" class="absolute right-2 top-2 font-heading px-2.5 py-1 text-base max-w-max bg-orange-100 uppercase tracking-px rounded-full text-gray-900" data-config-id="auto-txt-22-1">แนะนำ</p>
+                        <p v-if="tier.by_promotion" class="  right-2 top-2 font-heading px-2.5 py-1 text-base max-w-max bg-orange-500 uppercase tracking-px rounded-full text-white" data-config-id="auto-txt-22-1">โปรโมชัน</p>
                         <h3 class="mb-0.5 font-heading font-semibold text-lg text-gray-900" data-config-id="auto-txt-23-1">{{tier.name}}</h3>
                         <p class="mb-5 text-gray-600 text-sm" data-config-id="auto-txt-24-1">{{tier.description}}</p>
                         <div class="mb-9 flex">
@@ -29,7 +30,7 @@
                 </div>
             </div>
         </div>
-    </section> 
+    </section>
 
 </div>
 </template>
@@ -44,50 +45,116 @@ import {
 import {
     Core
 } from '@/vuexes/core'
+import moment from 'moment'
 export default {
     data: () => {
         return ({
-            tier:Auth.mytier,
+            tier: Auth.mytier,
             user: Auth.user,
             tires: [],
             response: false,
+            oldTier: null
         })
     },
     async created() {
-        if (!this.user) {
-            await this.$router.push(`/auth/login/`)
-        } else {
-            await this.run();
-            this.response = true;
+
+        try {
+            await this.$auth.setUser()
+            this.user = Auth.user 
+            if (!this.user) {
+                await this.$router.push(`/auth/register/`)
+            } else {
+                await this.run();
+                this.response = true;
+            }
+        } catch (error) {
+            await this.$router.push(`/auth/register/`)
         }
     },
     methods: {
         async run() {
             try {
                 await this.loadTires()
+                await this.getOldTierUser()
             } catch (error) {
 
             }
         },
         async loadTires() {
-            this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true`)
+            let proId = this.$route.query.pro_id
+            if (proId) {
+                this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=true&promotion=${proId}`)
+            } else {
+                this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=false`)
+            }
+        },
+        async getOldTierUser() {
+            try {
+                let oldTier = this.$route.query.old_id
+                if (oldTier) {
+                    this.oldTier = await Core.getHttp(`/api/payout/userpayout/${oldTier}/`)
+                }
+            } catch (error) {
+
+            }
         },
         async chooseTier(tier) {
-            let check = await Web.confirm(`ต้องการซื้อ ${tier.name} ?`,`คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้` )
-            if(check){
-               let checkout=  await Core.postHttp(`/api/payout/userpayout/`, {
+            if (this.oldTier) {
+                await this.chooseTierContinue(tier)
+            } else {
+                let check = await Web.confirm(`ต้องการซื้อ ${tier.name} ?`, `คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้`)
+                if (check) {
+                    let checkout = await Core.postHttp(`/api/payout/userpayout/`, {
                         "amount": tier.price,
-                        "days": tier.days, 
+                        "days": tier.days,
                         "status": 0,
                         "user": this.user.id,
                         "tier": tier.id
-                })
-                if(checkout.id){
-                    await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
-                    await this.$router.replace(`/account?tab=2`)
-                } 
+                    })
+                    if (checkout.id) {
+                        await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
+                        await this.$router.replace(`/account?tab=2`)
+                    }
+                }
             }
         },
+
+        async chooseTierContinue(tier) {
+            let check = await Web.confirm(`ต้องการซื้อ ${tier.name} ?`, `คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้ ต่อจาก ${this.oldTier.tier_name} จำนวนวันที่เหลือจะถูกรวมใน Package ใหม่`)
+            if (check) {
+                let endDateOldTier = moment(this.oldTier.end_date);
+                let startDateNewTier = moment();
+                let diff = endDateOldTier.diff(startDateNewTier, 'days');
+                let dayCount = (Number(diff) >= 0) ? Number(diff) : 0;
+                let checkout = await Core.postHttp(`/api/payout/userpayout/`, {
+                    "amount": tier.price,
+                    "days": tier.days + dayCount,
+                    "status": 0,
+                    "user": this.user.id,
+                    "tier": tier.id,
+                    "ect": `จำนวนวันของ Package ${tier.name} (${tier.days} วัน) จะถูกเพิ่มขึ้นอีก ${diff} วัน จาก Package ${this.oldTier.tier_name}`,
+                    "continue_course": true,
+                    "continue_course_date": moment().format('YYYY-MM-DD'),
+                    "continue_course_data": `ต่ออายุจาก Package ${this.oldTier.tier_name} (โดย Package เดิมจะสิ้นสุดวันที่ ${endDateOldTier.format("DD/MM/YYYY")} และ จำนวนวันที่เหลือจาก Package เดิม ${diff} วัน )`
+                })
+                if (checkout.id) {
+                    await this.changeOldTierStatus()
+                    await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
+                    await this.$router.replace(`/account?tab=2`)
+                }
+            }
+        },
+
+        async changeOldTierStatus() {
+            try {
+                let checkout = await Core.putHttp(`/api/payout/userpayout/${this.oldTier.id}/`, {
+                    "status": 2,
+                    "ect": `Package ถูกยกเลิกโดยระบบ เนื่องจากมีการสั่งซื้อ Package ใหม่`,
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
     }
 }

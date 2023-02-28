@@ -13,7 +13,7 @@
                     <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากสนใจเป็นสมัครสมาชิก?`,`If you want becoming a member?`)}}
                          <a @click="$router.push(`/auth/register/`)" href="javascript:void(0)" class="font-semibold ">{{$l(`สมัครสมาชิก`,`Register`)}}</a></p>
                     <v-form ref="login" class="mt-10">
-                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`ชื่อผู้ใช้ หรือ รหัสมาชิก`,`Code or Username`)" outlined dense></v-text-field>
+                        <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`เบอร์โทร`,`Phone Number`)" outlined dense></v-text-field>
                         <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                         <div class="flex mt-2">
                             <v-spacer></v-spacer>
@@ -74,7 +74,8 @@ export default {
             } else {
                 this.error = signin
                 await Web.switchLoad(false)
-                await Web.alert(`Please check your email for activate to login.`, 'info')
+                await Web.alert(`${this.$l("เกิดข้อผิดพลาด","Cannot Login")}`,'info', `${this.$l("ไม่สามารถเข้าสู่ระบบได้ กรุณาตรวจสอบชื่อผู้ใช้หรือรหัสผ่านอีกครั้ง หรือติดต่อผู้ดูแลระบบ ในกรณีที่ท่านสมัครสมาชิกใหม่ กรุณารอการยืนยันจากผู้ดูแลระบบ","can't log in Please check your username or password again. or contact the administrator In the event that you apply for a new member Please wait for confirmation from the administrator.")}`)
+ 
                 return false
             }
         }

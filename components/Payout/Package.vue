@@ -26,11 +26,12 @@
             <v-alert type="error" v-if="count < 1">
                 หมดอายุแล้ว กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป
             </v-alert>
-            <v-textarea rows="3" readonly class="mt-6" dense :value="`เป็นสมาชิก ${mytier.tier_name}`" label="สถานะสมาชิก" id="id"></v-textarea> 
-            <v-text-field disabled class="mt-6" dense :value="user.number_class" label="จำนวน Class ที่จองได้" id="id"></v-text-field>
+             <h2 class="font-semibold text-xl">Package {{`${mytier.tier_name}`}}</h2>
+            <v-text-field  readonly class="mt-6" dense :value="user.number_class" label="จำนวน Class ที่จองได้" id="id"></v-text-field>
             <v-progress-linear :value="datePer" height="15" striped :color="(datePer >=50)?'green':(datePer>=40)?'orange':'red'"></v-progress-linear> (เหลือ {{ count }} วัน)
-            <v-text-field disabled class="mt-6" dense :value="endDate" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
-            
+            <v-text-field  readonly class="mt-6" dense :value="endDate" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
+            <p>{{mytier.continue_course_data}}</p>
+            <v-btn block @click="$router.push(`/payout?old_id=${mytier.id}`)" color="success">สมัคร Package ใหม่/ต่ออายุสมาชิก</v-btn>
             
 
         </div>

@@ -38,8 +38,8 @@
         <div class="w-full p-3" v-if="tab==1">
             <v-form class="w-full mt-6" v-if="tab==1">
                 <v-text-field readonly v-model="user.username" label="รหัสสมาชิก" id="id"></v-text-field>
-                <v-text-field :value="form.first_name" label="ชื่อ" id="id"></v-text-field>
-                <v-text-field :value="form.last_name" label="นาสกุล" id="id"></v-text-field>
+                <v-text-field v-model="form.first_name" label="ชื่อ" id="id"></v-text-field>
+                <v-text-field v-model="form.last_name" label="นาสกุล" id="id"></v-text-field>
                 <v-text-field   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
                 <v-text-field v-model="form.tel" type="number" maxlength="8"  label="เบอร์โทร" id="id"></v-text-field>
                 <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn>
@@ -48,6 +48,10 @@
             <v-divider>
             </v-divider>
             <v-btn @click="logout()" block color="error">ออกจากระบบ</v-btn>
+            <br><br>
+
+            <v-btn block outlined @click="removeAccount()" color="error">{{$l("ลบบัญชีผู้ใช้","Remove Account")}}</v-btn>
+
         </div>
 
         <div class="w-full pt-4" v-if="tab==2">
@@ -122,7 +126,7 @@ export default {
         this.user = Auth.user
         await this.run()
        } catch (error) {
-            await this.$router.push(`/auth/login/`) 
+            await this.$router.push(`/auth/register/`) 
        }    
     },
     methods: {
@@ -130,7 +134,7 @@ export default {
             this.response = false
             let user = await Auth.checkUser();
             if (!user) {
-                await this.$router.push(`/auth/login/`)
+                await this.$router.push(`/auth/register/`)
             } else {
                 if (this.$route.query.tab) {
                     this.tab = this.$route.query.tab
@@ -201,6 +205,21 @@ export default {
             }
             }
           
+        },
+        async removeAccount(){
+            let check = await this.$web.confirm(this.$l('ยืนยันการลบบัญชีผู้ใช้',"Are you sure to delete account?"),this.$l("เมื่อลบบัญชีผู้ใช้แล้วจะไม่สามารถกู้คืนได้ และข้อมูลทั้งหมดจะถูกลบออกจากระบบ","When you delete account, you can't restore it. All data will be deleted from the system."))
+            if (check) {
+                this.response = false
+                let user = await Core.putHttp(`/api/account/userprofile/${this.user.id}/`,{
+                    is_active:false
+                })
+                if (user) {
+                    await Auth.logout()
+                    await this.$router.push(`/auth/login/`)
+                    await location.reload()
+                }
+                await this.run()
+            }
         }
     }
 }
