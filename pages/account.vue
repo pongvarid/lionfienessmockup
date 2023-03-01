@@ -38,15 +38,16 @@
         <div class="w-full p-3" v-if="tab==1">
             <v-form class="w-full mt-6" v-if="tab==1">
                 <h3 class="font-semibold mb-2">รหัสสมาชิก: {{user.fitness_id}}</h3>
-                <v-text-field readonly v-model="user.username" label="เบอร์โทร (สำหรับเข้าสู่ระบบ)" id="id"></v-text-field>
-                <v-text-field v-model="form.first_name" label="ชื่อ" id="id"></v-text-field>
-                <v-text-field v-model="form.last_name" label="นาสกุล" id="id"></v-text-field>
-                <v-text-field v-model="form.nick_name" label="ชื่อเล่น" id="id"></v-text-field>
-                <v-text-field v-model="form.email" label="อีเมล" id="id"></v-text-field>
-                <v-text-field v-model="form.address" label="ที่อยู่" id="id"></v-text-field>
-                <v-text-field @input="sumAge()"   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field> 
-                <v-text-field   v-model="form.age" type="number" label="อายุ" id="id"></v-text-field>
-                <v-text-field v-model="form.tel" type="number"   label="เบอร์โทร (สำหรับติดต่อ)" id="id"></v-text-field>
+                <v-text-field readonly v-model="user.username" label="เบอร์โทร (สำหรับเข้าสู่ระบบ)" ></v-text-field>
+                <v-text-field v-model="form.first_name" label="ชื่อ" ></v-text-field>
+                <v-text-field v-model="form.last_name" label="นาสกุล" ></v-text-field>
+                <v-text-field v-model="form.nick_name" label="ชื่อเล่น" ></v-text-field>
+                <v-text-field v-model="form.card_number" label="เลขบัตรประชาชน" ></v-text-field>
+                <v-text-field v-model="form.email" label="อีเมล" ></v-text-field>
+                <v-textarea rows="2" v-model="form.address" label="ที่อยู่" ></v-textarea>
+                <v-text-field @input="sumAge()"   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" ></v-text-field> 
+                <v-text-field   v-model="form.age" type="number" label="อายุ" ></v-text-field>
+                <v-text-field v-model="form.tel" type="number"   label="เบอร์โทร (สำหรับติดต่อ)" ></v-text-field>
                 <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn> 
             </v-form>
             <br>
@@ -85,9 +86,9 @@
             <v-card outlined>
                 <v-card-text>
                     <v-form ref="formPassword">
-                        <v-text-field v-model="formPassword.old_password" :rules="[$v.req]" type="password" label="รหัสผ่านเดิม" id="id"></v-text-field>
-                        <v-text-field v-model="formPassword.password" :rules="[$v.req]" type="password" label="รหัสผ่านใหม่" id="id"></v-text-field>
-                        <v-text-field v-model="formPassword.password_confirm" :rules="[$v.req]" type="password" label="ยืนยันรหัสผ่านใหม่" id="id"></v-text-field>
+                        <v-text-field v-model="formPassword.old_password" :rules="[$v.req]" type="password" label="รหัสผ่านเดิม" ></v-text-field>
+                        <v-text-field v-model="formPassword.password" :rules="[$v.req]" type="password" label="รหัสผ่านใหม่" ></v-text-field>
+                        <v-text-field v-model="formPassword.password_confirm" :rules="[$v.req]" type="password" label="ยืนยันรหัสผ่านใหม่" ></v-text-field>
                         <v-btn @click="changePassword()" depressed block color="info">{{$l("เปลี่ยนรหัสผ่าน","Change Password")}}</v-btn>
                     </v-form>
                 </v-card-text>
@@ -146,16 +147,8 @@ export default {
                     this.tab = this.$route.query.tab
 
                 }
-                this.form.first_name = this.user.first_name
-                this.form.last_name = this.user.last_name
-                this.form.tel = this.user.tel
-                this.form.birth_date = this.user.birth_date
-                this.form.age = this.user.age
-                this.form.address = this.user.address
-                this.form.email = this.user.email
-                this.form.username = this.user.username
-                this.form.nick_name = this.user.nick_name
-
+                this.form = this.user
+                delete this.form.password
                 this.response = true;
             }
         },
