@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="rounded-lg" v-for="(data,i) in classes" :key="i" @click="$router.push(`/class/${data.id}/`)">
+    <v-card class="rounded-lg mt-4" v-for="(data,i) in classes" :key="i" @click="$router.push(`/class/${data.id}/`)">
         <img class="h-32 w-full" style="object-fit: cover;" :src="`${$url}/${data.image_1}`" alt="">
         <v-card-actions>
               <span class="font-semibold">{{data.name}}</span>

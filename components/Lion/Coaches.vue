@@ -24,12 +24,20 @@ export default {
     methods:{
         async run(){
             let coaches = await Core.getHttp(`/api/account/coach/`)
+            console.log(coaches);
             if(coaches.length > 0){
                 coaches = _.map(coaches,(r)=>{
                     let obj = r
-                    obj.coach_name = r.user.nick_name
-                    obj.coach_img = r.user.image
-                    obj.coach_major = r.major.name
+                    if(r.user){
+                        let user = r.user
+                        obj.coach_name = user.nick_name
+                        obj.coach_img = user.image
+                    } 
+                    // if(r.major){
+                    //     let major = r.major
+                    //     obj.coach_major = major.name
+
+                    // } 
                     return obj
                 })
                 this.coaches = coaches

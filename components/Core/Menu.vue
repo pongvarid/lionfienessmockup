@@ -37,7 +37,7 @@
 
     </div>
 
-    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400" @click="$router.push('/account')">
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 mr-2" @click="$router.push('/account')">
         <span class="mdi mdi-account-circle text-xl"></span>
         <span class="text-xs">{{$l('โปรไฟล์','Profile')}}</span>
     </div>
@@ -47,7 +47,7 @@
             <img class="rounded-full" src="@/assets/images/Screenshot 2565-10-24 at 08.27.03.png" alt="">
         </div>
     </div>
-    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400  mr-4" @click="$router.push('/history')">
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400  ml-2" @click="$router.push('/history')">
         <span class="mdi mdi-clipboard-list text-xl"></span>
         <span class="text-xs">{{$l('ประวัติ','history')}}</span>
     </div>
