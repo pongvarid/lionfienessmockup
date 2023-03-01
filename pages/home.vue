@@ -4,7 +4,7 @@
         <v-toolbar color="black " flat>
             <img class="w-28" src="@/assets/images/logoh.png" alt="">
             <v-spacer></v-spacer>
-           <!-- <span class="text-white"> {{ $vuetify.breakpoint.width }} / {{ $vuetify.breakpoint.height }} </span> -->
+  
         </v-toolbar>
         <v-alert type="warning" v-if="showAlert" >
             {{ showAlertTxt }}
