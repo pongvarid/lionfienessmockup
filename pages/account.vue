@@ -37,12 +37,17 @@
         
         <div class="w-full p-3" v-if="tab==1">
             <v-form class="w-full mt-6" v-if="tab==1">
-                <v-text-field readonly v-model="user.username" label="รหัสสมาชิก" id="id"></v-text-field>
+                <h3 class="font-semibold mb-2">รหัสสมาชิก: {{user.fitness_id}}</h3>
+                <v-text-field readonly v-model="user.username" label="เบอร์โทร (สำหรับเข้าสู่ระบบ)" id="id"></v-text-field>
                 <v-text-field v-model="form.first_name" label="ชื่อ" id="id"></v-text-field>
                 <v-text-field v-model="form.last_name" label="นาสกุล" id="id"></v-text-field>
-                <v-text-field   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field>
-                <v-text-field v-model="form.tel" type="number" maxlength="8"  label="เบอร์โทร" id="id"></v-text-field>
-                <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn>
+                <v-text-field v-model="form.nick_name" label="ชื่อเล่น" id="id"></v-text-field>
+                <v-text-field v-model="form.email" label="อีเมล" id="id"></v-text-field>
+                <v-text-field v-model="form.address" label="ที่อยู่" id="id"></v-text-field>
+                <v-text-field @input="sumAge()"   v-model="form.birth_date" type="date" label="วัน/เดือน/ปี เกิด" id="id"></v-text-field> 
+                <v-text-field   v-model="form.age" type="number" label="อายุ" id="id"></v-text-field>
+                <v-text-field v-model="form.tel" type="number"   label="เบอร์โทร (สำหรับติดต่อ)" id="id"></v-text-field>
+                <v-btn @click="updateProfile()" block color="success">บันทึกข้อมูล</v-btn> 
             </v-form>
             <br>
             <v-divider>
@@ -100,6 +105,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import {
     Auth
 } from '@/vuexes/auth'
@@ -144,6 +150,11 @@ export default {
                 this.form.last_name = this.user.last_name
                 this.form.tel = this.user.tel
                 this.form.birth_date = this.user.birth_date
+                this.form.age = this.user.age
+                this.form.address = this.user.address
+                this.form.email = this.user.email
+                this.form.username = this.user.username
+                this.form.nick_name = this.user.nick_name
 
                 this.response = true;
             }
@@ -220,6 +231,13 @@ export default {
                 }
                 await this.run()
             }
+        },
+         async  sumAge() {
+            this.response = false
+            this.form.age = Number(this.$2date(this.form.birth_date, moment(), 'years'))
+            console.log(this.form.age)
+            this.form.under18 = (this.form.age < 18) 
+            this.response = true
         }
     }
 }
