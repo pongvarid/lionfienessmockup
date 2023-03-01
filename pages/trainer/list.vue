@@ -47,7 +47,7 @@ import moment from "moment";
 export default {
     data: () => {
         return {
-            req: v => !!v || "ฟิลล์นี้ต้องระบุข้อมูล",
+            req: v => !!v || "ฟิลด์ด์นี้ต้องระบุข้อมูล",
             items: [],
             form: {},
             core: Core,

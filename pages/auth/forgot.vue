@@ -42,7 +42,7 @@ export default {
     data: () => ({
         response: false,
         form: {},
-        rules: [v => !!v || 'ฟิลนี้ต้องจำเป็นต้องกรอก'],
+        rules: [v => !!v || 'ต้องจำเป็นต้องกรอกฟิลด์นี้'],
         lists: [],
         step: 0,
         formForgot: {

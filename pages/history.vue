@@ -2,6 +2,12 @@
   <div class="bg h-screen" v-if="response"> 
     <Class-Checkin v-if="user.is_coach"></Class-Checkin>
     <Class-History v-else></Class-History>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
+   <br>
   </div> 
 </template>
 

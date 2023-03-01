@@ -1,5 +1,5 @@
 <template>
-<div class="bg2 p-4">
+<div class="bg p-4">
     <h2 class="text-xl font-semibold">{{$l(`เมนู`,`Menu`)}}</h2> 
     <v-list nav class="mt-6" outlined color="transparent">
         <div v-if="logined">

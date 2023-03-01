@@ -1,18 +1,14 @@
 <template>
-<div class="bg2 pb-6 fixed w-full bottom-0 shadow-2xl" style="z-index:9999;">
-    <!-- 
-    <v-btn v-for="menu,menuIndex in menus" :key="menuIndex" :class="`navBtn ${(action(menu.name))?'navBtn-actions':''}`" @click="$router.push(menu.path)"  >
-        <span >{{menu.label}}</span>
-        <v-icon>{{menu.icon}}</v-icon>
-    </v-btn>  -->
-    <div class="  sticky bottom-2  p-5  p-2  flex items-center justify-between   shadow-3xl text-gray-400 rounded-2xl cursor-pointer">
+<!-- <div class="bg2 pb-0 fixed w-full bottom-0 shadow-2xl "  >
+ 
+    <div class="  sticky bottom-2  p-5  p-2  flex items-center justify-between   shadow-3xl text-gray-400 rounded-2xl cursor-pointer" style="z-index:9999999!important" >
         <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
             <span class="mdi mdi-calendar  text-xl"></span>
             <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
 
         </div>
 
-        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400   " @click="$router.push('/account')">
+        <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400" @click="$router.push('/account')">
             <span class="mdi mdi-account-circle text-xl"></span>
             <span class="text-xs">{{$l('โปรไฟล์','Profile')}}</span>
         </div>
@@ -31,14 +27,43 @@
             <span class="mdi mdi-apps  text-xl"></span>
             <span class="text-xs">{{$l('เมนู','Menu')}}</span>
         </div>
+    </div> 
+
+</div> -->
+<v-bottom-navigation class="p-2 pb-6" v-model="value" fixed height="80">
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
+        <span class="mdi mdi-calendar  text-xl"></span>
+        <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
+
     </div>
-</div>
+
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400" @click="$router.push('/account')">
+        <span class="mdi mdi-account-circle text-xl"></span>
+        <span class="text-xs">{{$l('โปรไฟล์','Profile')}}</span>
+    </div>
+    
+    <div class="flex flex-col items-center   " @click="$router.push('/home')">
+        <div  class="absolute bottom-5 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50  bg-black w-20 h-20 p-2 text-white transition ease-in duration-200 ">
+            <img class="rounded-full" src="@/assets/images/Screenshot 2565-10-24 at 08.27.03.png" alt="">
+        </div>
+    </div>
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400  mr-4" @click="$router.push('/history')">
+        <span class="mdi mdi-clipboard-list text-xl"></span>
+        <span class="text-xs">{{$l('ประวัติ','history')}}</span>
+    </div>
+   
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/menu')" >
+        <span class="mdi mdi-apps  text-xl"></span>
+        <span class="text-xs">{{$l('เมนู','Menu')}}</span>
+    </div>
+  </v-bottom-navigation>
 </template>
 
 <script>
 export default {
     data: () => {
         return ({
+            value:'',
             menus: [{
                     path: '/home',
                     icon: 'mdi-home',

@@ -130,7 +130,7 @@ export default {
         return ({
             response: false,
             form: {},
-            rules: [v => !!v || 'ฟิลนี้ต้องจำเป็นต้องกรอก'],
+            rules: [v => !!v || 'ต้องจำเป็นต้องกรอกฟิลด์นี้'],
             lists: [],
             knows: [],
             card_images:[],

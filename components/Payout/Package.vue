@@ -9,17 +9,18 @@
                     <v-icon size="60" color="green"  >mdi-check-circle</v-icon>
                     <br>
                     <h2 class="text-green-500 font-semibold text-xl">อัพโหลดหลักฐานการชำระเงิน เรียบร้อยแล้ว</h2>
-                    <span> <p>ขอบคุณที่ใช้บริการ กรุณารอการตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ จากนั้นจะสามารถใช้งานได้ต่อไป</p></span>
+                    <span class="mt-3"> <p>ขอบคุณที่ใช้บริการ กรุณารอการตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ จากนั้นจะสามารถใช้งานได้ต่อไป</p></span>
+                  
                     <v-btn depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="warning" class="mt-4">แก้ไขหลักฐานการชำระเงิน</v-btn>
                 </center>
             </div> 
             <div v-else>
                 <center>
-                    <v-icon size="60" color="orange"  >mdi-information</v-icon>
+                    <v-icon size="60" color="orange" class="mb-2x" >mdi-information</v-icon>
                     <br>
                     <v-btn depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="success">อัพโหลดหลักฐานการชำระเงิน</v-btn>
                 </center>
-                <p> หากคุณชำระเงินแล้วรอแอดมินตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ</p>
+                <p class="mt-3"> หากคุณชำระเงินแล้วรอแอดมินตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ</p>
             </div>
         </div>
         <div v-else-if="mytier.status == 1">
@@ -31,7 +32,7 @@
             <v-progress-linear :value="datePer" height="15" striped :color="(datePer >=50)?'green':(datePer>=40)?'orange':'red'"></v-progress-linear> (เหลือ {{ count }} วัน)
             <v-text-field  readonly class="mt-6" dense :value="endDate" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
             <p>{{mytier.continue_course_data}}</p>
-            <v-btn block @click="$router.push(`/payout?old_id=${mytier.id}`)" color="success">สมัคร Package ใหม่/ต่ออายุสมาชิก</v-btn>
+            <v-btn  v-if="count > 0" block @click="$router.push(`/payout?old_id=${mytier.id}`)" color="success">สมัคร Package ใหม่/ต่ออายุสมาชิก</v-btn>
             
 
         </div>
@@ -43,12 +44,12 @@
 
         <div v-if="mytier.status == 1">
             <v-divider> </v-divider> <br>
-            <v-btn v-if="count < 1" block @click="$router.push(`/payout/`)" color="success">ต่ออายุสมาชิก</v-btn>
+            <v-btn v-if="count < 1" block @click="$router.push(`/payout/`)" color="success">ต่ออายุสมาชิก</v-btn> 
         </div>
     </div>
     <div v-else>
-        <h2>เพื่อใช้งานส่วนต่างๆ ของระบบ คุณค้องเป็นสมาชิกกับ Fitness ก่อน</h2>
-        <v-btn block @click="$router.push(`/payout/`)" color="success">สมัครเป็นสมาชิกกับ Fitness</v-btn>
+        <h2>เพื่อใช้งานส่วนต่างๆ ของระบบ คุณต้องเป็นสมาชิกกับ Fitness ก่อน</h2>
+        <v-btn class="mt-5" block @click="$router.push(`/payout/`)" color="success">สมัครเป็นสมาชิกกับ Fitness</v-btn>
     </div>
 
 </div>

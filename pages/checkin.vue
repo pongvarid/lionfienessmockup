@@ -8,21 +8,23 @@
                 <v-spacer></v-spacer>
                 <v-switch @change="switchClass()" color="success" v-model="open"></v-switch> 
             </v-toolbar>
-            <div class="mt-2"> 
-                <v-toolbar class="mt-2" color="transparent" flat v-for="vuser,i in users" :key="i" @click="openShheet(vuser)">
+            <div  > 
+                <div class="flex bg-white m-2 mt-4 p-2 shadow-xl rounded"  v-for="vuser,i in users" :key="i" @click="openShheet(vuser)">
                     <v-avatar size="40">
                         <img :src="$url+vuser.image" alt="alt">
                     </v-avatar>
-                    <div class="ml-2">
-                        <h2 class="font-semibold">{{vuser.nick_name}} ({{vuser.username}}) </h2> 
-                        <span :class="(vuser.checkin)?`text-green-600`:`text-orange-600`">{{(vuser.checkin)?`เช็คชื่อเเล้ว`:`ยังไม่ได้เช็คชื่อ`}} </span>
-                        <div v-if="vuser.checkin">
+                    <div class="ml-2 bg-white">
+                        <h2 class="font-semibold text-green-500">{{vuser.nick_name}} ({{vuser.fitness_id}}) </h2> 
+                        <div class="flex">
+                            <span :class="(vuser.checkin)?`text-green-600`:`text-orange-600`">{{(vuser.checkin)?`เช็คชื่อเเล้ว`:`ยังไม่ได้เช็คชื่อ`}} </span>
+                        <div v-if="vuser.checkin" class="ml-2">
                             <span class="text-red-500" v-if="vuser.checkin.missing">(ขาด)</span>
                             <span class="text-blue-500" v-if="vuser.checkin.bypass">(ลา / ข้ามการเช็คชื่อ)</span>
                         </div>
+                        </div>
                     
                     </div>
-                </v-toolbar> 
+                </div> 
             </div>
         </div>
     </div>

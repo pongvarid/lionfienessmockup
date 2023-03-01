@@ -150,6 +150,7 @@ export default {
                 this.form = this.user
                 delete this.form.password
                 this.response = true;
+                console.log(this.form)
             }
         },
         async logout() {

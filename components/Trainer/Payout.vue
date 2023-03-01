@@ -8,7 +8,7 @@
             <div class="mb-9 flex">
                 <span class="mr-1 mt-0.5 font-heading font-semibold text-lg text-gray-900" data-config-id="auto-txt-25-1">฿</span>
                 <span class="font-heading font-semibold text-6xl sm:text-7xl text-gray-900" data-config-id="auto-txt-26-1">{{package.price}}</span> 
-                <span class="font-heading font-semibold self-end" data-config-id="auto-txt-27-1"> ({{package.count}} ครั้ง/{{package.day}} วัน) </span>
+                <span class="font-heading font-semibold self-end text-black" data-config-id="auto-txt-27-1"> ({{package.count}} ครั้ง/{{package.day}} วัน) </span>
             </div> 
             <p>
                 {{package.ect}}

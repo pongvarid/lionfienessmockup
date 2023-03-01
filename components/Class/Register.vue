@@ -4,8 +4,8 @@
     <span>สามารถลงทะเบียนเพิ่มเติมได้จากหน้าปฏิทิน</span>
     <div class="p-1 mt-4" v-for="course,i in courses" :key="i">
         <v-card class="rounded-lg" v-if="course.course_data" @click="$router.push(`/class/${course.course_data.id}/`)"> 
+            <v-img v-if="course.course_data.image_1" :src="$url+course.course_data.image_1" :width="auto" :height="160"></v-img>
 
-            <img v-if="course.course_data.image1" :src="$url+course.course_data.image1" alt="">
             <img v-else src="@/assets/images/c1.png" alt="">
             <v-card-actions>
                 <div class="w-full">

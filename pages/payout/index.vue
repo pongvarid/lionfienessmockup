@@ -23,6 +23,7 @@
                             <div class="absolute top-0 left-0 w-full h-full bg-gradient-green opacity-0 group-hover:opacity-50 p-1 rounded-lg transition ease-out duration-300"></div>
                             <v-btn block color="success">เลือก Package นี้</v-btn>
                         </div>
+                        <h4 class="mb-0.5 font-heading font-semibold text-lg text-gray-900" data-config-id="auto-txt-23-1">รายละเอียด:</h4>
                         <p>
                             {{tier.detail}}
                         </p>
@@ -83,7 +84,7 @@ export default {
         async loadTires() {
             let proId = this.$route.query.pro_id
             if (proId) {
-                this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=true&promotion=${proId}`)
+                this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=true&id=${proId}`)
             } else {
                 this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=false`)
             }

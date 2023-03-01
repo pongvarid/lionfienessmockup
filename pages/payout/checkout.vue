@@ -12,6 +12,7 @@
                     <center>
                         <img style="width:50%; height:50%;" :src="$url+payment.image" alt="">
                     </center>
+                    <br>
                     <span>
                         {{payment.detail}}
                     </span>

@@ -26,7 +26,7 @@
                         </div>
                     </v-form>
                     <v-btn color="success" depressed @click="e1 = 2">
-                        Continue
+                        {{ $l(`ถัดไป`,`Next`) }}
                     </v-btn>
 
                 </v-stepper-content>
@@ -50,10 +50,10 @@
                         </div>
                     </v-form>
                     <v-btn text depressed @click="e1 = 1">
-                        Back
+                        {{ $l(`ย้อนกลับ`,`Back`) }}
                     </v-btn>
                     <v-btn color="success" depressed @click="e1 = 3">
-                        Continue
+                        {{ $l(`ถัดไป`,`Next`) }}
                     </v-btn>
                 </v-stepper-content>
                 <v-stepper-step step="3">
@@ -64,7 +64,7 @@
                         <v-form ref="login">
                         <v-textarea outlined dense
                             :label="$l(`ที่อยู่`,`Adderss`)"  
-                            v-model="form.adderss"
+                            v-model="form.address"
                             :rules="rules"
                             rows="2"
                         ></v-textarea>
@@ -72,46 +72,28 @@
                         <v-file-input class="mt-2" :label="$l('อัพโหลดรูปภาพบัตรประชาชน','Upload a photo of your ID card')" outlined dense  v-model="form.card_images"></v-file-input>
 
                     </v-form>
+                    <div class="text-base font-semibold mt-6">{{$l("ข้อตกลงและเงื่อนไขการใช้งาน","Terms of Use")}}</div> 
+                    <v-expansion-panels v-model="tab" dense  >
+                        <v-expansion-panel v-for="(item,i) in data" :key="i">
+                            <v-expansion-panel-header>
+                                <h2 class="font-semibold">{{ item.name }}</h2>
+                            </v-expansion-panel-header>
+                            <v-expansion-panel-content>
+                                <div style="font-size:14px;" v-html="item.detail"> 
+                                </div>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
                     </div>
-                 
+                    <br>
                     <v-btn text @click="e1 = 2">
-                        Back
+                        {{ $l(`ย้อนกลับ`,`Back`) }}
                     </v-btn>
                     <v-btn depressed @click="handleForm()" color="success"> {{$l(`สมัครสมาชิก`,`Let's Register`)}} </v-btn>
 
                 </v-stepper-content>
             </v-stepper>
-            <!-- <v-card class="w-full mt-4">
-                <v-card-text>
-                    <p tabindex="0" class="t focus:outline-none text-2xl font-semibold leading-6  ">{{$l(`สมัครสมาชิก`,`Register`)}} </p>
-                    <p tabindex="0" class="font-semibold focus:outline-none text-sm mt-4 font-medium leading-none  ">{{$l(`หากเป็นสมาชิกอยู่แล้ว? `,`Already a member?`)}}
-                        <a @click="$router.push(`/auth/login/`)" href="javascript:void(0)" class="font-semibold"> {{$l(`เข้าสู่ระบบ`,`Login`)}} </a></p>
-                    <v-alert type="info" v-if="form.under18">
-                        <span>
-                            {{$l(`คุณอายุตำกว่า 18 ปี หลังจากที่คุณกดสมัครสมาชิก ทางผู้ดูแลระบบจะตรวจสอบข้อมูลของคุณ และจะเปิดให้ใช้งานภายใน 24 ชั่วโมง หลังจากได้รับอนุญาติจากผู้ปกครองแล้ว`,`You are under 18 years old after you subscribe. The administrator will verify your information. And will be activated within 24 hours after receiving parental permission.`)}}
-                        </span>
-                    </v-alert>
-                    <v-form ref="login" class="mt-10">
-                        <v-text-field disabled v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`รหัสสมาชิก`,`User Code`)" outlined dense></v-text-field>
-                        <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
-                        <v-text-field type="password" v-model="form.password_confirm" :rules="rules" color="#4ade80" :label="$l(`ยืนยันรหัสผ่าน`,`Confirm Password`)" outlined dense></v-text-field>
-                        <v-text-field v-model="form.first_name" :rules="rules" color="#4ade80" :label="$l(`ชื่อ`,`Name`)" outlined dense></v-text-field>
-                        <v-text-field v-model="form.last_name" :rules="rules" color="#4ade80" :label="$l(`นามสกุล`,`Surname`)" outlined dense></v-text-field>
-                        <v-text-field v-model="form.nick_name" :rules="rules" color="#4ade80" :label="$l(`ชื่อเล่น`,`Nickname`)" outlined dense></v-text-field>
-                        <v-text-field v-model="form.card_number" :rules="rules" color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
-                        <v-text-field @input="sumAge()" type="date" v-model="form.birth_date" :rules="rules" color="#4ade80" :label="$l(`วันเกิด`,`Birthday`)" outlined dense></v-text-field>
-                        <v-text-field disabled v-model="form.age" :rules="rules" color="#4ade80" :label="$l(`อายุ`,`Age`)" outlined dense></v-text-field>
-                        <v-textarea outlined dense :label="$l(`ข้อมูลผู้ปกครอง`,`Parent information`)" :placeholder="$l(`ระบุข้อมูลการติดต่อผู้ปกครองของคุณ`,`Provide your parent's contact information.`)" :rules="[rules]" v-model="form.under18_detail" v-if="form.under18"></v-textarea>
-                        <v-text-field v-model="form.email" :rules="rules" color="#4ade80" :label="$l(`อีเมล`,`Email`)" outlined dense></v-text-field>
-                        <v-text-field v-model="form.tel" :rules="rules" color="#4ade80" :label="$l(`เบอร์`,`Phone Number`)" outlined dense></v-text-field>
-                        <v-select item-text="name" item-value="id" :items="knows" v-model="form.how_to_know" outlined dense :label="$l(`คุณรู้จักเราจากที่ไหน`,`How did you know us?`)"></v-select>
-                        <div class="flex mt-2">
-                            <v-spacer></v-spacer>
-                            <v-btn @click="handleForm()" color="success"> {{$l(`สมัครสมาชิก`,`Let's Register`)}} </v-btn>
-                        </div>
-                    </v-form>
-                </v-card-text>
-            </v-card> -->
+             
 
         </div><br><br><br><br><br>
     </div>
@@ -137,15 +119,18 @@ export default {
         return ({
             response: false,
             form: {},
-            rules: [v => !!v || 'ฟิลนี้ต้องจำเป็นต้องกรอก'],
+            rules: [v => !!v || 'ต้องจำเป็นต้องกรอกฟิลด์นี้'],
             lists: [],
             knows: [],
             card_images:[],
              e1: 1,
+             data: {},
+            tab:[1,]
         })
     },
     async created() {
         await this.startup();
+        await this.loadPdpa();
         this.response = true;
     },
     methods: {
@@ -205,6 +190,10 @@ export default {
             this.form.age = this.$2date(this.form.birth_date, moment(), 'years')
             this.form.under18 = (this.form.age < 18)
 
+        },
+        async loadPdpa(){
+            let data = await this.$core.getHttp(`/api/fitness/pdpa/`)
+            this.data = data
         }
     },
     computed: {

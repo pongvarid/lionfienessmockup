@@ -155,7 +155,7 @@
                 html = html + 'export default {\n'
                 html = html + 'data: () => {\n'
                 html = html + 'return {\n'
-                html = html + 'req: v => !!v || "ฟิลล์นี้ต้องระบุข้อมูล",\n' 
+                html = html + 'req: v => !!v || "ฟิลด์ด์นี้ต้องระบุข้อมูล",\n' 
                 html = html + 'items: [],\n'
                 html = html + 'headers: [\n'
                 for (let index = 0; index < datas.length; index++) {

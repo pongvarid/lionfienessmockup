@@ -33,8 +33,8 @@
 }
 
 .bg{
-    background-color: var(--special-text-color); 
-}
+    background-color: var(--special-text-color)!important; 
+ }
 
 
 .bg2{

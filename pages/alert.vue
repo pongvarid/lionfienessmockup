@@ -14,6 +14,7 @@
                 </div>
             </div>
         </v-card>
+    
     </div>
     <v-dialog v-model="dialog" scrollable max-width="500px" transition="dialog-transition">
         <v-card>
@@ -24,6 +25,14 @@
             <v-card-text>
                 <img :src="`${$url}/${data.image}`" alt="">
                 <div v-html="data.detail" class="mt-4"> 
+                </div>
+                <div v-if="data.type == 2 ">  
+                    <div v-if="mytier">
+                        <v-btn color="success" block @click="$router.push(`/payout?old_id=${mytier.id}&pro_id=${data.tier}`)" >ไปที่ Package</v-btn>
+                    </div>
+                    <div v-else>
+                        <v-btn color="success" block @click="$router.push(`/payout?pro_id=${data.tier}`)" >ไปที่ Package</v-btn>
+                    </div> 
                 </div>
             </v-card-text>
          </v-card>
@@ -69,7 +78,21 @@ export default {
         async openDialog(data){
             this.data = data
             this.dialog = true
+        },
+        async loadMyTier() {
+           try {
+            let inTier = await this.$auth.loadMyTierDiff();
+            if(inTier.status){
+                this.mytier = inTier.data 
+            } else {
+                this.showAlert = false 
+            }
+           } catch (error) {
+            this.showAlert = false
+            console.log(error);
+           }
         }
+        
     }
 }
 </script>
