@@ -16,6 +16,7 @@
                         <v-text-field v-model="form.username" :rules="rules" color="#4ade80" :label="$l(`เบอร์โทร`,`Phone Number`)" outlined dense></v-text-field>
                         <v-text-field type="password" v-model="form.password" :rules="rules" color="#4ade80" :label="$l(`รหัสผ่าน`,`Password`)" outlined dense></v-text-field>
                         <div class="flex mt-2">
+                            <v-btn @click="$router.push('/auth/forgot')" text dense color="info"><span class="text-xs font-semibold text-capitalize">{{$l(`ลืมรหัสผ่าน`,`Forgot Password`)}}</span></v-btn>
                             <v-spacer></v-spacer>
                             <v-btn @click="handleForm()" color="success">{{$l(`เข้าสู่ระบบ`,`Login`)}}</v-btn>
                         </div>
