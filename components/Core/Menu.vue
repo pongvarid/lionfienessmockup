@@ -30,36 +30,10 @@
     </div> 
 
 </div> -->
-  <v-bottom-navigation class="" fixed height="80">
-    <v-btn  @click="$router.push('/calendar')" class="-mt-2 " >
-      <span class="text-xs">{{ $l("ปฏิทิน", "Calendar") }} </span>
-      <span class="mdi mdi-calendar text-xl"></span>
-    </v-btn>
+  <v-bottom-navigation class="p-2 pb-4" fixed height="80">
+ 
 
-    <v-btn  @click="$router.push('/account')" class="-mt-2">
-      <span class="text-xs">{{ $l("โปรไฟล์", "Profile") }}</span>
-      <span class="mdi mdi-account-circle text-xl"></span>
-    </v-btn>
-
-    <v-btn style="border-radius:100%;"  x-large class="shadow-xl  -mt-6"  @click="$router.push('/home')" color="black">
-       <img 
-          class="rounded-full h-14 w-14"
-          src="@/assets/images/Screenshot 2565-10-24 at 08.27.03.png"
-          alt=""
-        />
-    </v-btn>
-   
-    <v-btn @click="$router.push('/history')" class="-mt-2">
-      <span class="text-xs">{{$l('ประวัติ','history')}}</span>
-         <span class="mdi mdi-clipboard-list text-xl"></span> 
-    </v-btn>
-
-    <v-btn @click="$router.push('/menu')"  class="-mt-2"  >
-     <span class="text-xs">{{$l('เมนู','Menu')}}</span>
-          <span class="mdi mdi-apps  text-xl"></span> 
-    </v-btn>
-
-    <!-- <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
+    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
         <span class="mdi mdi-calendar  text-xl"></span>
         <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
 
@@ -83,7 +57,7 @@
     <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/menu')" >
         <span class="mdi mdi-apps  text-xl"></span>
         <span class="text-xs">{{$l('เมนู','Menu')}}</span>
-    </div> -->
+    </div>
   </v-bottom-navigation>
 </template>
 
