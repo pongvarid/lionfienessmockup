@@ -1,8 +1,8 @@
 <template>
 <center>
-    <v-btn small fab>
-        <img class="w-8" :src="icon" alt="" srcset="">
-    </v-btn>
+    
+    <v-img height="50" width="50"  class="rounded-full shadow-xl" :src="icon" alt="" srcset=""></v-img>
+ 
     <h2 class="xt mt-1 text-sm"  >{{text}}</h2>
 </center>
 </template>

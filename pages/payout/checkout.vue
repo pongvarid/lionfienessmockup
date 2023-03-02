@@ -20,7 +20,7 @@
             </v-tab-item>
         </v-tabs>
         <div class="mt-2 p-2">
-            <v-file-input label="อัพโหลดหลักฐานการจ่ายเงิน" @change="uploadSlip()" v-model="form.file"></v-file-input>
+            <v-file-input label="อัปโหลดหลักฐานการจ่ายเงิน" @change="uploadSlip()" v-model="form.file"></v-file-input>
 
         </div>
     </div>
@@ -62,7 +62,7 @@ export default {
             formData.append('image_slip', this.form.file);
             let upload = await Core.putHttp(`/api/payout/userpayout/${this.myTier.id}/`, formData)
             if (upload.id) {
-                await Web.alert(`อัพโหลดสลิปเรียบร้อย`)
+                await Web.alert(`อัปโหลดสลิปเรียบร้อย`)
                 await this.$router.push(`/account/?tab=2`)
             }
         }

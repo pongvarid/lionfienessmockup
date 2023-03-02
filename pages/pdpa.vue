@@ -1,5 +1,5 @@
 <template>
-<div class="h-screen">
+<div >
     <div class="p-6">
         <center>
             <img class="h-40" src="@/assets/images/v3/005-certificate.png" alt="">

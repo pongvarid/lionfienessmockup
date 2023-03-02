@@ -19,7 +19,7 @@
             </v-tab-item>
         </v-tabs>
         <div class="mt-2 p-2">
-            <v-file-input label="อัพโหลดหลักฐานการจ่ายเงิน" @change="uploadSlip()" v-model="form.file"></v-file-input>
+            <v-file-input label="อัปโหลดหลักฐานการจ่ายเงิน" @change="uploadSlip()" v-model="form.file"></v-file-input>
 
         </div>
     </div>
@@ -62,7 +62,7 @@ export default {
             formData.append('slip', this.form.file);
             let upload = await Core.putHttp(`/api/trainer/trainer-class/${this.$route.query.id}/`, formData)
             if (upload.id) {
-                await Web.alert(`อัพโหลดสลิปเรียบร้อย`)
+                await Web.alert(`อัปโหลดสลิปเรียบร้อย`)
                 await this.$emit(`reload`,true)
             }
         }

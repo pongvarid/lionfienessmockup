@@ -8,7 +8,7 @@
                 <center>
                     <v-icon size="60" color="green"  >mdi-check-circle</v-icon>
                     <br>
-                    <h2 class="text-green-500 font-semibold text-xl">อัพโหลดหลักฐานการชำระเงิน เรียบร้อยแล้ว</h2>
+                    <h2 class="text-green-500 font-semibold text-xl">อัปโหลดหลักฐานการชำระเงิน เรียบร้อยแล้ว</h2>
                     <span class="mt-3"> <p>ขอบคุณที่ใช้บริการ กรุณารอการตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ จากนั้นจะสามารถใช้งานได้ต่อไป</p></span>
                   
                     <v-btn depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="warning" class="mt-4">แก้ไขหลักฐานการชำระเงิน</v-btn>
@@ -18,7 +18,7 @@
                 <center>
                     <v-icon size="60" color="orange" class="mb-2x" >mdi-information</v-icon>
                     <br>
-                    <v-btn depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="success">อัพโหลดหลักฐานการชำระเงิน</v-btn>
+                    <v-btn depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="success">อัปโหลดหลักฐานการชำระเงิน</v-btn>
                 </center>
                 <p class="mt-3"> หากคุณชำระเงินแล้วรอแอดมินตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ</p>
             </div>

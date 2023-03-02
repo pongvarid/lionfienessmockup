@@ -1,18 +1,9 @@
-
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Albert+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
-/* *{
-    font-family: 'IBM Plex Sans Thai', sans-serif;
+ 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500&display=swap');
+*{
+    font-family: 'Noto Sans Thai', sans-serif;
 }
-.xt{
-    font-family: 'IBM Plex Sans Thai', sans-serif;
 
-}
-.xd{
-    font-family: 'IBM Plex Sans Thai', sans-serif;
-
-} */
 .font-outbold{
     font-weight: 900;
 }

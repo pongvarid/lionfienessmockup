@@ -14,9 +14,9 @@
     <v-main >
         <nuxt class="bg" v-if="response" />
     </v-main>
-    <v-footer absolute>
+ 
     <Core-Menu></Core-Menu>
-    </v-footer>
+    
      
         <br><br><br>
         

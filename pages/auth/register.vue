@@ -69,7 +69,7 @@
                             rows="2"
                         ></v-textarea>
                             <v-text-field v-model="form.card_number" :rules="rules" :counter="13" maxlength="13"  color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
-                        <v-file-input class="mt-2" :label="$l('อัพโหลดรูปภาพบัตรประชาชน','Upload a photo of your ID card')" outlined dense  v-model="form.card_images"></v-file-input>
+                        <v-file-input class="mt-2" :label="$l('อัปโหลดรูปภาพบัตรประชาชน','Upload a photo of your ID card')" outlined dense  v-model="form.card_images"></v-file-input>
 
                     </v-form>
                     <div class="text-base font-semibold mt-6">{{$l("ข้อตกลงและเงื่อนไขการใช้งาน","Terms of Use")}}</div> 

@@ -1,6 +1,6 @@
 <template>
 <center>
-    <img class="rounded-full w-20 h-20" :src="img" alt="">
+    <v-img class="rounded-full w-20 h-20" :src="img" alt=""></v-img>
     <h2 class="xt mt-1 text-base"  >{{text}}</h2>
 </center>
 </template>

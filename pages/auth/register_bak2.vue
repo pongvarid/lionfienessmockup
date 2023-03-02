@@ -63,7 +63,7 @@
                     <div class="pt-2">
                         <v-form ref="login">
                         <v-text-field v-model="form.card_number" :rules="rules" :counter="13" maxlength="13"  color="#4ade80" :label="$l(`เลขบัตรประจำตัวประชาชน`,`Indentity Code`)" outlined dense></v-text-field>
-                        <v-file-input class="mt-2" label="อัพโหลดรูปภาพบัตรประชาชน" outlined dense  v-model="form.card_images"></v-file-input>
+                        <v-file-input class="mt-2" label="อัปโหลดรูปภาพบัตรประชาชน" outlined dense  v-model="form.card_images"></v-file-input>
                     </v-form>
                     </div>
                  

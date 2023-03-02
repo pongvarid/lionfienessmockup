@@ -8,7 +8,7 @@
             <img v-else class="rounded-full h-40 w-40 mt-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHnAAxZw7h-1IEUa5LF2MmLteCLb46LkypKTf1xI&s" alt="">
 
         </center>
-        <v-file-input accept="image/*;capture=camera" class="mt-2" label="อัพโหลดรูปโปรไฟล์" @change="uploadProfile()" v-model="form.file"></v-file-input>
+        <v-file-input accept="image/*;capture=camera" class="mt-2" label="อัปโหลดรูปโปรไฟล์" @change="uploadProfile()" v-model="form.file"></v-file-input>
 
         <v-toolbar class="w-full mt-4" flat>
             <v-slide-group
