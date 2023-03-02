@@ -1,5 +1,5 @@
 <template>
-<!-- <div class="bg2 pb-0 fixed w-full bottom-0 shadow-2xl "  >
+  <!-- <div class="bg2 pb-0 fixed w-full bottom-0 shadow-2xl "  >
  
     <div class="  sticky bottom-2  p-5  p-2  flex items-center justify-between   shadow-3xl text-gray-400 rounded-2xl cursor-pointer" style="z-index:9999999!important" >
         <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
@@ -30,8 +30,36 @@
     </div> 
 
 </div> -->
-<v-bottom-navigation class="p-2 pb-6" v-model="value" fixed height="80">
-    <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
+  <v-bottom-navigation class="" fixed height="80">
+    <v-btn  @click="$router.push('/calendar')" class="-mt-2 " >
+      <span class="text-xs">{{ $l("ปฏิทิน", "Calendar") }} </span>
+      <span class="mdi mdi-calendar text-xl"></span>
+    </v-btn>
+
+    <v-btn  @click="$router.push('/account')" class="-mt-2">
+      <span class="text-xs">{{ $l("โปรไฟล์", "Profile") }}</span>
+      <span class="mdi mdi-account-circle text-xl"></span>
+    </v-btn>
+
+    <v-btn style="border-radius:100%;"  x-large class="shadow-xl  -mt-6"  @click="$router.push('/home')" color="black">
+       <img 
+          class="rounded-full h-14 w-14"
+          src="@/assets/images/Screenshot 2565-10-24 at 08.27.03.png"
+          alt=""
+        />
+    </v-btn>
+   
+    <v-btn @click="$router.push('/history')" class="-mt-2">
+      <span class="text-xs">{{$l('ประวัติ','history')}}</span>
+         <span class="mdi mdi-clipboard-list text-xl"></span> 
+    </v-btn>
+
+    <v-btn @click="$router.push('/menu')"  class="-mt-2"  >
+     <span class="text-xs">{{$l('เมนู','Menu')}}</span>
+          <span class="mdi mdi-apps  text-xl"></span> 
+    </v-btn>
+
+    <!-- <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/calendar')">
         <span class="mdi mdi-calendar  text-xl"></span>
         <span class="text-xs">{{$l('ปฏิทิน','Calendar')}} </span>
 
@@ -55,83 +83,79 @@
     <div class="flex flex-col items-center transition ease-in duration-200 hover:text-blue-400 " @click="$router.push('/menu')" >
         <span class="mdi mdi-apps  text-xl"></span>
         <span class="text-xs">{{$l('เมนู','Menu')}}</span>
-    </div>
+    </div> -->
   </v-bottom-navigation>
 </template>
 
 <script>
 export default {
-    data: () => {
-        return ({
-            value:'',
-            menus: [{
-                    path: '/home',
-                    icon: 'mdi-home',
-                    name: 'home',
-                    label: 'หน้าแรก',
-                },
-                {
-                    path: '/account',
-                    icon: 'mdi-account',
-                    name: 'account',
-                    label: 'ข้อมูลส่วนตัว',
-                },
-                {
-                    path: '/calendar',
-                    icon: 'mdi-calendar-blank',
-                    name: 'calendar',
-                    label: 'ปฏิทิน',
-                },
-                {
-                    path: '/history',
-                    icon: 'mdi-clipboard-list',
-                    name: 'history',
-                    label: 'ประวัติ',
-                },
-                {
-                    path: '/alert',
-                    icon: 'mdi-alert-circle',
-                    name: 'alert',
-                    label: 'ประกาศ',
-                },
-
-            ]
-        })
-    },
-    async mounted() {
-
-    },
-    methods: {
-        action(name) {
-            let route = this.$route.name
-            return (route == name)
+  data: () => {
+    return {
+      value: "",
+      menus: [
+        {
+          path: "/home",
+          icon: "mdi-home",
+          name: "home",
+          label: "หน้าแรก",
         },
-       
-
+        {
+          path: "/account",
+          icon: "mdi-account",
+          name: "account",
+          label: "ข้อมูลส่วนตัว",
+        },
+        {
+          path: "/calendar",
+          icon: "mdi-calendar-blank",
+          name: "calendar",
+          label: "ปฏิทิน",
+        },
+        {
+          path: "/history",
+          icon: "mdi-clipboard-list",
+          name: "history",
+          label: "ประวัติ",
+        },
+        {
+          path: "/alert",
+          icon: "mdi-alert-circle",
+          name: "alert",
+          label: "ประกาศ",
+        },
+      ],
+    };
+  },
+  async mounted() {},
+  methods: {
+    action(name) {
+      let route = this.$route.name;
+      return route == name;
     },
-    watch: {
-      async $route() {
-    
-      },
-    },
-
-
-}
+  },
+  watch: {
+    async $route() {},
+  },
+};
 </script>
 
 <style>
-.navBtn-actions>span,
+.navBtn-actions > span,
 .v-icon {
-    color: #eaab4d;
+  color: #eaab4d;
 }
 
-.navBtn>span {
-    letter-spacing: -0.3px;
-    font-size: 10px;
+.navBtn > span {
+  letter-spacing: -0.3px;
+  font-size: 10px;
 }
 
 .btnx {
-    background: rgb(238, 218, 89);
-    background: linear-gradient(0deg, rgba(238, 218, 89, 1) 0%, rgba(198, 119, 0, 1) 100%);
+  background: rgb(238, 218, 89);
+  background: linear-gradient(
+    0deg,
+    rgba(238, 218, 89, 1) 0%,
+    rgba(198, 119, 0, 1) 100%
+  );
 }
 </style>

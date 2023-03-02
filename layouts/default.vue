@@ -15,7 +15,8 @@
         <nuxt class="bg" v-if="response" />
     </v-main>
  
-    <Core-Menu></Core-Menu>
+   <Core-Menu></Core-Menu>
+ 
     
      
         <br><br><br>

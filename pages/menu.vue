@@ -150,8 +150,9 @@ export default {
     },
     methods: {
         async switchLang(lang) {
-            await localStorage.setItem('lang', lang)
-            await location.reload()
+              await localStorage.setItem('lang', lang)
+              await this.$router.push('/home')
+              location.reload()
         }
     },
     computed: {
