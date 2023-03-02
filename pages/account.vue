@@ -147,8 +147,17 @@ export default {
                     this.tab = this.$route.query.tab
 
                 }
-                this.form = this.user
-                delete this.form.password
+                this.form = {
+                    first_name: this.user.first_name,
+                    last_name: this.user.last_name,
+                    nick_name: this.user.nick_name,
+                    card_number: this.user.card_number,
+                    email: this.user.email,
+                    address: this.user.address,
+                    birth_date: this.user.birth_date,
+                    age: this.user.age,
+                    tel: this.user.tel,
+                }  
                 this.response = true;
                 console.log(this.form)
             }
@@ -162,6 +171,7 @@ export default {
             let check = await Web.confirm(`ยืนยันการแก้ไขข้อมูล`)
             if (check) {
                 this.response = false
+          
                 let user = await Core.putHttp(`/api/account/userprofile/${this.user.id}/`, this.form)
                 if (user.id) {
                     await Auth.setUser()
