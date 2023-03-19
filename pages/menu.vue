@@ -145,11 +145,11 @@
                 <h2 class="font-semibold text-xl">{{$l(`เบอร์โทร`,`Tel`)}}  </h2>
                 <p> 085 546 9622</p>
                  
-                <v-btn block href="https://lin.ee/w4JTyZH" target="_blank" color="success">Line @lionfitness.cnx</v-btn><br>
-                <v-btn block  href="https://www.facebook.com/lionfitness.cnx" target="_blank" color="primary">Facebook</v-btn><br>
-                <v-btn  block href="https://www.instagram.com/lionfitness_chiangmai/" target="_blank" color="error">Instagram</v-btn><br>
-                <v-btn block  href="https://www.tiktok.com/@lion.fitness.cnx" target="_blank" color="black" dark>TIKTOK</v-btn><br>
-                <v-btn block  href="https://www.google.com/maps/place/Lion+Fitness+Chiangmai/@18.76261,99.0204793,17z/data=!3m1!4b1!4m5!3m4!1s0x30da2f73087fde2b:0x409b1118dc3c804!8m2!3d18.76261!4d99.022668?shorturl=1" target="_blank" color="info">Map</v-btn>
+                <v-btn block @click="openLink('https://lin.ee/w4JTyZH')"   target="_blank" color="success">Line @lionfitness.cnx</v-btn><br>
+                <v-btn block  @click="openLink('https://www.facebook.com/lionfitness.cnx')" target="_blank" color="primary">Facebook</v-btn><br>
+                <v-btn  block @click="openLink('https://www.instagram.com/lionfitness_chiangmai/')" target="_blank" color="error">Instagram</v-btn><br>
+                <v-btn block  @click="openLink('https://www.tiktok.com/@lion.fitness.cnx')" target="_blank" color="black" dark>TIKTOK</v-btn><br>
+                <v-btn block  @click="openLink('https://www.google.com/maps/place/Lion+Fitness+Chiangmai/@18.76261,99.0204793,17z/data=!3m1!4b1!4m5!3m4!1s0x30da2f73087fde2b:0x409b1118dc3c804!8m2!3d18.76261!4d99.022668?shorturl=1')" target="_blank" color="info">Map</v-btn>
             </v-card-text> 
         </v-card>
     </v-dialog>
@@ -161,7 +161,7 @@ import {
     Web
 } from '@/vuexes/web'
 import {
-    Auth
+    Auth 
 } from '@/vuexes/auth'
 import {
     Core
@@ -193,6 +193,10 @@ export default {
               await localStorage.setItem('lang', lang)
               await this.$router.push('/home')
               location.reload()
+        },
+        openLink(link){
+            let url = encodeURI(link);
+             window.open(url, '_system', 'location=yes');
         }
     },
     computed: {

@@ -15,6 +15,10 @@ class AuthModule extends VuexModule {
     public dateCount:any = 0
     public myhistories:any = []
     public myhistoriesCount = 0
+
+    public myTierActiveList:any = [];
+    public myTierList:any = [];
+    public myTiers:any = [];
     public async setUser() {
         let user = await this.getUser(); 
         this.user = user 
@@ -47,8 +51,7 @@ class AuthModule extends VuexModule {
     }
     public async reToken() {
         axios.defaults.headers.common['Authorization'] = '';
-    }
-
+    } 
     public async storeToken(token: any) {
         console.log(token);
         axios.defaults.headers.common['Authorization'] = (token != null) ? `Token ${token}` : '';
@@ -105,24 +108,43 @@ class AuthModule extends VuexModule {
 
 
     public async loadMyTier(){
+      try {
         let myTiers = await Core.getHttp(`/api/payout/userpayout/?user=${this.user.id}`)
         if (myTiers.length > 0 ) {
-            this.mytier = myTiers[myTiers.length - 1]
-            var start = moment().format('YYYY-MM-DD');
+            this.myTiers = myTiers
+            let nowTier = _.filter(myTiers,   (o)=> { return o.status == 1 });
+            this.myTierActiveList = nowTier;  
+            this.mytier = (nowTier.length > 0)?nowTier[0]:myTiers[myTiers.length - 1]
+            console.log('mytier loading',this.mytier);
+            this.myTierList = _.filter(myTiers,(r)=>{
+                return r.id > this.mytier.id
+            })
+            console.log('mytier',this.mytier);
+            var start = moment()
             var end = moment(this.mytier.end_date);
-            let count = end.diff(start, 'days')
-            this.datePer = Number(((count / 100) * this.mytier.days).toFixed(0))
+            let count = (end.diff(start, 'days'))+1 
+            this.datePer = Number(((count / this.mytier.days) * 100).toFixed(0))
             this.dateCount = count 
-            await this.loadMyHistory()
-            // if(count < 3 && count > 0){
-            //     await Web.alert(`สมาชิกใกล้หมดอายุแล้ว`,'info',`คุณมีเวลาเหลืออีก ${count} วัน กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
-            // }else if(count ==0 && this.user.in_class==true){
-            //     await Web.alert(`หมดอายุแล้ว`,'info',`กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป`)
-            //     await this.switchUser(false)
-            // }
+            if(count == 0 && this.mytier.status == 1){
+                await this.closeTier()
+            }
+            await this.loadMyHistory() 
+            console.log(this.mytier);
+            return myTiers;
         }else{
-           // await Web.alert(`ยังไม่ได้ยืนยันตัวตน`,'info',`กรุณาติดต่อฟิตเนส เพื่อดำเนินการลำดับถัดไป` )
+            return null
         }
+      } catch (error) {
+        console.log('loadMyTier',error);
+      }
+        return null
+    }
+
+    async closeTier(){
+        await Core.putHttp(`/api/payout/userpayout/${this.mytier.id}/`, {
+                status: 2
+            })
+            await this.loadMyTier()
     }
 
     public async switchUser(data:boolean){

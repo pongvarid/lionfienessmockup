@@ -124,38 +124,27 @@ export default {
             let check = await Web.confirm(`ต้องการซื้อ ${tier.name} ?`, `คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้ ต่อจาก ${this.oldTier.tier_name} จำนวนวันที่เหลือจะถูกรวมใน Package ใหม่`)
             if (check) {
                 let endDateOldTier = moment(this.oldTier.end_date);
-                let startDateNewTier = moment();
-                let diff = endDateOldTier.diff(startDateNewTier, 'days');
-                let dayCount = (Number(diff) >= 0) ? Number(diff) : 0;
+                let startDateNewTier = moment(); 
                 let checkout = await Core.postHttp(`/api/payout/userpayout/`, {
                     "amount": tier.price,
-                    "days": tier.days + dayCount,
+                    "days": tier.days, 
+                    'start_date': endDateOldTier.format('YYYY-MM-DD'),
+                    'end_date': endDateOldTier.add(tier.days, 'days').format('YYYY-MM-DD'),
                     "status": 0,
                     "user": this.user.id,
                     "tier": tier.id,
-                    "ect": `จำนวนวันของ Package ${tier.name} (${tier.days} วัน) จะถูกเพิ่มขึ้นอีก ${diff} วัน จาก Package ${this.oldTier.tier_name}`,
+                    "ect": ` ต่ออายุจาก Package ${this.oldTier.tier_name}  สมัครวันที่ ${startDateNewTier.format("DD/MM/YYYY")} `,
                     "continue_course": true,
                     "continue_course_date": moment().format('YYYY-MM-DD'),
-                    "continue_course_data": `ต่ออายุจาก Package ${this.oldTier.tier_name} (โดย Package เดิมจะสิ้นสุดวันที่ ${endDateOldTier.format("DD/MM/YYYY")} และ จำนวนวันที่เหลือจาก Package เดิม ${diff} วัน )`
+                    "continue_course_data": `ต่ออายุจาก Package ${this.oldTier.tier_name} (โดย Package เดิมสิ้นสุดวันที่ ${endDateOldTier.format("DD/MM/YYYY")} )`
                 })
-                if (checkout.id) {
-                    await this.changeOldTierStatus()
+                if (checkout.id) { 
                     await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
                     await this.$router.replace(`/account?tab=2`)
                 }
             }
         },
-
-        async changeOldTierStatus() {
-            try {
-                let checkout = await Core.putHttp(`/api/payout/userpayout/${this.oldTier.id}/`, {
-                    "status": 2,
-                    "ect": `Package ถูกยกเลิกโดยระบบ เนื่องจากมีการสั่งซื้อ Package ใหม่`,
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
+ 
 
     }
 }
