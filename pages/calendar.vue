@@ -1,7 +1,14 @@
 <template>
 <div class="p-6 flex flex-col" v-if="response">
     <div class="text-2xl font-semibold">{{$l(`ปฏิทิน`,`Calendar`)}}</div>
-
+    <v-select
+        @change="changeWeek()"
+        :items="allweek" 
+        item-text="start_week_label"
+        return-object
+        v-model="nowWeek"
+        :label="$l(`ประจำสัปดาห์`,`Choose Week`)"
+    ></v-select> 
     <v-tabs icons-and-text class="pt-4">
         <v-tab v-for="day,index in raws" :key="index">
             <div class="pt-8 pb-8 flex flex-col">
@@ -137,7 +144,8 @@ export default {
         user: null,
         mytier: null,
         response: false,
-
+        nowWeek:{},
+        allweek:[], 
     }),
     async created() {
         try {
@@ -148,28 +156,76 @@ export default {
         await this.run()
     },
     methods: {
-        async run() {
-            try {
-
+        async getNowWeek(){
+            try { 
                 let res = await Core.getHttp(`/api/course/series/?is_active=true`)
-                if (res.length > 0) {
+                if (res.length > 0) { 
+                    let dataWeek = res[res.length-1]
+                    dataWeek.start_week_label = moment(dataWeek.start_week).format('DD/MM/YYYY')
+                    this.nowWeek =  dataWeek
                     let data = res[res.length - 1].data
                     this.raws = _.map(_.groupBy(data, 'days'), (value, key) => {
-                        return {
-
+                        return { 
                             days: key,
                             date_now: moment(value[value.length - 1].date_now).format('DD/MM/YYYY'),
                             day_en: value[value.length - 1].day_en,
                             day_th: value[value.length - 1].day_en,
                             data: _.orderBy(value, ['times'], ['asc'])
                         }
-                    })
+                    }) 
+                    
                 }
                 await this.getUser()
                 this.response = true
             } catch (error) {
                 console.log(error)
             }
+        },
+        async getAllWeek(){
+            try { 
+                if(this.nowWeek.id){
+                    let res = await Core.getHttp(`/api/course/series/`) 
+                 this.allweek = _.filter(res,(r)=>{
+                    let endDate = moment(r.start_week) 
+                    let startDate = moment(this.nowWeek.start_week) 
+                    return endDate.diff(startDate, 'days') >= 0
+                 })
+                this.allweek = _.orderBy(this.allweek, ['start_week'], ['desc'])
+                this.allweek = _.map(this.allweek, (r) => {
+                    return {
+                        ...r,
+                        start_week_label: moment(r.start_week).format('DD/MM/YYYY'), 
+                    }
+                })
+                }
+               
+            } catch (error) {
+                console.log(error)
+            }    
+        },
+        async changeWeek(){
+            try {
+                let dataWeek = this.nowWeek
+                console.log(dataWeek)
+                    dataWeek.start_week_label = moment(dataWeek.start_week).format('DD/MM/YYYY') 
+                    let data = dataWeek.data
+                    this.raws = _.map(_.groupBy(data, 'days'), (value, key) => {
+                        return { 
+                            days: key,
+                            date_now: moment(value[value.length - 1].date_now).format('DD/MM/YYYY'),
+                            day_en: value[value.length - 1].day_en,
+                            day_th: value[value.length - 1].day_en,
+                            data: _.orderBy(value, ['times'], ['asc'])
+                        }
+                    }) 
+                    await this.getUser()
+            } catch (error) {
+                
+            }
+        },
+        async run() {
+            await this.getNowWeek()
+            await this.getAllWeek()
         },
         async getUser(){
             try {
@@ -204,7 +260,7 @@ export default {
                 console.log(this.chooseClass.date_now)
                 let dateCount = this.$2date(moment().format('YYYY-MM-DD'), this.chooseClass.date_now)
                 console.log(dateCount)
-                if (dateCount > 2) {
+                if (dateCount <= 3) {
                     let form = {
                         "detail": "",
                         "user": this.user.id,
@@ -217,6 +273,10 @@ export default {
                         alert(this.$l(`จองคลาสเรียบร้อยแล้ว`, `Booked successfully`))
                         let update = await Core.putHttp(`/api/course/series-daily/${this.chooseClass.id}/`, {
                             remain: this.chooseClass.remain - 1
+                        })
+
+                        let update2 = await Core.putHttp(`/api/account/userprofile/${this.user.id}/`, {
+                            number_class: this.user.number_class - 1
                         })
 
                     } else {
@@ -246,7 +306,9 @@ export default {
                         let update = await Core.putHttp(`/api/course/series-daily/${data.id}/`, {
                             remain: data.remain + 1
                         })
-
+                        let update2 = await Core.putHttp(`/api/account/userprofile/${this.user.id}/`, {
+                            number_class: this.user.number_class + 1
+                        })
                     }
                     alert(this.$l(`ยกเลิกคลาสเรียบร้อยแล้ว`, `Cancel class successfully`))
                     await Auth.setUser();

@@ -1,7 +1,7 @@
 <template>
 <v-app  class="bg" >
     <div class="bg">
-        <v-overlay :value="bands" opacity="0.9">
+        <!-- <v-overlay :value="bands" opacity="0.9">
             <div class="p-4 flex flex-col items-center justify-center">
               <v-icon color="error" size="60">mdi-information</v-icon>
               <br>
@@ -10,7 +10,7 @@
               <br>
               <v-btn @click="logout()" color="orange">ออกจากระบบ</v-btn>
             </div>
-        </v-overlay>
+        </v-overlay> -->
     <v-main >
         <nuxt class="bg" v-if="response" />
     </v-main>
