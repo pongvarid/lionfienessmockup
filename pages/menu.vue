@@ -140,9 +140,9 @@
                 </v-btn>
             </v-card-title>
             <v-card-text>
-                <h2 class="font-semibold text-xl">{{$l(`ที่อยู่`,`Contact`)}}  </h2>
+                <h2 class="font-semibold text-xl">{{$l(`ที่อยู่`,`Address`)}}  </h2>
                 <p> 409 ถ.มงฟอร์ตวิลล่า ต.ท่าศาลา, Chiang Mai, Thailand </p>
-                <h2 class="font-semibold text-xl">{{$l(`เบอร์โทร`,`Contact`)}}  </h2>
+                <h2 class="font-semibold text-xl">{{$l(`เบอร์โทร`,`Tel`)}}  </h2>
                 <p> 085 546 9622</p>
                  
                 <v-btn block href="https://lin.ee/w4JTyZH" target="_blank" color="success">Line @lionfitness.cnx</v-btn><br>
