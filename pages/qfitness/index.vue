@@ -1,23 +1,32 @@
 <template>
-<div class="p-6 flex flex-col">
-    <div class="text-2xl font-semibold">{{$l(`การให้คะแนนฟิตเนส`,`Fitness Ratings`)}}</div>
-    <v-form ref="form" v-if="response">
-        <div v-for="q,i in questions" :key="i" class="mt-6">
-            <h2 class="font-semibold">{{q.name}}</h2>
-            <v-select :rules="[required]" :items="[1,2,3,4,5]" v-model="q.score" label="เลือกคะแนน"></v-select>
+<div >
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{$l(`การให้คะแนนฟิตเนส`,`Fitness Ratings`)}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+    <div class="p-6 flex flex-col">
+        <v-form ref="form" v-if="response">
+            <div v-for="q,i in questions" :key="i" class="mt-6">
+                <h2 class="font-semibold">{{q.name}}</h2>
+                <v-select :rules="[required]" :items="[1,2,3,4,5]" v-model="q.score" label="เลือกคะแนน"></v-select>
+            </div>
+            <v-toolbar color="transparent" flat>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="submit()" >ส่งข้อมูล</v-btn>
+            </v-toolbar>
+        </v-form>
+        <div v-else>
+         <center class="mt-6">
+            <img class="h-40" src="@/assets/images/v2/013-workout.png" alt="">
+            <h2 class="mt-4 font-semibold text-xl">{{$l(`ขอบคุณที่ร่วมเป็นส่วนหนึ่งกับเรา`,`Thank you for being a part of us.`)}} </h2>
+            <span>{{thank}}</span>
+         </center>
         </div>
-        <v-toolbar color="transparent" flat>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="submit()" >ส่งข้อมูล</v-btn>
-        </v-toolbar>
-    </v-form>
-    <div v-else>
-     <center class="mt-6">
-        <img class="h-40" src="@/assets/images/v2/013-workout.png" alt="">
-        <h2 class="mt-4 font-semibold text-xl">{{$l(`ขอบคุณที่ร่วมเป็นส่วนหนึ่งกับเรา`,`Thank you for being a part of us.`)}} </h2>
-        <span>{{thank}}</span>
-     </center>
     </div>
+ 
 
 </div>
 </template>

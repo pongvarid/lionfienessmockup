@@ -1,10 +1,16 @@
 <template>
 <div  >
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{$l("กฎของฟิตเนส","Fitness Rules")}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
     <div class="p-6">
         <center>
             <img class="h-40" src="@/assets/images/v3/015-online interview.png" alt="">
-        </center>
-        <div class="text-2xl mt-6">{{$l("กฎของฟิตเนส","Fitness Rules")}}</div> 
+        </center> 
         <br>
         <v-expansion-panels v-model="tab"     >
             <v-expansion-panel v-for="(item,i) in data" :key="i">

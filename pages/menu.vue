@@ -13,7 +13,7 @@
                         <v-list-item-title>{{$l(`โปรไฟล์`,`Profile`)}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item @click="$router.push(`/account/?tab=2`)">
+                <v-list-item @click="$router.push(`/account/?tab=1`)">
                     <v-list-item-icon>
                         <v-icon size="28">mdi-wallet-membership</v-icon>
                     </v-list-item-icon>
@@ -113,7 +113,7 @@
         <div >
             <h2 class="font-semibold">{{$l(`ข้อมูล`,`Information`)}}</h2>
             <v-list-item-group>
-                <v-list-item @click="dialogContact = true ">
+                <v-list-item @click="$router.push(`/about`)">
                     <v-list-item-icon>
                         <v-icon size="28">mdi-earth</v-icon>
                     </v-list-item-icon>

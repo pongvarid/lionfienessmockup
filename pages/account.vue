@@ -8,8 +8,8 @@
         <v-spacer></v-spacer>
     </v-toolbar>
     <div class="mb-24">
-        <div class=" flex flex-col " v-if="response"> 
-            <v-tabs>
+        <div class=" flex flex-col " v-if="response">  
+            <v-tabs v-model="tab">
                 <v-tab>
                     <span class="capitalize">{{$l("ข้อมูลส่วนตัว","Profile")}}</span>
                 </v-tab>
@@ -137,8 +137,7 @@ export default {
                 await this.$router.push(`/auth/register/`)
             } else {
                 if (this.$route.query.tab) {
-                    this.tab = this.$route.query.tab
-
+                    this.tab = Number(this.$route.query.tab)
                 }
                 this.form = {
                     first_name: this.user.first_name,

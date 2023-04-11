@@ -1,10 +1,16 @@
 <template>
 <div >
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{$l("ข้อตกลงและเงื่อนไขการใช้งาน","Terms of Use")}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
     <div class="p-6">
         <center>
             <img class="h-40" src="@/assets/images/v3/005-certificate.png" alt="">
-        </center>
-        <div class="text-2xl mt-6">{{$l("ข้อตกลงและเงื่อนไขการใช้งาน","Terms of Use")}}</div>
+        </center> 
         <div class="text-sm mt-2">{{$l("เมื่อท่านเข้าใช้งานเว็บไซต์นี้ หรือใช้บริการของเรา หมายถึงท่านยอมรับข้อตกลงและเงื่อนไขการใช้งานนี้ทั้งหมด","When you access this website or use our services means you accept all terms and conditions of use")}}</div>
         <br>
         <v-expansion-panels v-model="tab"     >
