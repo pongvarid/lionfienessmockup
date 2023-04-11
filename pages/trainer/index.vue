@@ -1,20 +1,26 @@
 <template>
-<div class="bg2 h-screen">
-
-    <div class="flex flex-col justify-center items-center p-4">
+<div class="bg2 h-screen"> 
+    <v-toolbar dark v-if="toolbar">
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{$l(`Trainer`,`Trainer`)}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+    <div   v-if="myClass">
+          <MeComponent   :classId="myClass.id"></MeComponent>
+    </div>
+    <div v-else class="flex flex-col justify-center items-center p-4">
         <img class="h-48 mt-16" src="@/assets/images/v2/017-workout.png" alt="">
         <h2 class="text-2xl font-semibold mt-6">{{$l(`บริการครูฝึก & Trainer`,`Trainer Service`)}}</h2>
         <center> <span>{{$l(`จัดการการออกกำลังกายของคุณอย่างมีประสิทธิภาพ กับ Trainer ของเราที่มีประสบการณ์และ ความเชี่ยวชาญ`,`Manage your workouts efficiently with our Trainer.`)}}</span>
-        </center>
-        <center class="mt-6 w-full">
-            <div v-if="myClass">
-                <v-btn @click="$router.push(`/trainer/me/?id=${myClass.id}`)" class="m-2" x-large block depressed>{{$l(`Trainer ของฉัน`,`My Trainer`)}}</v-btn>
-            </div>
-            <div v-else>
-                <v-btn @click="$router.push(`/trainer/list/`)" class="m-2" x-large block depressed>{{$l(`ค้นหา Trainer`,`Searching Trainer`)}}</v-btn>
-            </div>
+        </center> 
+        <div class="mt-6 w-full">
+            <center>nter>
+                <v-btn @click="$router.push(`/trainer/list/`)" class="m-2" x-large block depressed>{{$l(`ค้นหา Trainer`,`Searching Trainer`)}}</v-btn> 
+            </center>
 
-        </center>
+        </div>
     </div>
 
 </div>
@@ -32,7 +38,17 @@ import {
 } from "@/vuexes/auth";
 import _ from "lodash";
 import moment from "moment";
+import MeComponent from '@/pages/trainer/me/MeComponent'
 export default {
+    components: {
+        MeComponent
+    },
+    props:{
+        toolbar:{
+            type:Boolean,
+            default:true
+        }, 
+    },
     data: () => {
         return {
             req: v => !!v || "ฟิลด์ด์นี้ต้องระบุข้อมูล",
@@ -46,6 +62,7 @@ export default {
     async created() {
         await this.run();
         await this.getMyClass();
+        
     },
     methods: {
         async run() {

@@ -1,6 +1,6 @@
 <template>
-<v-app  class="bg" >
-    <div class="bg">
+<v-app  >
+    <div  >
         <!-- <v-overlay :value="bands" opacity="0.9">
             <div class="p-4 flex flex-col items-center justify-center">
               <v-icon color="error" size="60">mdi-information</v-icon>
@@ -12,7 +12,7 @@
             </div>
         </v-overlay> -->
     <v-main >
-        <nuxt class="bg" v-if="response" />
+        <nuxt   v-if="response" />
     </v-main>
  
    <Core-Menu></Core-Menu>

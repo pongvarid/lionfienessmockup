@@ -178,7 +178,10 @@ export default {
     async created() {
         try {
             await Auth.setUser();
-            this.user = Auth.user
+            let user = Auth.user
+            if(user){
+                this.user = user
+            }
             this.logined = true
         } catch (error) {
         

@@ -1,14 +1,24 @@
 <template>
-  <div class="bg h-screen" v-if="response"> 
-    <Class-Checkin v-if="user.is_coach"></Class-Checkin>
-    <Class-History v-else></Class-History>
-   <br>
-   <br>
-   <br>
-   <br>
-   <br>
-   <br>
-  </div> 
+    <div >
+        <v-toolbar dark  >
+            <v-btn icon @click="$router.go(-1)">
+                <v-icon>mdi-arrow-left</v-icon>
+              </v-btn>
+            <v-toolbar-title>{{$l(`ประวัติ`,`History`)}}</v-toolbar-title>
+            <v-spacer></v-spacer> 
+          </v-toolbar>
+          <div class="bg h-screen" v-if="response"> 
+            <Class-Checkin v-if="user.is_coach"></Class-Checkin>
+            <Class-History v-else></Class-History>
+           <br>
+           <br>
+           <br>
+           <br>
+           <br>
+           <br>
+          </div> 
+    </div>
+ 
 </template>
 
 <script>

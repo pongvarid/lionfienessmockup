@@ -1,6 +1,5 @@
 <template>
-<div class="p-6 flex flex-col">
-    <div class="text-2xl xd">History</div>
+<div class="p-6 flex flex-col"> 
     <div class="p-1 mt-4" v-for="course,i in courses" :key="i">
         <v-card class="rounded-lg" v-if="course.course_data" @click="$router.push(`/class/${course.course_data.id}/`)">
         <v-img v-if="course.course_data.image_1" :src="$url+course.course_data.image_1" :width="auto" :height="180"></v-img>

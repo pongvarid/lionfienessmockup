@@ -1,126 +1,136 @@
 <template>
-<div class="p-6 flex flex-col" v-if="response">
-    <div class="text-2xl font-semibold">{{$l(`ปฏิทิน`,`Calendar`)}}</div>
-    <v-select
-        @change="changeWeek()"
-        :items="allweek" 
-        item-text="start_week_label"
-        return-object
-        v-model="nowWeek"
-        :label="$l(`ประจำสัปดาห์`,`Choose Week`)"
-    ></v-select> 
-    <v-tabs icons-and-text class="pt-4">
-        <v-tab v-for="day,index in raws" :key="index">
-            <div class="pt-8 pb-8 flex flex-col">
-                <span class="font-bold capitalize">{{day.day_en}} </span>
-                <span class="text-xs ">{{day.date_now}}</span>
-            </div>
-        </v-tab>
-        <v-tab-item v-for="day,index in raws" :key="index" class="bg">
-            <div>
-                <v-card elevation="0" class="mt-4" v-for="course,j in day.data" :key="j">
-
-                    <v-card-title primary-title>
-                        <img :style="`border-color:${course.color_table}; border-width:3px; border-style: solid;`" v-if="course.course_image" class="w-20 h-20 rounded-full contain animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``" :src="$url+course.course_image" alt="">
-                        <v-avatar v-else size="80" color="blue" class="animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``">
-                            {{course.course_name}}
-                        </v-avatar>
-                        <div>
-                            <h2 class="font-semibold ml-2">{{course.course_name}}</h2>
-                            <div class="text-xs ml-2">
-                                <v-icon size="10" class="mr-1">em em-alarm_clock</v-icon>{{course.time_data}}
-                            </div>
-                            <v-chip class="ml-2" small v-if="checkClass(course)">ลงทะเบียนแล้ว</v-chip>
-                            <v-chip v-if="course.is_open_class" class="ml-2" small color="success">{{$l(`คลาสกำลังดำเนินอยู่`,`Class in starting`)}}.. </v-chip>
-                        </div> 
-                    </v-card-title>
-                    <v-card-text>
-                        
-                        <v-expansion-panels flat>
-                            <v-expansion-panel>
-                                <v-expansion-panel-header>
-                                    <span class="font-semibold">{{$l(`รายละเอียด`,`Class Detail`)}}</span>
-                                </v-expansion-panel-header>
-                                <v-expansion-panel-content>
-                                    <div>
-                                        <Core-Bar icon="em em-male-teacher" :head="$l(`ผู้สอน`,`Teacher`)" :txt="`Kru.${course.teacher_name}`"></Core-Bar>
-                                        <!-- <Core-Bar icon="em em-alarm_clock" :head="$l(`เวลา`,`Start`)" :txt="course.time_data"></Core-Bar> -->
-                                        <Core-Bar icon="em em-weight_lifter" :head="$l(`ที่นั่งที่เหลือ`,`Remain`)" :txt="course.remain"></Core-Bar>
-                                        <!-- <Core-Bar icon="em em-memo" :head="$l(`ลงทะเบียน`,`Register`)" :txt="course.remain"></Core-Bar> -->
-                                        <v-btn @click="$router.push('/class/'+`${course.id}`)" depressed class="mt-3 " block outlined color="primary"><span class="capitalize">{{$l(`รายละเอียด`,`Class Detail`)}}</span></v-btn>
-
+    <div>
+        <v-toolbar dark  >
+            <v-btn icon @click="$router.go(-1)">
+                <v-icon>mdi-arrow-left</v-icon>
+              </v-btn>
+            <v-toolbar-title>{{$l(`ปฏิทิน`,`Calendar`)}}</v-toolbar-title>
+            <v-spacer></v-spacer> 
+          </v-toolbar>
+          <div class="p-6 flex flex-col" v-if="response"> 
+           
+            <v-select
+                @change="changeWeek()"
+                :items="allweek" 
+                item-text="start_week_label"
+                return-object
+                v-model="nowWeek"
+                :label="$l(`ประจำสัปดาห์`,`Choose Week`)"
+            ></v-select> 
+            <v-tabs icons-and-text class="pt-4">
+                <v-tab v-for="day,index in raws" :key="index">
+                    <div class="pt-8 pb-8 flex flex-col">
+                        <span class="font-bold capitalize">{{day.day_en}} </span>
+                        <span class="text-xs ">{{day.date_now}}</span>
+                    </div>
+                </v-tab>
+                <v-tab-item v-for="day,index in raws" :key="index" class="bg">
+                    <div>
+                        <v-card elevation="0" class="mt-4" v-for="course,j in day.data" :key="j">
+        
+                            <v-card-title primary-title>
+                                <img :style="`border-color:${course.color_table}; border-width:3px; border-style: solid;`" v-if="course.course_image" class="w-20 h-20 rounded-full contain animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``" :src="$url+course.course_image" alt="">
+                                <v-avatar v-else size="80" color="blue" class="animate__animated animate__infinite infinite" :class="(course.is_open_class)?`animate__pulse`:``">
+                                    {{course.course_name}}
+                                </v-avatar>
+                                <div>
+                                    <h2 class="font-semibold ml-2">{{course.course_name}}</h2>
+                                    <div class="text-xs ml-2">
+                                        <v-icon size="10" class="mr-1">em em-alarm_clock</v-icon>{{course.time_data}}
                                     </div>
-                                </v-expansion-panel-content>
-                            </v-expansion-panel>
-                        </v-expansion-panels>
-                        <v-alert dense class="mt-3" type="error" v-if="!(course.remain > 0)">
-                            {{$l(`คลาสนี้เต็มแล้ว`,`Class is full`)}}
-                        </v-alert>
-                        <div v-if="course.remain > 0">
-                            <v-btn v-if="!checkClass(course)" @click="openClass(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
-                            <v-btn depressed v-else @click="removeClass(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
-                        </div> 
-                    </v-card-text>
-                </v-card>
-            </div>
-        </v-tab-item>
-    </v-tabs>
-    <v-bottom-sheet class="rounded" v-model="sheet" inset>
-        <v-sheet class="text-center" style="z-index:9999;">
-            <div class="my-3 pb-8" v-if="chooseClass">
-               
-                <div v-if="user && mytier">
-                     <div v-if="mytier.status == 1">
-                        <div class="p-2 flex flex-col items-center" v-if="chooseClass.status">
-                            <h2 class="text-2xl font-semibold mt-4">{{chooseClass.course_name}}</h2>
-                            <img v-if="chooseClass.course_image" class="mt-4 w-40 h-40 rounded-full contain animate__animated animate__infinite infinite animate__pulse" :src="$url+chooseClass.course_image" alt="">
-                            <v-avatar v-else size="120" color="blue" class="mt-4 animate__animated animate__infinite infinite animate__pulse">
-                                {{chooseClass.course_name}}
-                            </v-avatar> <br>
-                            <!-- <img class="w-60" src="@/assets/images/v2/002-workout.png" alt=""> -->
-                            <v-btn @click="storeClass()" depressed class="m-4 " large block color="primary"><span class="capitalize text-base">{{$l(`ลงทะเบียนเข้าคลาสนี้`,`Register this class`)}}</span></v-btn>
-                        </div>
-                        <div class="p-2 flex flex-col items-center" v-else>
-                            <img class="w-60 mt-2" src="@/assets/images/v3/016-rejected.png" alt="">
-                            <h2 class="text-2xl font-semibold mt-4">{{$l(`จำนวนครั้งในการจองของคุณเต็มแล้ว`,`Your repetitions are full`)}}</h2>
-                            <span>{{$l(`เพื่อให้ใช้งานระบบการจองต่อได้ กรุณาต่ออายุสมาชิก หรือ ติดต่อผู้ดูแลระบบ`,`In order to continue using the booking system Please renew your membership or contact the administrator.`)}}</span>
-                            <v-btn @click="$router.push(`/account/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`ไปที่หน้าโปรไฟล์`,`Go to profile page`)}}</span></v-btn> 
-                        </div>
-                     </div>
-                     <div v-else>
-                        <div class="p-2 flex flex-col items-center">
-                            <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
-                            <h2 class="text-2xl font-semibold mt-4">{{$l(`ไม่สามารถเข้าถึงได้`,`Inaccessible`)}}</h2>
-                            <span>{{$l(`ยังไม่ได้สมัครสมาชิก Fitness หรือ สมาชิกอาจหมดอายุแล้ว กรุณา สมัครเป็นสมาชิกกับ Fitness หรือ ต่ออายุ`,`Don't have a Fitness subscription yet or membership may have expired. Please subscribe to Fitness or renew.`)}}</span>
-                            <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
-    
-                        </div>
-                     </div> 
-                </div>
-                <div v-else-if="user && !mytier">
-                    <div class="p-2 flex flex-col items-center">
-                        <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
-                        <h2 class="text-2xl font-semibold mt-4">{{$l(`ยังไม่ได้สมัครสมาชิก Fitness`,`Register Fitness First`)}}</h2>
-                        <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม สมัครเป็นสมาชิกกับ Fitness`,`In order to use the application comprehensively Become a Fitness Member.`)}}</span>
-                        <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
-
+                                    <v-chip class="ml-2" small v-if="checkClass(course)">ลงทะเบียนแล้ว</v-chip>
+                                    <v-chip v-if="course.is_open_class" class="ml-2" small color="success">{{$l(`คลาสกำลังดำเนินอยู่`,`Class in starting`)}}.. </v-chip>
+                                </div> 
+                            </v-card-title>
+                            <v-card-text>
+                                
+                                <v-expansion-panels flat>
+                                    <v-expansion-panel>
+                                        <v-expansion-panel-header>
+                                            <span class="font-semibold">{{$l(`รายละเอียด`,`Class Detail`)}}</span>
+                                        </v-expansion-panel-header>
+                                        <v-expansion-panel-content>
+                                            <div>
+                                                <Core-Bar icon="em em-male-teacher" :head="$l(`ผู้สอน`,`Teacher`)" :txt="`Kru.${course.teacher_name}`"></Core-Bar>
+                                                <!-- <Core-Bar icon="em em-alarm_clock" :head="$l(`เวลา`,`Start`)" :txt="course.time_data"></Core-Bar> -->
+                                                <Core-Bar icon="em em-weight_lifter" :head="$l(`ที่นั่งที่เหลือ`,`Remain`)" :txt="course.remain"></Core-Bar>
+                                                <!-- <Core-Bar icon="em em-memo" :head="$l(`ลงทะเบียน`,`Register`)" :txt="course.remain"></Core-Bar> -->
+                                                <v-btn @click="$router.push('/class/'+`${course.id}`)" depressed class="mt-3 " block outlined color="primary"><span class="capitalize">{{$l(`รายละเอียด`,`Class Detail`)}}</span></v-btn>
+        
+                                            </div>
+                                        </v-expansion-panel-content>
+                                    </v-expansion-panel>
+                                </v-expansion-panels>
+                                <v-alert dense class="mt-3" type="error" v-if="!(course.remain > 0)">
+                                    {{$l(`คลาสนี้เต็มแล้ว`,`Class is full`)}}
+                                </v-alert>
+                                <div v-if="course.remain > 0">
+                                    <v-btn v-if="!checkClass(course)" @click="openClass(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
+                                    <v-btn depressed v-else @click="removeClass(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
+                                </div> 
+                            </v-card-text>
+                        </v-card>
                     </div>
-                </div>
-                <div v-else>
-                    <div class="p-2 flex flex-col items-center">
-                        <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
-                        <h2 class="text-2xl font-semibold mt-4">{{$l(`กรุณาเข้าสู่ระบบก่อน`,`Please login first`)}}</h2>
-                        <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม กรุณาเข้าสู่ระบบ หรือ ลงทะเบียนเข้าใช้งานก่อน`,`In order to use the application comprehensively Please login or register first.`)}}</span>
-                        <v-btn @click="$router.push(`/auth/login/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`เข้าสู่ระบบ หรือ ลงทะเบียน`,`Login or Register`)}}</span></v-btn>
+                </v-tab-item>
+            </v-tabs>
+            <v-bottom-sheet class="rounded" v-model="sheet" inset>
+                <v-sheet class="text-center" style="z-index:9999;">
+                    <div class="my-3 pb-8" v-if="chooseClass">
+                       
+                        <div v-if="user && mytier">
+                             <div v-if="mytier.status == 1">
+                                <div class="p-2 flex flex-col items-center" v-if="chooseClass.status">
+                                    <h2 class="text-2xl font-semibold mt-4">{{chooseClass.course_name}}</h2>
+                                    <img v-if="chooseClass.course_image" class="mt-4 w-40 h-40 rounded-full contain animate__animated animate__infinite infinite animate__pulse" :src="$url+chooseClass.course_image" alt="">
+                                    <v-avatar v-else size="120" color="blue" class="mt-4 animate__animated animate__infinite infinite animate__pulse">
+                                        {{chooseClass.course_name}}
+                                    </v-avatar> <br>
+                                    <!-- <img class="w-60" src="@/assets/images/v2/002-workout.png" alt=""> -->
+                                    <v-btn @click="storeClass()" depressed class="m-4 " large block color="primary"><span class="capitalize text-base">{{$l(`ลงทะเบียนเข้าคลาสนี้`,`Register this class`)}}</span></v-btn>
+                                </div>
+                                <div class="p-2 flex flex-col items-center" v-else>
+                                    <img class="w-60 mt-2" src="@/assets/images/v3/016-rejected.png" alt="">
+                                    <h2 class="text-2xl font-semibold mt-4">{{$l(`จำนวนครั้งในการจองของคุณเต็มแล้ว`,`Your repetitions are full`)}}</h2>
+                                    <span>{{$l(`เพื่อให้ใช้งานระบบการจองต่อได้ กรุณาต่ออายุสมาชิก หรือ ติดต่อผู้ดูแลระบบ`,`In order to continue using the booking system Please renew your membership or contact the administrator.`)}}</span>
+                                    <v-btn @click="$router.push(`/account/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`ไปที่หน้าโปรไฟล์`,`Go to profile page`)}}</span></v-btn> 
+                                </div>
+                             </div>
+                             <div v-else>
+                                <div class="p-2 flex flex-col items-center">
+                                    <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
+                                    <h2 class="text-2xl font-semibold mt-4">{{$l(`ไม่สามารถเข้าถึงได้`,`Inaccessible`)}}</h2>
+                                    <span>{{$l(`ยังไม่ได้สมัครสมาชิก Fitness หรือ สมาชิกอาจหมดอายุแล้ว กรุณา สมัครเป็นสมาชิกกับ Fitness หรือ ต่ออายุ`,`Don't have a Fitness subscription yet or membership may have expired. Please subscribe to Fitness or renew.`)}}</span>
+                                    <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
+            
+                                </div>
+                             </div> 
+                        </div>
+                        <div v-else-if="user && !mytier">
+                            <div class="p-2 flex flex-col items-center">
+                                <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
+                                <h2 class="text-2xl font-semibold mt-4">{{$l(`ยังไม่ได้สมัครสมาชิก Fitness`,`Register Fitness First`)}}</h2>
+                                <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม สมัครเป็นสมาชิกกับ Fitness`,`In order to use the application comprehensively Become a Fitness Member.`)}}</span>
+                                <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
+        
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="p-2 flex flex-col items-center">
+                                <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
+                                <h2 class="text-2xl font-semibold mt-4">{{$l(`กรุณาเข้าสู่ระบบก่อน`,`Please login first`)}}</h2>
+                                <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม กรุณาเข้าสู่ระบบ หรือ ลงทะเบียนเข้าใช้งานก่อน`,`In order to use the application comprehensively Please login or register first.`)}}</span>
+                                <v-btn @click="$router.push(`/auth/login/`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`เข้าสู่ระบบ หรือ ลงทะเบียน`,`Login or Register`)}}</span></v-btn>
+        
+                            </div>
+                        </div>
+        
+                    </div> <br><br><br>
+                </v-sheet>
+            </v-bottom-sheet>
+            <br><br><br><br> <br><br>
+        </div>
+    </div>
 
-                    </div>
-                </div>
-
-            </div> <br><br><br>
-        </v-sheet>
-    </v-bottom-sheet>
-    <br><br><br><br> <br><br>
-</div>
 </template>
 
 <script>

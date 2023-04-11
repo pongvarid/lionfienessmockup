@@ -1,32 +1,42 @@
 <template>
-<div class="p-6 flex flex-col bg2" v-if="response">
-    <div class="text-2xl font-semibold">{{$l(`Trainer`,`Trainer`)}}</div>
-    <v-tabs v-model="tab">
-        <v-tab>
-            {{$l(`ข้อมูล Trainer`,`Trainer Info`)}}
-        </v-tab>
-        <v-tab>
-            {{$l(`รายการคอร์ส`,`Course List`)}}
-        </v-tab>
-        <v-tab>
-            {{$l(`ประวัติการเข้าฝึก`,`Training history`)}}
-        </v-tab>
-        <v-tab-item>
-            <div class="p-4" v-if="tab==0">
-                <Trainer-Profile :item="item"></Trainer-Profile>
-            </div>
-        </v-tab-item>
-        <v-tab-item>
-            <div class="p-4" v-if="tab==1">
-                <Trainer-Payout @reload="run()" :item="item"></Trainer-Payout>
-            </div>
-        </v-tab-item>
-        <v-tab-item>
-            <div class="p-4" v-if="tab==2">
-                <Trainer-CheckinHistory :item="histories"></Trainer-CheckinHistory>
-            </div>
-        </v-tab-item>
-    </v-tabs>  
+<div v-if="response">
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+            <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{$l(`Trainer ของฉัน `,`My Trainer`)}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+    </v-toolbar>
+    <div class="p-6 flex flex-col bg2" >
+        <v-tabs v-model="tab">
+            <v-tab>
+                {{$l(`ข้อมูล Trainer`,`Trainer Info`)}}
+            </v-tab>
+            <v-tab>
+                {{$l(`รายการคอร์ส`,`Course List`)}}
+            </v-tab>
+            <v-tab>
+                {{$l(`ประวัติการเข้าฝึก`,`Training history`)}}
+            </v-tab>
+            <v-tab-item>
+                <div class="p-4" v-if="tab==0">
+                    <Trainer-Profile :item="item"></Trainer-Profile>
+                </div>
+            </v-tab-item>
+            <v-tab-item>
+                <div class="p-4" v-if="tab==1">
+                    <Trainer-Payout @reload="run()" :item="item"></Trainer-Payout>
+                </div>
+            </v-tab-item>
+            <v-tab-item>
+                <div class="p-4" v-if="tab==2">
+                    <Trainer-CheckinHistory :item="histories"></Trainer-CheckinHistory>
+                </div>
+            </v-tab-item>
+        </v-tabs>  
+    </div>
+    
+
 </div>
 </template>
 
