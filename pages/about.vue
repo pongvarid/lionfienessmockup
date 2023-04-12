@@ -18,7 +18,7 @@
             <v-btn  @click="open('https://m.facebook.com/lionfitness.cnx','Facebook')" block  target="_blank"  color="primary">Facebook</v-btn><br>
             <v-btn  block @click="open('https://www.instagram.com/lionfitness_chiangmai/','Instagram')"  target="_blank" color="error">Instagram</v-btn><br>
             <v-btn block @click="open('https://www.tiktok.com/@lion.fitness.cnx','Tiktok')"   target="_blank" color="black" dark>TIKTOK</v-btn><br>
-            <v-btn block @click="open('https://www.google.com/maps/place/Lion+Fitness+Chiangmai/@18.76261,99.0204793,17z/data=!3m1!4b1!4m5!3m4!1s0x30da2f73087fde2b:0x409b1118dc3c804!8m2!3d18.76261!4d99.022668?shorturl=1','Map')" 
+            <v-btn block @click="open('https://www.google.com/maps/place/Lion+Fitness+Chiangmai+%E0%B8%96%E0%B8%99%E0%B8%99+%E0%B8%A1%E0%B8%87%E0%B8%9F%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%95+%E0%B8%95%E0%B8%B3%E0%B8%9A%E0%B8%A5+%E0%B8%97%E0%B9%88%E0%B8%B2%E0%B8%A8%E0%B8%B2%E0%B8%A5%E0%B8%B2+%E0%B8%AD%E0%B8%B3%E0%B9%80%E0%B8%A0%E0%B8%AD%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88+%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88+50000/@18.76261,99.022668,17z/data=!4m6!3m5!1s0x30da2f73087fde2b:0x409b1118dc3c804!8m2!3d18.76261!4d99.022668!16s%2Fg%2F11mv2pkvf4','Map')" 
            target="_blank" color="info">Map</v-btn>
      
         </div>
@@ -34,7 +34,8 @@
                 <v-btn text @click="dialog=false"><v-icon>mdi-close</v-icon></v-btn>
             </v-card-title>
             <v-card-text>
-                <iframe target="_top" height="100%" width="100%" :src="link" frameborder="0"></iframe>
+                <iframe :src="`${link}`"  height="100%" width="100%" loading="lazy" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" ></iframe>
+                <!-- <iframe target="_top" height="100%" width="100%" :src="link" frameborder="0"></iframe> -->
             </v-card-text>
         </v-card>
     </v-dialog>
@@ -42,6 +43,7 @@
 </template>
 
 <script>
+ 
 export default {
     data: () => ({
         data: {},
@@ -51,6 +53,7 @@ export default {
     }),
     methods:{
         async open(link,name){
+
             this.dialog = true
             this.name = name
             this.link = link
