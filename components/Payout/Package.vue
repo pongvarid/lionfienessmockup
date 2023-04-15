@@ -3,9 +3,10 @@
     <h2 class="font-semibold ">Package ปัจจุบัน</h2>
     <hr><br>
     <div v-if="mytier.id || user.in_class">
+         
         <div v-if="mytier.status == 0">
             <div v-if="mytier.image_slip">
-                <center>
+                <center >
                     <v-icon size="60" color="green">mdi-check-circle</v-icon>
                     <br>
                     <h2 class="text-green-500 font-semibold text-xl">อัปโหลดหลักฐานการชำระเงิน เรียบร้อยแล้ว</h2>
@@ -17,12 +18,19 @@
                 </center>
             </div>
             <div v-else>
-                <center>
+                <center v-if="mytier.amount > 0">
                     <v-icon size="60" color="orange" class="mb-2x">mdi-information</v-icon>
                     <br>
                     <v-btn block depressed @click="$router.push(`/payout/checkout/?id=${mytier.id}`)" color="success">อัปโหลดหลักฐานการชำระเงิน</v-btn>
                     <p class="mt-3"> หากคุณชำระเงินแล้วรอแอดมินตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ</p>
                     <v-btn class="mt-4" block depressed @click="removeMyTier()" color="error">ยกเลิกการสมัคร</v-btn>
+                </center>
+                <center v-else>
+                    <v-icon size="60" color="green">mdi-check-circle</v-icon>
+                    <span class="mt-3">
+                        <p>ขอบคุณที่ใช้บริการ กรุณารอการตรวจสอบข้อมูล 1-2 วันทำการ จากนั้นจะสามารถใช้งานได้ต่อไป</p>
+                        <v-btn class="mt-4" block depressed @click="removeMyTier()" color="error">ยกเลิกการสมัคร</v-btn>
+                    </span>
                 </center>
 
             </div>
@@ -169,7 +177,7 @@ export default {
             }
         },
         async loadMyTier() {
-            await Auth.loadMyTier()
+            await Auth.loadMyTier()  
             if (Auth.myTiers.length > 0) {
                 try {
                     this.listTiers = Auth.myTiers
@@ -189,6 +197,9 @@ export default {
                 } catch (error) {
                     console.log(error);
                 }
+            }else{
+                this.mytier = {}
+
             }
         },
         async closeTier(){
@@ -199,9 +210,10 @@ export default {
         },
         async removeMyTier() {
             let check = confirm('ต้องการยกเลิกสมาชิกหรือไม่')
-            if (check) {
-                await Core.deleteHttp(`/api/payout/userpayout/${this.mytier.id}/`)
-                await this.loadMyTier()
+            if (check) { 
+                await Core.deleteHttp(`/api/payout/userpayout/${this.mytier.id}/`)  
+                location.href = '/#/account?tab=1'
+                 
             }
         },
 
@@ -209,7 +221,7 @@ export default {
             let check = confirm('ต้องการยกเลิกสมาชิกหรือไม่')
             if (check) {
                 await Core.deleteHttp(`/api/payout/userpayout/${this.newTier.id}/`)
-                await this.loadMyTier()
+                location.href = '/#/account?tab=1'
             }
         },
     },

@@ -52,7 +52,7 @@
                 </v-tab>
                 <v-tab-item>
                     <div  class="w-full p-6 account-bg">
-                        <Payout-Package></Payout-Package>
+                        <Payout-Package @reload="run()"></Payout-Package>
                     </div>
                 </v-tab-item>
                 <v-tab>

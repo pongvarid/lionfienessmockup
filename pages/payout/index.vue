@@ -8,7 +8,7 @@
             </div>
             <div class="flex flex-wrap">
 
-                <div class="w-full md:w-1/3 mt-4" v-for="tier,index in tires" :key="index" @click="chooseTier(tier)">
+                <div class="w-full md:w-1/3 mt-4" v-for="tier,index in tires" :key="index" @click="chooseTier(tier)"  >
                     <div class="relative pt-8 px-11 pb-10 bg-white rounded shadow-8xl shadow-lg">
                         <p v-if="tier.recommended" class="absolute right-2 top-2 font-heading px-2.5 py-1 text-base max-w-max bg-orange-100 uppercase tracking-px rounded-full text-gray-900" data-config-id="auto-txt-22-1">แนะนำ</p>
                         <p v-if="tier.by_promotion" class="  right-2 top-2 font-heading px-2.5 py-1 text-base max-w-max bg-orange-500 uppercase tracking-px rounded-full text-white" data-config-id="auto-txt-22-1">โปรโมชัน</p>
@@ -54,7 +54,8 @@ export default {
             user: Auth.user,
             tires: [],
             response: false,
-            oldTier: null
+            oldTier: null,
+            newUser:true,
         })
     },
     async created() {
@@ -65,6 +66,7 @@ export default {
             if (!this.user) {
                 await this.$router.push(`/auth/register/`)
             } else {
+              
                 await this.run();
                 this.response = true;
             }
@@ -75,11 +77,16 @@ export default {
     methods: {
         async run() {
             try {
+                await this.getAllMyTier()
                 await this.loadTires()
                 await this.getOldTierUser()
             } catch (error) {
 
             }
+        },
+        async getAllMyTier() {
+             let myTiers = await Core.getHttp(`/api/payout/userpayout/?user=${this.user.id}`)
+             this.newUser = (myTiers.length > 0)?false:true
         },
         async loadTires() {
             let proId = this.$route.query.pro_id
@@ -88,6 +95,11 @@ export default {
             } else {
                 this.tires = await Core.getHttp(`/api/payout/tier/?is_active=true&by_promotion=false`)
             }
+            if(!this.newUser){
+                this.tires = _.filter(this.tires, function (o) {
+                    return o.price > 0;
+                });
+            } 
         },
         async getOldTierUser() {
             try {
@@ -103,7 +115,7 @@ export default {
             if (this.oldTier) {
                 await this.chooseTierContinue(tier)
             } else {
-                let check = await Web.confirm(`ต้องการซื้อ ${tier.name} ?`, `คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้`)
+                let check = await Web.confirm(`เลือก ${tier.name} ?`, (tier.price > 0)?`คุณแน่ใจใช่ไหมที่จะยืนยันการสั่งซื้อ Package นี้`:`คุณแน่ใจใช่ไหมที่จะเลือก Package นี้`)
                 if (check) {
                     let checkout = await Core.postHttp(`/api/payout/userpayout/`, {
                         "amount": tier.price,
@@ -113,8 +125,14 @@ export default {
                         "tier": tier.id
                     })
                     if (checkout.id) {
-                        await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
-                        await this.$router.replace(`/payout/checkout/?id=${checkout.id}`)
+                        if(tier.price > 0){
+                            await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
+                            await this.$router.replace(`/payout/checkout/?id=${checkout.id}`)
+                        }else{
+                            await Web.alert(`ขอบคุณที่ร่วมทดลองเล่นกับเรา`)
+                            await this.$router.replace(`/account?tab=1`)
+                        }
+                       
                     }
                 }
             }
@@ -140,7 +158,7 @@ export default {
                 })
                 if (checkout.id) { 
                     await Web.alert(`ยืนยันการซื้อ Package สำเร็จ`)
-                    await this.$router.replace(`/account?tab=2`)
+                    await this.$router.replace(`/account?tab=1`)
                 }
             }
         },
