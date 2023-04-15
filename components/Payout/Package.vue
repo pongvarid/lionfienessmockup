@@ -1,6 +1,6 @@
 <template>
 <div v-if="response">
-    <h2 class="font-semibold ">Package ปัจจุบัน</h2>
+    <h2 class="font-semibold ">Package ปัจจุบัน  </h2>
     <hr><br>
     <div v-if="mytier.id || user.in_class">
          
@@ -39,8 +39,8 @@
             <v-alert type="error" v-if="count <= 1">
                 หมดอายุแล้ว กรุณาต่ออายุหลังจากหมดอายุแล้ว เพื่อให้สามารถใช้งานได้ต่อไป 
             </v-alert>
-            <h2 class="font-semibold text-xl">Package {{`${mytier.tier_name}`}}</h2>
-            <v-text-field readonly class="mt-6" dense :value="user.number_class" label="จำนวน Class ที่จองได้" id="id"></v-text-field>
+            <h2 class="font-semibold text-xl">Package {{`${mytier.tier_name}`}}</h2> 
+             {{inMonth}}/{{ maxMonth }}
             <v-progress-linear :value="datePer" height="15" striped :color="(datePer >=50)?'green':(datePer>=40)?'orange':'red'"></v-progress-linear> (เหลือ {{ count }} วัน)
             <v-text-field readonly class="mt-6" dense :value="endDate" label="วันหมดอายุสมาชิก" id="id"></v-text-field>
             <p>{{mytier.continue_course_data}}</p>
@@ -75,8 +75,7 @@
                     <h2 class="text-green-500 font-semibold text-xl">อัปโหลดหลักฐานการชำระเงิน เรียบร้อยแล้ว</h2>
                     <span class="mt-3">
                         <p>ขอบคุณที่ใช้บริการ กรุณารอการตรวจสอบข้อมูลการชำระเงิน 1-2 วันทำการ จากนั้นจะสามารถใช้งานได้ต่อไป</p>
-                    </span>
-
+                    </span> 
                     <v-btn depressed @click="$router.push(`/payout/checkout/?id=${newTier.id}`)" color="warning" class="mt-4">แก้ไขหลักฐานการชำระเงิน</v-btn>
                 </center>
             </div>
@@ -148,6 +147,7 @@ import {
 import {
     Core
 } from '@/vuexes/core'
+import { User } from '@/vuexes/user'
 import moment from 'moment'
 export default {
     data: () => {
@@ -164,13 +164,14 @@ export default {
         })
     },
     async mounted() {
-        await this.run()
+        await this.run() 
     },
     methods: {
         async run() {
             try {
 
                 await this.loadMyTier()
+                await User.getRegisterMonth(this.user.id);
                 this.response = true;
             } catch (error) {
                 console.log(error);
@@ -232,7 +233,21 @@ export default {
             } catch (error) {
                 return "-"
             }
-        }
+        },
+        maxMonth() {
+            try {
+                return Number(Auth.setting.max_month)
+            } catch (error) {
+                return 0
+            }
+        },
+        inMonth() {
+            try {
+                return Number(User.countRegisterMonth)
+            } catch (error) {
+                return 0
+            }
+        },
     }
 
 }

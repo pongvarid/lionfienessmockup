@@ -5,6 +5,7 @@ import { Core } from '@/vuexes/core'
 import { Web } from '@/vuexes/web'
 import axios from '@/plugins/axios'  
 import {Course} from '@/vuexes/course'
+import {User} from '@/vuexes/user'
 @Module({ generateMutationSetters: true })
 class AuthModule extends VuexModule {
     private token: any = localStorage.getItem('token')
@@ -19,10 +20,15 @@ class AuthModule extends VuexModule {
     public myTierActiveList:any = [];
     public myTierList:any = [];
     public myTiers:any = [];
+    public setting:any = {
+        max_count:0,
+    }
     public async setUser() {
         let user = await this.getUser(); 
         this.user = user 
         await this.loadMyTier()
+        await this.getSetting()
+        await User.init(user.id);
         return user
     }
     
@@ -42,6 +48,12 @@ class AuthModule extends VuexModule {
         await this.reToken();
         let user = await Core.postHttp(`/api/auth/v1/login/`, form)
         return user
+    }
+    
+    public async getSetting(){
+        let setting = await Core.getHttp(`/setting/`)
+        this.setting = setting
+        return setting
     }
 
     public async register(form: any) {
