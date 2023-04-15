@@ -21,7 +21,7 @@
                         <v-list-item-title>{{$l(`สมาชิกของฉัน`,`My Member`)}}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item @click="$router.push(`/trainer`)">
+                <v-list-item @click="$router.push(`/account?tab=2`)">
                     <v-list-item-icon>
                         <v-icon size="28">mdi-account-child-circle</v-icon>
                     </v-list-item-icon>

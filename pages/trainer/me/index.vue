@@ -1,7 +1,7 @@
 <template>
 <div v-if="response">
     <v-toolbar dark>
-        <v-btn icon @click="$router.go(-1)">
+        <v-btn icon @click="$router.replace('/account?tab=2')">
             <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title>{{$l(`Trainer ของฉัน `,`My Trainer`)}}</v-toolbar-title>
@@ -55,6 +55,9 @@ export default {
         this.response = false
         await this.run();
         this.response = true
+        if(this.$route.query.tab){
+            this.tab = Number(this.$route.query.tab)
+        }
     },
     methods: {
         async run() {

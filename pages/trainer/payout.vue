@@ -32,25 +32,7 @@
                         <v-spacer></v-spacer>
                         <span class="text-base"> ({{item.count}} ครั้ง/{{item.day}} วัน) </span>
                     </v-card-actions>
-                </v-card>
-                <!-- <div class="relative pt-8 px-11 pb-10 bg-white rounded shadow-8xl shadow-lg">
-                    <p v-if="item.recommended" class="absolute right-2 top-2 font-heading px-2.5 py-1 text-base max-w-max bg-orange-100 
-                    uppercase tracking-px rounded-full text-gray-900" data-config-id="auto-txt-22-1">แนะนำ</p>
-                    <h3 class="mb-0.5 font-heading font-semibold text-lg text-gray-900" data-config-id="auto-txt-23-1">{{item.name}}</h3>
-                    <p class="mb-5 text-gray-600 text-sm" data-config-id="auto-txt-24-1">{{item.description}}</p>
-                    <div class="mb-9 flex">
-                        <span class="mr-1 mt-0.5 font-heading font-semibold text-lg text-gray-900" data-config-id="auto-txt-25-1">฿</span>
-                        <span class="font-heading font-semibold text-6xl sm:text-7xl text-gray-900" data-config-id="auto-txt-26-1">{{item.price}}</span>
-                        <span class="font-heading font-semibold self-end" data-config-id="auto-txt-27-1"></span>
-                    </div>
-                    <div class="group relative mb-9">
-                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-green opacity-0 group-hover:opacity-50 p-1 rounded-lg transition ease-out duration-300"></div>
-                        <v-btn @click="store(item)" block color="success">เลือก Package นี้</v-btn>
-                    </div>
-                    <p>
-                        {{item.ect}}
-                    </p>
-                </div>  -->
+                </v-card> 
             </div>
             <br><br><br>   <br><br><br>   <br><br><br>
         </div>
@@ -61,12 +43,14 @@
 <script>
 import _ from 'lodash'
 import moment from 'moment'
- 
+import {Auth} from '@/vuexes/auth'
 export default {
     data: () => {
         return ({
             items: [], 
             response: false,
+            user:Auth.user,
+            last:null
         })
     },
     async created() {
@@ -75,14 +59,21 @@ export default {
     },
     methods: {
         async run() { 
+            this.user = await Auth.getUser()
+            let lists = await this.$core.getHttp(`/api/trainer/trainer-class/?user=${this.user.id}`) 
+            let newUser = lists.length > 0 ? false : true
             this.items = await this.$core.getHttp(`/api/trainer/trainer-coruse/?is_active=true`); 
+            if(!newUser){
+                this.items = _.filter(this.items, function(o) { return o.price > 0; });
+            }
+            this.last = _.find(lists, function(o) { return o.status == 1 && o.is_active == true;  });
         },
         async store(item){ 
             let check =  confirm(this.$l(`ยืนยันการสั่งซื้อ Package นี้?`,`Confirm to buy this package?`))
             if(check){
                let save =  await this.$core.postHttp(`/api/trainer/trainer-class/`,{
-                    "number": item.count,
-                    "end_date": moment().add(item.count, 'days').format('YYYY-MM-DD'),
+                    "number": item.count, 
+                    "end_date": (this.last)?moment(this.last.end_date).add(item.day, 'days').format("YYYY-MM-DD") : moment().add(item.day, 'days').format("YYYY-MM-DD"),
                     "status": 0, 
                     "is_active": true, 
                     "trainer": this.$route.query.id,
@@ -91,9 +82,12 @@ export default {
                 });
                 if(save.id){
                     await this.$web.alert(this.$l(`สั่งซื้อ Package สำเร็จ`,`Buy package success`))
-                    await this.$router.replace(`/trainer/me/?id=${save.id}`)
+                    await this.$router.replace(`/trainer/me/?id=${save.id}&tab=1`)
                 }
             }
+        },
+        async getList(){
+            
         }
     }
 }

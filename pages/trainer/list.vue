@@ -9,13 +9,7 @@
                     <div>
                         <v-card-title ><span class="text-sm ">KRU.</span></v-card-title>
 
-                        <v-card-subtitle ><span  class="text-3xl " > {{item.user_detail.nick_name}}</span></v-card-subtitle>
-
-                        <!-- <v-card-actions> 
-                            <v-btn @click="$router.push(`/trainer/payout/?id=${item.id}`)" outlined rounded text>
-                                {{$l(`เลือก Trainer คนนี้`,`Select This Trainer`)}}
-                            </v-btn>
-                        </v-card-actions> -->
+                        <v-card-subtitle ><span  class="text-3xl " > {{item.user_detail.nick_name}}</span></v-card-subtitle> 
                     </div> 
                     <v-avatar class="m-4 rounded shadow-2xl" size="125"  tile>
                         <v-img class=" shadow-xl" :src="$url+item.user_detail.image"></v-img>

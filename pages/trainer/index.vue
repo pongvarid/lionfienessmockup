@@ -1,7 +1,7 @@
 <template>
 <div class="bg2 h-screen"> 
     <v-toolbar dark v-if="toolbar">
-        <v-btn icon @click="$router.go(-1)">
+        <v-btn icon @click="$router.replace('/account?tab=2')">
             <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title>{{$l(`Trainer`,`Trainer`)}}</v-toolbar-title>
@@ -16,7 +16,7 @@
         <center> <span>{{$l(`จัดการการออกกำลังกายของคุณอย่างมีประสิทธิภาพ กับ Trainer ของเราที่มีประสบการณ์และ ความเชี่ยวชาญ`,`Manage your workouts efficiently with our Trainer.`)}}</span>
         </center> 
         <div class="mt-6 w-full">
-            <center>nter>
+            <center> 
                 <v-btn @click="$router.push(`/trainer/list/`)" class="m-2" x-large block depressed>{{$l(`ค้นหา Trainer`,`Searching Trainer`)}}</v-btn> 
             </center>
 

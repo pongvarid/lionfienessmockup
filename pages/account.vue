@@ -60,7 +60,8 @@
                 </v-tab>
                 <v-tab-item>
                     <div  class="w-full p-6 account-bg">
-                        <Trainer :toolbar="false" />
+                        <BaseTrainer />
+                        <!-- <Trainer :toolbar="false" /> -->
                     </div>
                 </v-tab-item>
                 <v-tab>
@@ -96,6 +97,7 @@
 
 <script>
 import Trainer from '@/pages/trainer/index.vue'
+import BaseTrainer from '@/components/Trainer/BaseTrainer.vue'
 import moment from 'moment'
 import {
     Auth
@@ -108,7 +110,8 @@ import {
 } from '@/vuexes/core'
 export default {
     components: {
-        Trainer
+        Trainer,
+        BaseTrainer
     },
     data: () => {
         return ({
