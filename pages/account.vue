@@ -17,7 +17,7 @@
                     <div class="account-bg">
                         <div class="w-full p-6">
                             <center>
-                                <img v-if="user.image" class="rounded-full h-40 w-40 mt-6" :src="`${$url}/${user.image}`" alt="">
+                                <v-img v-if="user.image" class="rounded-full h-40 w-40 mt-6" :src="`${$url}/${user.image}`" alt=""></v-img>
                                 <img v-else class="rounded-full h-40 w-40 mt-6" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyHnAAxZw7h-1IEUa5LF2MmLteCLb46LkypKTf1xI&s" alt="">
                             </center>
                             <v-file-input accept="image/*;capture=camera" class="mt-2" label="อัปโหลดรูปโปรไฟล์" @change="uploadProfile()" v-model="form.file"></v-file-input>
@@ -112,7 +112,7 @@ export default {
     },
     data: () => {
         return ({
-            tab: 1,
+            tab: 0,
             user: Auth.user,
             response: false,
             form: {},

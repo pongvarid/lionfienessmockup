@@ -5,11 +5,11 @@
     </div> -->
     <div class="flex flex-col w-full h-full justify-center" >
         <img src="@/assets/images/logoz.png" alt="">
-        <div class="p-4 w-full">
+        <!-- <div class="p-4 w-full">
             <v-btn @click="$router.push('/home')" x-large block rounded color="white">
                 <span class="font-semibold">Let's start</span>
             </v-btn>
-        </div>
+        </div> -->
     </div>
 </div>
 </template>
@@ -17,6 +17,9 @@
 <script>
 export default {
     layout: "root",
+    async created(){
+        await this.$router.replace('/home')
+    }
 
 };
 </script>

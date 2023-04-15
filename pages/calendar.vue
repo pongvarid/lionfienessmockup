@@ -100,7 +100,7 @@
                                     <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
                                     <h2 class="text-2xl font-semibold mt-4">{{$l(`ไม่สามารถเข้าถึงได้`,`Inaccessible`)}}</h2>
                                     <span>{{$l(`ยังไม่ได้สมัครสมาชิก Fitness หรือ สมาชิกอาจหมดอายุแล้ว กรุณา สมัครเป็นสมาชิกกับ Fitness หรือ ต่ออายุ`,`Don't have a Fitness subscription yet or membership may have expired. Please subscribe to Fitness or renew.`)}}</span>
-                                    <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
+                                    <v-btn @click="$router.push(`/account?tab=1`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
             
                                 </div>
                              </div> 
@@ -110,7 +110,7 @@
                                 <img class="w-60 mt-2" src="@/assets/images/v3/012-vacancy.png" alt="">
                                 <h2 class="text-2xl font-semibold mt-4">{{$l(`ยังไม่ได้สมัครสมาชิก Fitness`,`Register Fitness First`)}}</h2>
                                 <span>{{$l(`เพื่อให้ใช้งานแอพพลิเคชันได้อย่างครอบคลุม สมัครเป็นสมาชิกกับ Fitness`,`In order to use the application comprehensively Become a Fitness Member.`)}}</span>
-                                <v-btn @click="$router.push(`/account?tab=2`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
+                                <v-btn @click="$router.push(`/account?tab=1`)" depressed class="m-6 " large block color="primary"><span class="capitalize text-base">{{$l(`สมัคร/ต่ออายุ`,`Apply/Renew Member`)}}</span></v-btn>
         
                             </div>
                         </div>

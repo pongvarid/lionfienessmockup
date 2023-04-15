@@ -63,7 +63,7 @@ export default {
             let upload = await Core.putHttp(`/api/payout/userpayout/${this.myTier.id}/`, formData)
             if (upload.id) {
                 await Web.alert(`อัปโหลดสลิปเรียบร้อย`)
-                await this.$router.push(`/account/?tab=2`)
+                await this.$router.push(`/account/?tab=1`)
             }
         }
     }
