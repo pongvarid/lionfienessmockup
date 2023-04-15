@@ -53,6 +53,10 @@
             <span><v-icon class="mr-2">mdi-information</v-icon>มีการซื้อล่วงหน้าแล้ว</span>
         </center>
     </div>
+
+    <br>
+    <hr>
+    <v-btn @click="$router.push('/history/?tab=1')" class="mt-4" text depressed block color="primary">ประวัติการซื้อ</v-btn>
 </div>
 </template>
 

@@ -48,7 +48,7 @@
                     </div>
                 </v-tab-item>
                 <v-tab>
-                    <span  class="capitalize">{{$l("ข้อมูลสมาชิก","Member")}}</span>
+                    <span  class="capitalize">{{$l("Package","Package")}}</span>
                 </v-tab>
                 <v-tab-item>
                     <div  class="w-full p-6 account-bg">
@@ -64,14 +64,14 @@
                         <!-- <Trainer :toolbar="false" /> -->
                     </div>
                 </v-tab-item>
-                <v-tab>
+                <!-- <v-tab>
                     <span  class="capitalize">{{$l("คลาส","Class")}}</span>
                 </v-tab>
                 <v-tab-item>
                     <div  class="w-full p-6 account-bg">
-                        <Class-Register></Class-Register>
+                        <History-Classes></History-Classes>
                     </div>
-                </v-tab-item>
+                </v-tab-item> -->
                 <v-tab>
                     <span  class="capitalize">{{$l("รหัสผ่าน","Password")}}</span>
                 </v-tab>

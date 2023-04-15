@@ -1,7 +1,7 @@
 <template>
 <div v-if="response">
     <v-toolbar dark>
-        <v-btn icon @click="$router.replace('/account?tab=2')">
+        <v-btn icon @click="back()">
             <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <v-toolbar-title>{{$l(`Trainer ของฉัน `,`My Trainer`)}}</v-toolbar-title>
@@ -66,6 +66,13 @@ export default {
             this.item.history_count = this.histories.length
             this.item.history = this.histories
             await this.checkDate();
+        },
+        async back(){
+            if(this.$route.query.back){
+                await this.$router.replace('/history?tab=1')
+            }else{
+                await this.$router.replace('/account?tab=2')
+            }
         },
 
         async checkDate(){

@@ -105,35 +105,8 @@
     </div>
     <br>
     <hr>
-    <v-btn @click="dialog=true" class="mt-4" text depressed block color="primary">ประวัติการสมัครสมาชิก</v-btn>
-    <v-dialog v-model="dialog" scrollable fullscreen persistent :overlay="false" max-width="500px" transition="dialog-transition">
-        <v-card>
-            <v-card-title primary-title>
-                ประวัติการสมัครสมาชิก <v-spacer></v-spacer>
-                <v-btn text @click="dialog= false">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </v-card-title>
-            <v-card-text>
-                <div class="p-2" v-for="tier,i in listTiers" :key="i">
-                    <v-card outlined>
-                        <v-card-title primary-title>
-                            <span class="font-semibold text-base">{{ tier.tier_name }}</span>
-                            <v-spacer></v-spacer>
-                            <v-chip v-if="tier.status == 0" dark color="orange" small>รอพิจรณา</v-chip>
-                            <v-chip v-if="tier.status == 1" dark color="green" small>อนุมัติ</v-chip>
-                            <v-chip v-if="tier.status == 2" dark color="red" small>ปิดการใช้งาน</v-chip>
-                        </v-card-title>
-                        <v-card-text>
-                            <h2 v-if="tier.start_date && tier.end_date">{{moment(tier.start_date).format('DD/MM/YYYY')}} - {{moment(tier.end_date).format('DD/MM/YYYY')}}</h2>
-                            <p>{{tier.ect}}</p>
-                        </v-card-text>
-                    </v-card>
-                </div>
-            </v-card-text>
-        </v-card>
-    </v-dialog>
-
+    <v-btn @click="$router.push('/history/?tab=0')" class="mt-4" text depressed block color="primary">ประวัติการสมัครสมาชิก</v-btn>
+    
 </div>
 </template>
 
