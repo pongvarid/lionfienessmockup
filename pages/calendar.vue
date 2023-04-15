@@ -45,30 +45,31 @@
                                 {{$l(`คลาสนี้เต็มแล้ว`,`Class is full`)}}
                             </v-alert>
                             <div v-if="user">
-                                <div v-if="mytier">
-
-                                    <div v-if="checkDate(course)">
-                                        <div v-if="course.remain > 0">
-                                            <div  >
-                                                <v-btn v-if="!checkClass(course) && (inMonth < maxMonth)" @click="register(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
-                                                <v-btn depressed v-if="checkClass(course)" @click="unregister(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
-
-                                            </div>
-                                            <div v-if="!checkClass(course) && !(inMonth < maxMonth)">
-                                                <center class="mt-2">
-                                                    <span class="text-orange-600 font-semibold">
-                                                        <v-icon class="mr-2" color="orange">mdi-information</v-icon>{{ $l("จำนวนการจองคลาสเกินกำหนดแล้ว","The number of class reservations has been exceeded.") }}
-                                                    </span>
-                                                </center>
+                                <div v-if="mytier"> 
+                                    <div v-if="!course.is_open_class">
+                                        <div v-if="checkDate(course)">
+                                            <div v-if="course.remain > 0">
+                                                <div  >
+                                                    <v-btn v-if="!checkClass(course) && (inMonth < maxMonth)" @click="register(course)" depressed class="mt-3" block color="primary"><span class="capitalize">{{$l(`ลงทะเบียน`,`Register this Class`)}}</span></v-btn>
+                                                    <v-btn depressed v-if="checkClass(course)" @click="unregister(course)" class="mt-3" block color="error">{{$l(`ยกเลิกการลงทะเบียน`,`Cancel Registration`)}}</v-btn>
+    
+                                                </div>
+                                                <div v-if="!checkClass(course) && !(inMonth < maxMonth)">
+                                                    <center class="mt-2">
+                                                        <span class="text-orange-600 font-semibold">
+                                                            <v-icon class="mr-2" color="orange">mdi-information</v-icon>{{ $l("จำนวนการจองคลาสเกินกำหนดแล้ว","The number of class reservations has been exceeded.") }}
+                                                        </span>
+                                                    </center>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div v-else>
-                                        <center class="mt-2"> <span class="text-orange-600 font-semibold">
-                                                <v-icon class="mr-2" color="orange">mdi-information</v-icon>{{ $l("คลาสนี้ผ่านมาแล้ว","This class has passed") }}
-                                            </span></center>
-                                    </div>
-
+                                        <div v-else>
+                                            <center class="mt-2"> <span class="text-orange-600 font-semibold">
+                                                    <v-icon class="mr-2" color="orange">mdi-information</v-icon>{{ $l("คลาสนี้ผ่านมาแล้ว","This class has passed") }}
+                                                </span>
+                                            </center>
+                                        </div>
+                                    </div>  
                                 </div>
                                 <div v-else>
                                     <center class="mt-2">
