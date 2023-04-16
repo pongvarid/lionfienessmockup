@@ -1,5 +1,5 @@
 <template>
-<div>
+<div  class="h-screen account-bg">
     <v-toolbar dark>
         <v-btn icon @click="$router.go(-1)">
             <v-icon>mdi-arrow-left</v-icon>
@@ -8,7 +8,7 @@
         <v-spacer></v-spacer>
     </v-toolbar>
     <div v-if="response">
-        <v-tabs v-model="tab" color="primary">
+        <v-tabs v-model="tab" color="primary" >
             <v-tab>
                 {{$l(`ประวัติการซื้อ Package`,`My Packages`)}}
             </v-tab>
@@ -28,7 +28,7 @@
             <v-tab>
                 {{$l(`จองคลาสเรียน`,`Class Register`)}}
             </v-tab>
-            <v-tab-item>
+            <v-tab-item >
                 <div v-if="tab == 2">
                     <History-Classes></History-Classes>
                 </div>
