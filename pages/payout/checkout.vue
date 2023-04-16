@@ -1,8 +1,14 @@
 <template>
-  <div class="p-6 flex flex-col">
-    <div class="text-2xl xd">Payments</div>
-    <div>
-      <v-tabs class="mt-6">
+  <div >
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{ $l(`Payments`, `Payments`) }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    <div class="p-6 flex flex-col">
+      <v-tabs class="mt-1">
         <v-tab v-for="(payment, i) in payments" :key="i">
           <v-icon>mdi-credit-card</v-icon>
           <span class="pl-2">{{ payment.name }}</span>
