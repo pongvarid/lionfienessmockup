@@ -1,6 +1,12 @@
 <template>
 <div v-if="response">
-    
+    <v-toolbar dark>
+        <v-btn icon @click="$router.go(-1)">
+          <v-icon>mdi-arrow-left</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{ $l(`Trainer`, `Trainer`) }}</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
     <div class="p-6 flex flex-col trainer-bg">
         <div class="text-base font-semibold  ">{{$l(`ค้นหา Trainer ที่ตรงกับคุณ`,`Searching Your Trainer`)}}</div>
         <div v-for="item,i in items" :key="i" class="mt-6"> 
