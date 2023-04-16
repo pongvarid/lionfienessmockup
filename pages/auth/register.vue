@@ -1,6 +1,6 @@
 <template>
 <div v-if='response'>
-    <div class="bg     w-full py-5 px-4 bg mb-12">
+    <div class="bg h-screen w-full py-5 px-4 bg">
         <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
 
         <div class="flex flex-col items-center justify-center">
